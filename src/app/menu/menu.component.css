@@ -1,0 +1,42 @@
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar li {
+    display: inline-block;
+  }
+  
+  .navbar li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .dropdown .dropdown-toggle::after {
+    content: " ▼";
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu li {
+    display: block;
+  }
+  
+  .dropdown-menu li a {
+    padding: 10px 20px;
+    color: #000;
+  }
+  

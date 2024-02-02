@@ -1,0 +1,13 @@
+.error {
+    color: rgba(228, 44, 44, 0.822);
+    font-size: small;
+  }
+
+  #formPago{
+    display: none;
+  }
+
+  .precio-tachado {
+    text-decoration: line-through;
+    color: red; /* Opcional: puedes cambiar el color a 'white' para una raya blanca */
+  }

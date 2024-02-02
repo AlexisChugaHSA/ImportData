@@ -1,0 +1,4 @@
+.precio-tachado {
+    text-decoration: line-through;
+    color: red; /* Opcional: puedes cambiar el color a 'white' para una raya blanca */
+  }
