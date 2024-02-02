@@ -529,8 +529,7 @@ export class DashboardPricingComponent {
     this._consultaImpService.getDatosMarcaXUnidades(consulta).subscribe(
       result=>{
         console.log(result);
-        this.consulta_resultado=result;
-        
+        this.consulta_resultado=result; 
       },
       error=>{
         console.log(<any>error)
