@@ -44,17 +44,22 @@
         id="sidenav-main">
         <app-menu></app-menu>
     </aside>
-    <main  class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg "
+        style="background-color: white;">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
             id="navbarBlur" data-scroll="true">
-            <div  class="container-fluid py-3 px-3">
+            <div class="container-fluid py-3 px-3">
                 <nav aria-label="breadcrumb">
-                     <h2>{{producto.nombre}}</h2> 
+                    <h2>{{producto.nombre}}</h2>
                 </nav>
             </div>
         </nav>
-        <!-- End Navbar -->
+        <div
+            style="height: 50px; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder; font-size: 30px;">
+            Import Data
+        </div>
+        <!-- End Navbar 
         <div style="margin-left: 85%;">
             <div style="padding: 5px;">
                 <button  (click)="dirigirDashboardImp()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">Importaciones</button>
@@ -62,58 +67,69 @@
             <div style="padding: 5px;">
                 <button  (click)="dirigirDashboardPri()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">E-Commerce</button>
             </div>
-        </div>
-        <tr *ngIf="producto.nombre !== ''">
-            <td style="padding: 20px;">
-            Año
-            <ng-multiselect-dropdown
-            [placeholder]="'Todas'"
-            [settings]="dropdownSettings_anio"
-            [data]="anios"
-            (onSelect)="onItemSelectAnio($event)"
-            (onSelectAll)="onSelectAll($event)"
-            (onDeSelect)="onItemDeSelectAnio($event)">
-          </ng-multiselect-dropdown>   </td> 
-          <td style="padding: 20px;">
-            Mes
-            <ng-multiselect-dropdown
-            [placeholder]="'Todas'"
-            [settings]="dropdownSettings_mes"
-            [data]="meses"
-            (onSelect)="onItemSelectMes($event)"
-            (onSelectAll)="onSelectAll($event)"
-            (onDeSelect)="onItemDeSelectMes($event)">
-          </ng-multiselect-dropdown>   </td>
-          <td style="padding: 20px;">
-            Caracteristica
-            <ng-multiselect-dropdown
-            [placeholder]="'Todas'"
-            [settings]="dropdownSettings_caracteristica"
-            [data]="homologaciones_imp"
-            (onSelect)="onItemSelectCaracteristica($event)"
-            (onSelectAll)="onSelectAllCaracteristica($event)"
-            (onDeSelect)="onItemDeSelectCaracteristica($event)">
-          </ng-multiselect-dropdown>   </td>
-          <td style="padding: 20px;" >
-            Categoria
-            <ng-multiselect-dropdown
-            [placeholder]="'Todas'"
-            [settings]="dropdownSettings_categoria"
-            [data]="categorias_imp"
-            (onSelect)="onItemSelectCategoria($event)"
-            (onSelectAll)="onSelectAllCategoria($event)"
-            (onDeSelect)="onItemDeSelectCategoria($event)">
-          </ng-multiselect-dropdown>   </td>
-          <td style="padding: 20px;">
-            Marcas
-            <ng-multiselect-dropdown
-            [placeholder]="'Todas'"
-            [settings]="dropdownSettings_marca"
-            [data]="marcas_imp"
-            (onSelect)="onItemSelectMarca($event)"
-            (onSelectAll)="onSelectAllMarca($event)"
-            (onDeSelect)="onItemDeSelectMarca($event)">
-          </ng-multiselect-dropdown>   </td>
+        </div>-->
+        <br>
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <td
+                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        Año</td>
+                    <td></td>
+                    <td
+                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        Mes</td>
+                    <td></td>
+                    <td
+                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        Caracteristica</td>
+                    <td></td>
+                    <td
+                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        Categoria</td>
+                    <td></td>
+                    <td
+                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        Marcas</td>
+                </tr>
+            </thead>
+            <tr *ngIf="producto.nombre !== ''">
+                <td style="padding: 20px; width: 230px; border: 1px solid black ">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_anio" [data]="anios"
+                        (onSelect)="onItemSelectAnio($event)" (onSelectAll)="onSelectAll($event)"
+                        (onDeSelect)="onItemDeSelectAnio($event)">
+                    </ng-multiselect-dropdown>
+                </td>
+                <td></td>
+                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_mes" [data]="meses"
+                        (onSelect)="onItemSelectMes($event)" (onSelectAll)="onSelectAll($event)"
+                        (onDeSelect)="onItemDeSelectMes($event)">
+                    </ng-multiselect-dropdown>
+                </td>
+                <td></td>
+                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_caracteristica"
+                        [data]="homologaciones_imp" (onSelect)="onItemSelectCaracteristica($event)"
+                        (onSelectAll)="onSelectAllCaracteristica($event)"
+                        (onDeSelect)="onItemDeSelectCaracteristica($event)">
+                    </ng-multiselect-dropdown>
+                </td>
+                <td></td>
+                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_categoria"
+                        [data]="categorias_imp" (onSelect)="onItemSelectCategoria($event)"
+                        (onSelectAll)="onSelectAllCategoria($event)" (onDeSelect)="onItemDeSelectCategoria($event)">
+                    </ng-multiselect-dropdown>
+                </td>
+                <td></td>
+                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_marca"
+                        [data]="marcas_imp" (onSelect)="onItemSelectMarca($event)"
+                        (onSelectAll)="onSelectAllMarca($event)" (onDeSelect)="onItemDeSelectMarca($event)">
+                    </ng-multiselect-dropdown>
+                </td>
+                <!--
           <td style="padding: 20px;">
             Empresa
             <ng-multiselect-dropdown
@@ -134,10 +150,9 @@
             (onSelectAll)="onSelectAllModelo($event)"
             (onDeSelect)="onItemDeSelectModelo($event)">
           </ng-multiselect-dropdown>   </td>
-          <td>
-                                       
-          </td>
-        </tr>
+           -->
+            </tr>
+        </table>
         <!-- 
     <div *ngIf="consulta_resultado">roun
         <ul>
@@ -145,19 +160,54 @@
           </ul>
     
     </div>-->
+        <br>
+        <div class="col-lg-8 col-md-6 my-sm-auto ms-sm-auto mx-auto mt-3">
+            <div class="nav-wrapper position-relative ">
+                <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                    <li class="nav-item">
+                        <button id="btn_general"
+                            style="background-color: white; border-color: gray; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"
+                            class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" role="tab" (click)="BtnGeneral()"
+                            aria-selected="true">
+                            <span class="ms-1">GENERAL</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="btn_share" class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" role="tab"
+                            (click)="BtnShare()" aria-selected="true">
+                            <span class="ms-1">SHARE DE MERCADO</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="btn_importadores" class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab"
+                            role="tab" (click)="BtnImportadores()" aria-selected="false">
+                            <span class="ms-1">IMPORTADORES</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="container-fluid" style="background-color: white;">
-            <div class="row">
-                <div class="col-lg-12 col-md-6 mt-4 mb-4">
+            <div class="row" id="d_general">
+                <div class="col-lg-12 col-md-6 mt-4 mb-2">
                     <div class="row mb-4">
-                        <div class="col-lg-8 col-md-2  ">
-                            <div 
-                                style=" border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        <div class="col-lg-6 col-md-2  ">
+                            <div class="card-header p-1"
+                                style=" background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Importaciones FOB - UNIDADES</div>
-                            <div style="background-color: white; border: 1px solid black;">
+                            <div class="card z-index-2  " style="background-color: white;">
                                 <canvas id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
                             </div>
+                            <div class="col-lg-12 col-md-4 ">
+                                <div class="card-header mt-4 p-1"
+                                    style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                    Detalle de Importaciones</div>
+                                <div class="card z-index-2  ">
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 ">
+                        <div class="col-lg-5 col-md-4 ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - Unidades
@@ -176,8 +226,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-4">
-                        <div class="col-lg-8 col-md-2  ">
+                </div>
+            </div>
+            <div class="row" id="d_share" style="display: none;">
+                <div class="col-lg-12 col-md-6 mt-4 mb-2">
+                    <div class="row mb-4" >
+                        <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Share por Marca</div>
@@ -185,52 +239,59 @@
                                 <canvas id="chartBarrasApiladas1">{{ barras_apiladas1 }}</canvas>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 ">
-                            <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
-                                Características por Marcas</div>
-                            <div class="card z-index-2  ">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4 mt-4">
                         <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Share por Segmento</div>
-                            <div class="card z-index-2  " >
+                            <div class="card z-index-2  ">
                                 <canvas id="chartBarrasApiladas2">{{ barras_apiladas2 }}</canvas>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-4 mt-4">
-                        <div class="col-lg-12 col-md-2  ">
-                            <div class="card-header p-1"
+                        <div class="col-lg-8 col-md-4 ">
+                            <div class="card-header mt-4 p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
-                                Top FOB</div>
-                            <div class="card z-index-2" style="height: 500px; align-items: center;">
-                                <canvas id="chartPie">{{ diagrama_pie }}</canvas>
+                                Detalle de Importaciones</div>
+                            <div class="card z-index-2  ">
+
                             </div>
                         </div>
+                        <div class="col-lg-4 col-md-4 ">
+                            <div class="card-header mt-4 p-1"
+                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                Características por Marcas</div>
+                            <div class="card z-index-2  ">
+
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="row mb-4 mt-4">
+                </div>
+            </div>
+            <div id="d_importadores" class="row" style="display: none;">
+                <div class="col-lg-12 col-md-6 mt-4 mb-2">
+                    <div class="row mb-4 mt-4 " >
                         <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Ventas y Unidades por Razón Social</div>
                             <div class="card z-index-2  ">
-                                
+                                <br>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-4 mt-4">
-                        <div class="col-lg-12 col-md-2  ">
+                        <div class="col-lg-6 col-md-2  mb-4">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Precio promedio por marca</div>
                             <div class="card z-index-2  ">
                                 <canvas id="chartLineas">{{ diagrama_lineas }}</canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-2  ">
+                            <div class="card-header p-1"
+                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                Top FOB</div>
+                            <div class="card z-index-2" style="height: 500px; align-items: center;">
+                                <canvas id="chartPie">{{ diagrama_pie }}</canvas>
                             </div>
                         </div>
                     </div>

@@ -53,5 +53,7 @@ export class ConsultaImpService {
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     return this._http.post(this.url+'consulta-fob-por-importador',params,{headers})
   }
-
+  getAnios(){
+    return this._http.get(this.url+'consulta-anios-fecha-despacho')
+  }
 }

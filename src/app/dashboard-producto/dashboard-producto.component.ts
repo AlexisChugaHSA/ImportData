@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Chart, ChartData, ChartType, registerables,CartesianScaleOptions} from 'chart.js/auto';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { CategoriaImpService } from '../services/categoria_imp.service';
@@ -92,7 +92,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     private _importacionImpService: ImportacionImpService,
     private _importadorImpService: ImportadorImpService,
     private _marcasImpService: MarcasImpService,
-    private _consultaImpService: ConsultaImpService
+    private _consultaImpService: ConsultaImpService,
+    private renderer: Renderer2
   ){
     this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
     this.persona=new Persona(0,0,0,0,"","","","");
@@ -141,6 +142,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
 
   ngOnInit(): void {
+    this.getAnios();
+    this.getImportadores();
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
     this.id =this.route.snapshot.paramMap.get('id');
@@ -153,10 +156,86 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this.getHomologaciones();
     this.getImportaciones();
     this.getProductos();
-    this.getImportadores();
     this.getPrecios();
     this.getMarcas();
   }
+
+  BtnGeneral() {
+    const general = document.querySelector('#btn_general');
+    const share = document.querySelector('#btn_share');
+    const importadores= document.querySelector('#btn_importadores');
+    const d_general = document.querySelector('#d_general');
+    const d_share = document.querySelector('#d_share');
+    const d_importadores = document.querySelector('#d_importadores');
+
+    this.renderer.setStyle(general, 'background-color', 'white');
+    this.renderer.setStyle(general, 'border-color', 'gray');
+    this.renderer.setStyle(general, 'box-shadow', '0 4px 8px rgba(0, 0, 0, 0.3)');
+
+    this.renderer.setStyle(share, 'background-color', 'transparent'); 
+    this.renderer.setStyle(share, 'border-color', 'transparent'); 
+    this.renderer.setStyle(share, 'box-shadow', 'none'); 
+
+    this.renderer.setStyle(importadores, 'background-color', 'transparent'); 
+    this.renderer.setStyle(importadores, 'border-color', 'transparent'); 
+    this.renderer.setStyle(importadores, 'box-shadow', 'none'); 
+
+    this.renderer.setStyle(d_share, 'display', 'none'); 
+    this.renderer.setStyle(d_importadores, 'display', 'none'); 
+    this.renderer.setStyle(d_general, 'display', 'block'); 
+
+  }
+
+  BtnShare() {
+    const general = document.querySelector('#btn_general');
+    const share = document.querySelector('#btn_share');
+    const importadores= document.querySelector('#btn_importadores');
+    const d_general = document.querySelector('#d_general');
+    const d_share = document.querySelector('#d_share');
+    const d_importadores = document.querySelector('#d_importadores');
+
+    this.renderer.setStyle(share, 'background-color', 'white');
+    this.renderer.setStyle(share, 'border-color', 'gray');
+    this.renderer.setStyle(share, 'box-shadow', '0 4px 8px rgba(0, 0, 0, 0.3)');
+
+    this.renderer.setStyle(general, 'background-color', 'transparent'); 
+    this.renderer.setStyle(general, 'border-color', 'transparent'); 
+    this.renderer.setStyle(general, 'box-shadow', 'none'); 
+
+    this.renderer.setStyle(importadores, 'background-color', 'transparent'); 
+    this.renderer.setStyle(importadores, 'border-color', 'transparent'); 
+    this.renderer.setStyle(importadores, 'box-shadow', 'none'); 
+
+    this.renderer.setStyle(d_general, 'display', 'none'); 
+    this.renderer.setStyle(d_importadores, 'display', 'none'); 
+    this.renderer.setStyle(d_share, 'display', 'block'); 
+  }
+
+  BtnImportadores() {
+    const general = document.querySelector('#btn_general');
+    const share = document.querySelector('#btn_share');
+    const importadores= document.querySelector('#btn_importadores');
+    const d_general = document.querySelector('#d_general');
+    const d_share = document.querySelector('#d_share');
+    const d_importadores = document.querySelector('#d_importadores');
+    
+    this.renderer.setStyle(importadores, 'background-color', 'white');
+    this.renderer.setStyle(importadores, 'border-color', 'gray');
+    this.renderer.setStyle(importadores, 'box-shadow', '0 4px 8px rgba(0, 0, 0, 0.3)');
+
+    this.renderer.setStyle(share, 'background-color', 'transparent'); 
+    this.renderer.setStyle(share, 'border-color', 'transparent'); 
+    this.renderer.setStyle(share, 'box-shadow', 'none'); 
+
+    this.renderer.setStyle(general, 'background-color', 'transparent'); 
+    this.renderer.setStyle(general, 'border-color', 'transparent'); 
+    this.renderer.setStyle(general, 'box-shadow', 'none'); 
+
+    this.renderer.setStyle(d_general, 'display', 'none'); 
+    this.renderer.setStyle(d_share, 'display', 'none'); 
+    this.renderer.setStyle(d_importadores, 'display', 'block'); 
+  }
+  
 
   getProductoD(){
 
@@ -215,7 +294,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
              
               size: 8,
           }
-        },
+        }
         },
         {
           label: 'Fob',
@@ -254,9 +333,16 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 return "";
               },
              label(tooltipItem:any) {
-              let tooltip=["Fecha-Año   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
-              tooltip.push("FOB U$S     $"+resultado[tooltipItem.dataIndex].fob);
-               return tooltip;
+              //console.log(tooltipItem.formattedValue)
+              if(tooltipItem.chart.data.datasets[tooltipItem.datasetIndex].label=='Fob'){
+                let tooltip=["Fecha-Año   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
+                tooltip.push("FOB U$S     $"+resultado[tooltipItem.dataIndex].fob);
+                 return tooltip;
+              }else{
+                let tooltip=["Fecha-Año   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
+                tooltip.push("UNIDADES   "+resultado[tooltipItem.dataIndex].unidades);
+                 return tooltip;           
+              }
              },
             }
         },
@@ -616,6 +702,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
             }
           },
           y: {
+            max:100,
             stacked: true,
             ticks: {
               callback: function(value) {
@@ -721,7 +808,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           },
             legend: {
                 display: true,
-                position:'right',
+                position:'top',
                 align:'center',
                 labels:{
                   padding:10
@@ -1196,7 +1283,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     const aniosDespachoSet = new Set<number>();
     this._importacionImpService.getImportaciones().subscribe(
       result=>{
-        console.log(result)
+
         this.importaciones_imp=result;
         this.importaciones_imp.forEach(item => {
           const fechaDespacho = new Date(item.fecha_despacho);
@@ -1204,7 +1291,18 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           aniosDespachoSet.add(anioDespacho);
       });
       this.anios= Array.from(aniosDespachoSet).sort((a, b) => a - b);
+      this.anios.shift();
       console.log(this.anios)
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
+  }
+  getAnios(){
+    this._consultaImpService.getAnios().subscribe(
+      result=>{
+        this.anios=result;
       },
       error=>{
         console.log(<any>error)
