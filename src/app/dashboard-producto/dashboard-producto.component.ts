@@ -148,7 +148,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this.getProductoD();
     this.id =this.route.snapshot.paramMap.get('id');
     this.getDatosDashboard(this.consultaImp);
-    this.getDataBarrasApiladas2();
+ 
     this.setDropDownListSettings();
     this.getCategorias();
     this.getTiendas();
@@ -650,7 +650,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       datasets: datasets2
       
     };
-    this.barras_apiladas2 = new Chart('chartBarrasApiladas1', {
+    this.barras_apiladas1 = new Chart('chartBarrasApiladas1', {
       type: 'bar',
       data,
       options: {
@@ -719,45 +719,97 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
   }
 
-  getDataBarrasApiladas2() {
+  getDataBarrasApiladas2(resultado:any) {
+    const aniosUnicos = Array.from(new Set(resultado.map(item => item.anio)));
+    const CaracteristicasUnicas = Array.from(new Set((resultado as { caracteristica: string }[]).map(item => item.caracteristica)))
+    console.log(CaracteristicasUnicas);
+    const datasets2: any=[];
+    const data2:any=[];
+      for (let i = 0; i < CaracteristicasUnicas.length; i++) {
+        const data2:any=[];
+        for (let j = 0; j < aniosUnicos.length; j++){
+          let fobEncontrados!:any;
+          let porcentaje_fob=0;
+          fobEncontrados = resultado.find(
+            (registro) => registro.anio === aniosUnicos[j] && registro.caracteristica === CaracteristicasUnicas[i]
+          );
+          if(fobEncontrados){porcentaje_fob=fobEncontrados.porcentaje_fob}
+          data2.push(porcentaje_fob)
+        }
+        const newDataset = {
+          label: CaracteristicasUnicas[i],
+          data: data2, 
+          backgroundColor: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`,
+        };
+        datasets2.push(newDataset);}
     const data = {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-      datasets: [
-        {
-          label: 'Dataset 1',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          backgroundColor: 'rgb(255, 99, 132)',
-        },
-        {
-          label: 'Dataset 2',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          backgroundColor: 'rgb(255, 205, 86)',
-        },
-        {
-          label: 'Dataset 3',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          backgroundColor: 'rgb(153, 102, 255)',
-        },
-      ]
+      labels: aniosUnicos,
+      datasets: datasets2
+      
     };
     this.barras_apiladas2 = new Chart('chartBarrasApiladas2', {
       type: 'bar',
       data,
       options: {
+        
         plugins: {
+          tooltip:{
+            callbacks:{
+              title(tooltipItems) {
+                return "";
+              },
+             label(tooltipItem:any) {
+              let tooltip=["Fecha-Año                         "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
+              tooltip.push("Caracteristica Agregada    "+resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).caracteristica);
+              tooltip.push("FOB U$S                           $"+resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
+               return tooltip;
+             },
+            }
+        },
+          datalabels:{
+            display(context:any) {
+                return context.dataset.data[context.dataIndex] >= 6;
+            },
+            formatter: function(value, context) {
+                return value+"%";
+            },
+            color:'rgb(255, 255, 255)',
+            backgroundColor:'rgb(128, 128, 128,0.5)', 
+            borderRadius:5,
+            font: {
+              size: 8,
+          }
+          },
           title: {
-            display: true,
+            display: false,
             text: 'Chart.js Bar Chart - Stacked'
           },
+          legend: {
+            display: true,
+            position:'right',
+            align:'center'
+        }, 
         },
         responsive: true,
         scales: {
           x: {
             stacked: true,
+            grid:{
+              display:false
+            }
           },
           y: {
-            stacked: true
-          }
+            max:100,
+            stacked: true,
+            ticks: {
+              callback: function(value) {
+                return value+"%";
+            },
+          },
+          border: {
+            dash: [2,4],
+        },
+        },
         }
       }
     })
@@ -1177,6 +1229,15 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       result6=>{
         console.log(result6);
         this.getDataDiagramaPie(result6);
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
+    this._consultaImpService.getDatosShareXSegmento(consulta).subscribe(
+      result7=>{
+        console.log(result7);
+        this.getDataBarrasApiladas2(result7);
       },
       error=>{
         console.log(<any>error)

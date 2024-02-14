@@ -39,6 +39,13 @@ export class ConsultaImpService {
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     return this._http.post(this.url+'consulta-share-por-marcas',params,{headers})
   }
+  getDatosShareXSegmento(consulta:ConsultaImp){
+    let json=JSON.stringify(consulta);
+    let params=json;
+    console.log(params)
+    let headers =new HttpHeaders({'Content-Type':'application/json'});
+    return this._http.post(this.url+'consulta-share-por-segmento',params,{headers})
+  }
   getDatosPrecioXMarca(consulta:ConsultaImp){
     let json=JSON.stringify(consulta);
     let params=json;
