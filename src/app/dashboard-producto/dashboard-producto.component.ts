@@ -938,6 +938,28 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       }
     })
   }
+  /***------------------------TABLAS-------------------------------------------------------- */
+  getTablaCaracteristicaXMarca(resultado:any){
+    for (const marca in resultado) {
+      if (resultado.hasOwnProperty(marca)) {
+        const marcaInfo = resultado[marca];
+    
+        // Acceder a la información general de la marca
+        console.log(`Marca: ${marcaInfo.marca}`);
+        console.log(`Total FOB: ${marcaInfo.total_fob}`);
+        console.log(`Total Unidades: ${marcaInfo.total_unidades}`);
+    
+        // Recorrer cada característica en 'carcateristicas'
+        for (const caracteristica of marcaInfo.carcateristicas) {
+          console.log(`Característica: ${caracteristica.carcateristica}`);
+          console.log(`FOB: ${caracteristica.car_fob}`);
+          console.log(`Unidades: ${caracteristica.car_unidades}`);
+        }
+      }
+    }
+  }
+  /***-------------------------------------------------------------------------------------- */
+  /*
   dirigirDashboardImp(){
     this._router.navigate(['/home']).then(() =>
       this._router.navigate(['/dashboard-producto', this.id])
@@ -948,7 +970,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       this._router.navigate(['/dashboard-pricing', this.id])
   );
   }
-
+*/
   /******Obtener datos para los filtros */
   setDropDownListSettings(){
     this.dropdownSettings_anio = {
@@ -1238,6 +1260,15 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       result7=>{
         console.log(result7);
         this.getDataBarrasApiladas2(result7);
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
+    this._consultaImpService.getCaracterísticasXMarca(consulta).subscribe(
+      result8=>{
+        console.log(result8);
+        this.getTablaCaracteristicaXMarca(result8);
       },
       error=>{
         console.log(<any>error)

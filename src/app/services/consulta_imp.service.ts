@@ -60,6 +60,13 @@ export class ConsultaImpService {
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     return this._http.post(this.url+'consulta-fob-por-importador',params,{headers})
   }
+  getCaracterísticasXMarca(consulta:ConsultaImp){
+    let json=JSON.stringify(consulta);
+    let params=json;
+    console.log(params)
+    let headers =new HttpHeaders({'Content-Type':'application/json'});
+    return this._http.post(this.url+'consulta-características-por-marca',params,{headers})
+  }
   getAnios(){
     return this._http.get(this.url+'consulta-anios-fecha-despacho')
   }

@@ -7,18 +7,18 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   styleUrls: ['./pruebas.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('collapsed', style({ height: '0px', minHeight: '0px', display: "nonw" })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
   ]
 })
 export class PruebasComponent {
-
+  
   dataSource = ELEMENT_DATA;
   columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
   isotopeColumnsToDisplay = ['name', 'weight'];
-  expandedElement!: PeriodicElement | null;
+  expandedElement: PeriodicElement | null | undefined;
 }
 
 export interface PeriodicElement {
@@ -43,13 +43,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
     isotopes: [
       {
         name: 'Deuterium',
-        weight: 2.014
+        weight: 2.014,
       },
       {
         name: 'Tritium',
-        weight: 3.016
-      }
-    ]
+        weight: 3.016,
+      },
+    ],
   },
   {
     position: 2,
@@ -59,13 +59,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
     isotopes: [
       {
         name: 'Helium-3',
-        weight: 3.016
+        weight: 3.016,
       },
       {
         name: 'Helium-4',
-        weight: 4.002
-      }
-    ]
+        weight: 4.002,
+      },
+    ],
   },
   {
     position: 3,
@@ -75,8 +75,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
     isotopes: [
       {
         name: 'Lithium-12',
-        weight: 11.04
-      }
-    ]
-  }
+        weight: 11.04,
+      },
+    ],
+  },
 ];
