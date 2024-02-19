@@ -7,7 +7,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   styleUrls: ['./pruebas.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0px', display: "nonw" })),
+      state('collapsed', style({ height: '0px', minHeight: '0px', display: "none" })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
@@ -16,8 +16,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class PruebasComponent {
   
   dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
-  isotopeColumnsToDisplay = ['name', 'weight'];
+  columnsToDisplay = ['name', 'weigh', 'symbol', 'position'];
+  isotopeColumnsToDisplay = ['nomnre', 'weight'];
   expandedElement: PeriodicElement | null | undefined;
 }
 

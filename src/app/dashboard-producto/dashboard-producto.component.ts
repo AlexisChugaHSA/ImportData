@@ -22,6 +22,7 @@ import { Usuario } from '../models/usuario';
 import { Persona } from '../models/persona';
 import { Router, NavigationEnd } from '@angular/router';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 Chart.register(...registerables);
 Chart.register(ChartDataLabels);
 Chart.defaults.font.weight ='lighter';
@@ -30,7 +31,14 @@ Chart.defaults.scale.grid.color='rgba(214, 69, 80,0.4)';
 @Component({
   selector: 'app-dashboard-producto',
   templateUrl: './dashboard-producto.component.html',
-  styleUrls: ['./dashboard-producto.component.css']
+  styleUrls: ['./dashboard-producto.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0px', display: "none" })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public barras_verticales!: Chart;
@@ -74,6 +82,16 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public anios!:any;
   public meses!: any;
 
+  public dataSource_t1:any=[];
+  public t1_columnsToDisplay= ['marca', 'unidades', 'fobU$S'];
+  public columnsToDisplay_t1 = ['caracteristica', 'car_unidades', 'car_fob']; 
+  public expandedElement_t1: PeriodicElement_t1 | null | undefined;
+  public bandera_t1=false;
+
+  public dataSource_t2!:any;
+  public t2_columnsToDisplay!:any;
+  public columnsToDisplay_t2!:any;
+  public expandedElement_t2!:any;
 
 
   constructor(
@@ -939,25 +957,48 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     })
   }
   /***------------------------TABLAS-------------------------------------------------------- */
-  getTablaCaracteristicaXMarca(resultado:any){
+  getTablaCaracteristicaXMarcaT1(resultado:any){
     for (const marca in resultado) {
       if (resultado.hasOwnProperty(marca)) {
         const marcaInfo = resultado[marca];
     
         // Acceder a la información general de la marca
-        console.log(`Marca: ${marcaInfo.marca}`);
-        console.log(`Total FOB: ${marcaInfo.total_fob}`);
-        console.log(`Total Unidades: ${marcaInfo.total_unidades}`);
-    
+        var elemento: {
+          marca: string;
+          unidades: number;
+          fobU$S: string;
+          caracteristicas: {
+            caracteristica: string;
+            car_unidades: number;
+            car_fob: string;
+          }[];
+        } = {
+          marca: marcaInfo.marca,
+          unidades: marcaInfo.total_unidades,
+          fobU$S: marcaInfo.total_fob,
+          caracteristicas: []
+        };
         // Recorrer cada característica en 'carcateristicas'
         for (const caracteristica of marcaInfo.carcateristicas) {
-          console.log(`Característica: ${caracteristica.carcateristica}`);
-          console.log(`FOB: ${caracteristica.car_fob}`);
-          console.log(`Unidades: ${caracteristica.car_unidades}`);
+          var caract_elemento: {
+            caracteristica: string;
+            car_unidades: number;
+            car_fob: string;
+          } = {
+            caracteristica: caracteristica.carcateristica,
+            car_unidades: caracteristica.car_unidades,
+            car_fob: caracteristica.car_fob
+          };
+    
+          elemento.caracteristicas.push(caract_elemento);
         }
+        this.bandera_t1=true;
+          this.dataSource_t1.push(elemento)
       }
     }
+    console.log(this.dataSource_t1);
   }
+
   /***-------------------------------------------------------------------------------------- */
   /*
   dirigirDashboardImp(){
@@ -1268,7 +1309,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getCaracterísticasXMarca(consulta).subscribe(
       result8=>{
         console.log(result8);
-        this.getTablaCaracteristicaXMarca(result8);
+        this.getTablaCaracteristicaXMarcaT1(result8);
       },
       error=>{
         console.log(<any>error)
@@ -1402,4 +1443,30 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     )
   }
 
+}
+
+export interface PeriodicElement_t1 {
+  marca: string;
+  unidades: number;
+  fobU$S: string;
+  caracteristicas: Caracteristica[];
+}
+
+export interface Caracteristica {
+  caracteristica: string;
+  car_unidades: number;
+  car_fob: string;
+}
+
+export interface PeriodicElement_t2 {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+  isotopes: Isotope[];
+}
+
+export interface Isotope {
+  name: string;
+  weight: number;
 }
