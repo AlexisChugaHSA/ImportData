@@ -958,6 +958,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
   /***------------------------TABLAS-------------------------------------------------------- */
   getTablaCaracteristicaXMarcaT1(resultado:any){
+    this.dataSource_t1=[];
     for (const marca in resultado) {
       if (resultado.hasOwnProperty(marca)) {
         const marcaInfo = resultado[marca];
@@ -996,6 +997,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     console.log(this.dataSource_t1);
   }
   getTablaVentaXImportadorT2(resultado:any){
+    this.dataSource_t2=[];
     for (const importador in resultado) {
       if (resultado.hasOwnProperty(importador)) {
         const importadorInfo = resultado[importador];
@@ -1120,7 +1122,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
   onItemSelectAnio(item: any) {
     this.ngOnDestroy();
-    this.consultaImp.anio.push(item);
+    this.consultaImp.anio.push(item.anio);
     console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
@@ -1150,15 +1152,15 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
   onItemSelectCaracteristica(item: any) {
     this.ngOnDestroy();
-    this.consultaImp.caracteristica_modelo.push(item.caracteristica_modelo);
+    this.consultaImp.caracteristica.push(item.caracteristica);
     console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCaracteristica(item: any) {
     this.ngOnDestroy();
-    const index = this.consultaImp.caracteristica_modelo.indexOf(item.caracteristica_modelo);
+    const index = this.consultaImp.caracteristica.indexOf(item.caracteristica);
     if (index !== -1) {
-      this.consultaImp.caracteristica_modelo.splice(index, 1);
+      this.consultaImp.caracteristica.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
     console.log(this.consultaImp);
@@ -1232,7 +1234,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
   onSelectAllCaracteristica(items: any) {
  
-    this.consultaImp.caracteristica_modelo=[];
+    this.consultaImp.caracteristica=[];
     this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllCategoria(items: any) {

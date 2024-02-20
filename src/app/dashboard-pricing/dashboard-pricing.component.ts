@@ -434,14 +434,14 @@ export class DashboardPricingComponent {
     console.log(this.consultaImp);
   }
   onItemSelectCaracteristica(item: any) {
-    this.consultaImp.caracteristica_modelo.push(item.caracteristica_modelo);
+    this.consultaImp.caracteristica.push(item.caracteristica);
     console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCaracteristica(item: any) {
-    const index = this.consultaImp.caracteristica_modelo.indexOf(item.caracteristica_modelo);
+    const index = this.consultaImp.caracteristica.indexOf(item.caracteristica);
     if (index !== -1) {
-      this.consultaImp.caracteristica_modelo.splice(index, 1);
+      this.consultaImp.caracteristica.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
     console.log(this.consultaImp);
