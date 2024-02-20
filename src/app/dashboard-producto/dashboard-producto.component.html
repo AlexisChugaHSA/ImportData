@@ -110,7 +110,7 @@
                 <td></td>
                 <td style="padding: 20px; width: 230px; border: 1px solid black">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_caracteristica"
-                        [data]="homologaciones_imp" (onSelect)="onItemSelectCaracteristica($event)"
+                        [data]="caracteristicas_imp" (onSelect)="onItemSelectCaracteristica($event)"
                         (onSelectAll)="onSelectAllCaracteristica($event)"
                         (onDeSelect)="onItemDeSelectCaracteristica($event)">
                     </ng-multiselect-dropdown>
@@ -230,7 +230,7 @@
             </div>
             <div class="row" id="d_share" style="display: none;">
                 <div class="col-lg-12 col-md-6 mt-4 mb-2">
-                    <div class="row mb-4" >
+                    <div class="row mb-4">
                         <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
@@ -238,8 +238,8 @@
                             <div class="card z-index-2  ">
                                 <canvas id="chartBarrasApiladas1">{{ barras_apiladas1 }}</canvas>
                             </div>
-                        </div>
-                        <div class="col-lg-12 col-md-2  ">
+                        </div><br>
+                        <div class="col-lg-12 col-md-4 mb-1 mt-4  ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Share por Segmento</div>
@@ -247,6 +247,7 @@
                                 <canvas id="chartBarrasApiladas2">{{ barras_apiladas2 }}</canvas>
                             </div>
                         </div>
+                        <!--
                         <div class="col-lg-8 col-md-4 ">
                             <div class="card-header mt-4 p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
@@ -254,13 +255,46 @@
                             <div class="card z-index-2  ">
 
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 ">
+                        </div>-->
+                        <div class="col-lg-12 col-md-4 ">
                             <div class="card-header mt-4 p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Características por Marcas</div>
                             <div class="card z-index-2  ">
                                 
+                <div s *ngIf="bandera_t1">
+                    <table mat-table [dataSource]="dataSource_t1" multiTemplateDataRows class="mat-elevation-z8">
+                        <ng-container matColumnDef="{{ column }}" *ngFor="let column of t1_columnsToDisplay">
+                            <th style="text-transform: uppercase;" mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                            <td style="text-transform: uppercase;" mat-cell *matCellDef="let element">{{ element[column]
+                                }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="t1_columnsToDisplay.length">
+                                <div class="example-element-detail"
+                                    [@detailExpand]="element == expandedElement_t1 ? 'expanded' : 'collapsed'">
+                                    <table mat-table [dataSource]="element.caracteristicas" class="mat-elevation-z8">
+                                        <ng-container matColumnDef="{{ column }}"
+                                            *ngFor="let column of columnsToDisplay_t1">
+                                            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                                            <td mat-cell *matCellDef="let caracteristica">{{ caracteristica[column] }}
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-row *matRowDef="let caracteristica; columns: columnsToDisplay_t1"></tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="t1_columnsToDisplay"></tr>
+                        <tr mat-row *matRowDef="let element; columns: t1_columnsToDisplay" class="example-element-row"
+                            [class.example-expanded-row]="expandedElement_t1 === element"
+                            (click)="expandedElement_t1 = expandedElement_t1 === element ? null : element"></tr>
+                        <tr style="height: 0px;" mat-row *matRowDef="let row; columns: ['expandedDetail']"
+                            class="example-detail-row"></tr>
+                    </table>
+                </div>
                             </div>
                         </div>
 
@@ -269,13 +303,33 @@
             </div>
             <div id="d_importadores" class="row" style="display: none;">
                 <div class="col-lg-12 col-md-6 mt-4 mb-2">
-                    <div class="row mb-4 mt-4 " >
-                        <div class="col-lg-12 col-md-2  ">
+                    <div class="row mb-4 mt-4 ">
+                        <div class="col-lg-12 col-md-2 mb-4 mt-4 ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Ventas y Unidades por Razón Social</div>
                             <div class="card z-index-2  ">
-                                <br>
+                                <div *ngIf="bandera_t2">
+                                    <mat-table [dataSource]="dataSource_t2" class="mat-elevation-z8">
+                                        <!-- Position Column -->
+                                        <ng-container matColumnDef="importador">
+                                            <mat-header-cell *matHeaderCellDef style="font-weight: bolder;"> RAZON SOCIAL </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.importador}} </mat-cell>
+                                        </ng-container>
+                                        <!-- Name Column -->
+                                        <ng-container matColumnDef="fob">
+                                            <mat-header-cell *matHeaderCellDef style="font-weight: bolder;"> FOB U$S </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.fob}} </mat-cell>
+                                        </ng-container>
+                                        <!-- Weight Column -->
+                                        <ng-container matColumnDef="unidades">
+                                            <mat-header-cell *matHeaderCellDef style="font-weight: bolder;"> UNIDADES</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.unidades}} </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="t2_columnsToDisplay"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: t2_columnsToDisplay;"></mat-row>
+                                    </mat-table >
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-2  mb-4">
@@ -335,41 +389,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="display: none;" *ngIf="bandera_t1">
-                    <table mat-table [dataSource]="dataSource_t1" multiTemplateDataRows class="mat-elevation-z8">
-                        <ng-container matColumnDef="{{ column }}" *ngFor="let column of t1_columnsToDisplay">
-                          <th style="text-transform: uppercase;" mat-header-cell *matHeaderCellDef>{{ column }}</th>
-                          <td style="text-transform: uppercase;" mat-cell *matCellDef="let element">{{ element[column] }}</td>
-                        </ng-container>
-                      
-                        <ng-container matColumnDef="expandedDetail">
-                          <td mat-cell *matCellDef="let element" [attr.colspan]="t1_columnsToDisplay.length">
-                            <div
-                              class="example-element-detail"
-                              [@detailExpand]="element == expandedElement_t1 ? 'expanded' : 'collapsed'"
-                            >
-                              <table mat-table [dataSource]="element.caracteristicas" class="mat-elevation-z8">
-                                <ng-container matColumnDef="{{ column }}" *ngFor="let column of columnsToDisplay_t1">
-                                  <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-                                  <td mat-cell *matCellDef="let caracteristica">{{ caracteristica[column] }}</td>
-                                </ng-container>
-                                <tr mat-row *matRowDef="let caracteristica; columns: columnsToDisplay_t1"></tr>
-                              </table>
-                            </div>
-                          </td>
-                        </ng-container>
-                      
-                        <tr mat-header-row *matHeaderRowDef="t1_columnsToDisplay" ></tr>
-                        <tr
-                          mat-row
-                          *matRowDef="let element; columns: t1_columnsToDisplay"
-                          class="example-element-row"
-                          [class.example-expanded-row]="expandedElement_t1 === element"
-                          (click)="expandedElement_t1 = expandedElement_t1 === element ? null : element"
-                        ></tr>
-                        <tr style="height: 0px;" mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                      </table>
-                </div>
+
             </footer>
         </div>
     </main>

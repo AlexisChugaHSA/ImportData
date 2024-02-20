@@ -81,6 +81,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public productos: any = [];
   public anios!:any;
   public meses!: any;
+  public caracteristicas_imp!:any;
 
   public dataSource_t1:any=[];
   public t1_columnsToDisplay= ['marca', 'unidades', 'fobU$S'];
@@ -88,11 +89,9 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public expandedElement_t1: PeriodicElement_t1 | null | undefined;
   public bandera_t1=false;
 
-  public dataSource_t2!:any;
-  public t2_columnsToDisplay!:any;
-  public columnsToDisplay_t2!:any;
-  public expandedElement_t2!:any;
-
+  public dataSource_t2:any=[];
+  public t2_columnsToDisplay= ['importador', 'fob', 'unidades'];
+  public bandera_t2=false;
 
   constructor(
     private route: ActivatedRoute,
@@ -161,6 +160,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
   ngOnInit(): void {
     this.getAnios();
+    this.getCaracterísticas()
     this.getImportadores();
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
@@ -961,8 +961,6 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     for (const marca in resultado) {
       if (resultado.hasOwnProperty(marca)) {
         const marcaInfo = resultado[marca];
-    
-        // Acceder a la información general de la marca
         var elemento: {
           marca: string;
           unidades: number;
@@ -978,7 +976,6 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           fobU$S: marcaInfo.total_fob,
           caracteristicas: []
         };
-        // Recorrer cada característica en 'carcateristicas'
         for (const caracteristica of marcaInfo.carcateristicas) {
           var caract_elemento: {
             caracteristica: string;
@@ -997,6 +994,25 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       }
     }
     console.log(this.dataSource_t1);
+  }
+  getTablaVentaXImportadorT2(resultado:any){
+    for (const importador in resultado) {
+      if (resultado.hasOwnProperty(importador)) {
+        const importadorInfo = resultado[importador];
+        var elemento: {
+          importador: string;
+          unidades: number;
+          fob: string;
+        } = {
+          importador: importadorInfo.importador,
+          unidades: importadorInfo.unidades,
+          fob: importadorInfo.fob
+        };
+        this.bandera_t2=true;
+          this.dataSource_t2.push(elemento)
+      }
+    }
+    console.log(this.dataSource_t2);
   }
 
   /***-------------------------------------------------------------------------------------- */
@@ -1034,8 +1050,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     };
     this.dropdownSettings_caracteristica = {
       singleSelection: false,
-      idField: 'id_modelo_homologado',
-      textField: 'caracteristica_modelo',
+      idField: 'caracteristica',
+      textField: 'caracteristica',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 2,
@@ -1315,6 +1331,15 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         console.log(<any>error)
       }
     )
+    this._consultaImpService.getVentasXImportador(consulta).subscribe(
+      result9=>{
+        console.log(result9);
+        this.getTablaVentaXImportadorT2(result9);
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
   }
 
   getMarcas(){
@@ -1414,6 +1439,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
   getImportaciones(){
     const aniosDespachoSet = new Set<number>();
+    /*
     this._importacionImpService.getImportaciones().subscribe(
       result=>{
 
@@ -1430,8 +1456,19 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       error=>{
         console.log(<any>error)
       }
+    )*/
+  }
+  getCaracterísticas(){
+    this._consultaImpService.getCaracteristicas().subscribe(
+      result=>{
+        this.caracteristicas_imp=result;
+      },
+      error=>{
+        console.log(<any>error)
+      }
     )
   }
+
   getAnios(){
     this._consultaImpService.getAnios().subscribe(
       result=>{
@@ -1458,15 +1495,3 @@ export interface Caracteristica {
   car_fob: string;
 }
 
-export interface PeriodicElement_t2 {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  isotopes: Isotope[];
-}
-
-export interface Isotope {
-  name: string;
-  weight: number;
-}
