@@ -7,3 +7,13 @@
   .mat-column-name {
     height: 100px;
   }
+
+  .table-container {
+    max-height: 400px; /* Establece la altura máxima según tus necesidades */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+}
+
+.custom-table {
+    width: 100%; /* Asegúrate de que la tabla ocupe el 100% del ancho permitido */
+    display: block; /* Asegúrate de que la tabla sea un bloque para que la anchura máxima funcione */
+}

@@ -191,14 +191,14 @@
             <div class="row" id="d_general">
                 <div class="col-lg-12 col-md-6 mt-4 mb-2">
                     <div class="row mb-4">
-                        <div class="col-lg-7 col-md-2  ">
+                        <div class="col-lg-12 col-md-4  mt-4 mb-4">
                             <div class="card-header p-1"
                                 style=" background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Importaciones FOB - UNIDADES</div>
                             <div class="card z-index-2  " style="background-color: white;">
                                 <canvas id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
                             </div>
-                            <div class="col-lg-12 col-md-4 ">
+                            <div style="display: none;" class="col-lg-12 col-md-4 ">
                                 <div class="card-header mt-4 p-1"
                                     style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                     Detalle de Importaciones</div>
@@ -207,7 +207,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-4 ">
+                        <div class="col-lg-6 col-md-4 ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - Unidades
@@ -216,13 +216,14 @@
                                 <canvas id="chartBarrasHorizontales1">{{ barras_horizontales1 }}</canvas>
                             </div>
 
-                            <div class="col-lg-12 col-md-4 ">
-                                <div class="card-header mt-4 p-1"
-                                    style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
-                                    Top Marcas - FOB</div>
-                                <div class="card z-index-2  ">
-                                    <canvas id="chartBarrasHorizontales2">{{ barras_horizontales2 }}</canvas>
-                                </div>
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-4 ">
+                            <div class="card-header  p-1"
+                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                Top Marcas - FOB</div>
+                            <div class="card z-index-2  ">
+                                <canvas id="chartBarrasHorizontales2">{{ barras_horizontales2 }}</canvas>
                             </div>
                         </div>
                     </div>
@@ -262,8 +263,8 @@
                                 Características por Marcas</div>
                             <div class="card z-index-2  ">
                                 
-                <div s *ngIf="bandera_t1">
-                    <table mat-table [dataSource]="dataSource_t1" multiTemplateDataRows class="mat-elevation-z8">
+                <div style="height: 500px;" class="table-container" *ngIf="bandera_t1">
+                    <table style="height: 500px;" mat-table [dataSource]="dataSource_t1" multiTemplateDataRows class="mat-elevation-z8">
                         <ng-container matColumnDef="{{ column }}" *ngFor="let column of t1_columnsToDisplay">
                             <th style="text-transform: uppercase;" mat-header-cell *matHeaderCellDef>{{ column }}</th>
                             <td style="text-transform: uppercase;" mat-cell *matCellDef="let element">{{ element[column]
@@ -332,7 +333,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-2  mb-4">
+                        <div class="col-lg-12 col-md-2  mb-4">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Precio promedio por marca</div>
@@ -340,11 +341,11 @@
                                 <canvas id="chartLineas">{{ diagrama_lineas }}</canvas>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-2  ">
+                        <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top FOB</div>
-                            <div class="card z-index-2" style="height: 500px; align-items: center;">
+                            <div class="card z-index-2" style="height: 600px; align-items: center;">
                                 <canvas id="chartPie">{{ diagrama_pie }}</canvas>
                             </div>
                         </div>
