@@ -76,6 +76,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 
 @NgModule({
@@ -184,7 +187,11 @@ export class DemoMaterialModule {}
     }),
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  providers: [],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' },],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeEs);
+  }
+ }

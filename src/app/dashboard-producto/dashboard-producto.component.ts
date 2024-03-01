@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Chart, ChartData, ChartType, registerables,CartesianScaleOptions} from 'chart.js/auto';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { CategoriaImpService } from '../services/categoria_imp.service';
@@ -23,6 +23,8 @@ import { Persona } from '../models/persona';
 import { Router, NavigationEnd } from '@angular/router';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatSort, Sort } from '@angular/material/sort';
+
 Chart.register(...registerables);
 Chart.register(ChartDataLabels);
 Chart.defaults.font.weight ='lighter';
@@ -41,6 +43,7 @@ Chart.defaults.scale.grid.color='rgba(214, 69, 80,0.4)';
   ]
 })
 export class DashboardProductoComponent implements OnInit,  AfterViewInit {
+  @ViewChild(MatSort) sort!: MatSort;
   public barras_verticales!: Chart;
   public barras_horizontales1!: Chart;
   public barras_horizontales2!: Chart;
@@ -89,9 +92,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public expandedElement_t1: PeriodicElement_t1 | null | undefined;
   public bandera_t1=false;
 
+
   public dataSource_t2:any=[];
   public t2_columnsToDisplay= ['importador', 'fob', 'unidades'];
   public bandera_t2=false;
+  public sortedDataT2:any=[];
 
   constructor(
     private route: ActivatedRoute,
@@ -128,10 +133,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       { id_mes: "11", mes: "noviembre" },
       { id_mes: "12", mes: "diciembre" }
   ];
+  this.sortedDataT2=this.dataSource_t2.slice();
    
   }
   ngAfterViewInit(): void {
-
+    this.dataSource_t2.sort = this.sort;
   }
   ngOnDestroy(): void {
     if (this.barras_verticales) {
@@ -351,14 +357,16 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 return "";
               },
              label(tooltipItem:any) {
-              //console.log(tooltipItem.formattedValue)
+              console.log("XXXXXXXXXXXXXXX:"+tooltipItem.formattedValue)
               if(tooltipItem.chart.data.datasets[tooltipItem.datasetIndex].label=='Fob'){
                 let tooltip=["Fecha-Año   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
-                tooltip.push("FOB U$S     $"+resultado[tooltipItem.dataIndex].fob);
+                //tooltip.push("FOB U$S     $"+resultado[tooltipItem.dataIndex].fob);
+                tooltip.push("FOB U$S     $"+tooltipItem.formattedValue);
                  return tooltip;
               }else{
                 let tooltip=["Fecha-Año   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
-                tooltip.push("UNIDADES   "+resultado[tooltipItem.dataIndex].unidades);
+                //tooltip.push("UNIDADES   "+resultado[tooltipItem.dataIndex].unidades);
+                tooltip.push("UNIDADES   "+tooltipItem.formattedValue+",00");
                  return tooltip;           
               }
              },
@@ -469,7 +477,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
               },
              label(tooltipItem:any) {
               let tooltip=["MARCA           "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
-              tooltip.push("UNIDADES      "+tooltipItem.dataset.data[tooltipItem.dataIndex]);
+              tooltip.push("UNIDADES      "+tooltipItem.formattedValue+",00");
                return tooltip;
              },
             }
@@ -573,7 +581,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
               },
              label(tooltipItem:any) {
               let tooltip=["MARCA     "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
-              tooltip.push("FOB          $"+tooltipItem.dataset.data[tooltipItem.dataIndex]);
+              tooltip.push("FOB          $"+tooltipItem.formattedValue);
                return tooltip;
              },
             }
@@ -680,10 +688,15 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 return "";
               },
              label(tooltipItem:any) {
+              let fob=resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).fob;
+              fob= new Intl.NumberFormat('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(fob);
               let tooltip=["Fecha-Año                   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
               tooltip.push("MARCA AGRUPADA    "+resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).nombre_marca);
-              tooltip.push("FOB U$S                      $"+resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
-               return tooltip;
+              tooltip.push("FOB U$S                      $"+fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
+              return tooltip;
              },
             }
         },
@@ -700,10 +713,6 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
             font: {
               size: 8,
           }
-          },
-          title: {
-            display: true,
-            text: 'Chart.js Bar Chart - Stacked'
           },
           legend: {
             display: true,
@@ -777,9 +786,14 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 return "";
               },
              label(tooltipItem:any) {
+              let fob=resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).fob;
+              fob= new Intl.NumberFormat('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(fob);
               let tooltip=["Fecha-Año                         "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
               tooltip.push("Caracteristica Agregada    "+resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).caracteristica);
-              tooltip.push("FOB U$S                           $"+resultado.find(elemento => elemento.anio==tooltipItem.chart.data.labels[tooltipItem.dataIndex] && elemento.porcentaje_fob ==tooltipItem.dataset.data[tooltipItem.dataIndex] ).fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
+              tooltip.push("FOB U$S                           $"+fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
                return tooltip;
              },
             }
@@ -856,8 +870,14 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                     return "";
                   },
                  label(tooltipItem:any) {
+                  let fob=resultado[tooltipItem.dataIndex].total_fob;
+                  fob= new Intl.NumberFormat('es-ES', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }).format(fob);
                   let tooltip=["Razon Social  "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
-                  tooltip.push("FOB U$S        $"+resultado[tooltipItem.dataIndex].total_fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
+                  tooltip.push("FOB U$S        $"+fob+" ("+tooltipItem.dataset.data[tooltipItem.dataIndex]+"%)");
+
                    return tooltip;
                  },
                 }
@@ -942,6 +962,21 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         },},
         },
         plugins:{
+          tooltip:{
+            callbacks:{
+              title(tooltipItems) {
+                return "";
+              },
+             label(tooltipItem:any) {
+              let tooltip=[tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
+              let precio= new Intl.NumberFormat('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(tooltipItem.raw);
+               return tooltip;
+             },
+            }
+        },
           datalabels: {
             anchor: 'end', 
             align: 'end', 
@@ -951,7 +986,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
             font: {
               size: 10,
           }
-        },
+        }
         }
       }
     })
@@ -962,30 +997,46 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     for (const marca in resultado) {
       if (resultado.hasOwnProperty(marca)) {
         const marcaInfo = resultado[marca];
+        let fob= new Intl.NumberFormat('es-ES', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(marcaInfo.total_fob);
+        let unidades= new Intl.NumberFormat('es-ES', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(marcaInfo.total_unidades);
         var elemento: {
           marca: string;
-          unidades: number;
+          unidades: string;
           fobU$S: string;
           caracteristicas: {
             caracteristica: string;
-            car_unidades: number;
+            car_unidades: string;
             car_fob: string;
           }[];
         } = {
           marca: marcaInfo.marca,
-          unidades: marcaInfo.total_unidades,
-          fobU$S: marcaInfo.total_fob,
+          unidades: unidades,
+          fobU$S: fob,
           caracteristicas: []
         };
         for (const caracteristica of marcaInfo.carcateristicas) {
+          let fob_caracteristica= new Intl.NumberFormat('es-ES', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(caracteristica.car_fob);
+          let unidades_caracteristica= new Intl.NumberFormat('es-ES', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(caracteristica.car_unidades);
           var caract_elemento: {
             caracteristica: string;
-            car_unidades: number;
+            car_unidades: string;
             car_fob: string;
           } = {
             caracteristica: caracteristica.carcateristica,
-            car_unidades: caracteristica.car_unidades,
-            car_fob: caracteristica.car_fob
+            car_unidades: unidades_caracteristica,
+            car_fob: fob_caracteristica
           };
     
           elemento.caracteristicas.push(caract_elemento);
@@ -1004,17 +1055,37 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         var elemento: {
           importador: string;
           unidades: number;
-          fob: string;
+          fob: number;
         } = {
           importador: importadorInfo.importador,
-          unidades: importadorInfo.unidades,
+          unidades: parseFloat(importadorInfo.unidades),
           fob: importadorInfo.fob
         };
         this.bandera_t2=true;
           this.dataSource_t2.push(elemento)
       }
     }
-    console.log(this.dataSource_t2);
+    this.sortedDataT2=this.dataSource_t2;
+  }
+
+  sortDataT2(sort: Sort) {
+    const data = this.dataSource_t2.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedDataT2 = data;
+      return;
+    }
+
+    this.sortedDataT2 = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'fob':
+          return compare(a.fob, b.fob, isAsc);
+        case 'unidades':
+          return compare(a.unidades, b.unidades, isAsc);
+        default:
+          return 0;
+      }
+    });
   }
 
   /***-------------------------------------------------------------------------------------- */
@@ -1497,3 +1568,6 @@ export interface Caracteristica {
   car_fob: string;
 }
 
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
