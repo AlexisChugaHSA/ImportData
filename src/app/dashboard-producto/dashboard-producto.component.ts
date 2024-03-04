@@ -87,10 +87,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public caracteristicas_imp!:any;
 
   public dataSource_t1:any=[];
-  public t1_columnsToDisplay= ['marca', 'unidades', 'fobU$S'];
+  public t1_columnsToDisplay= ['marca', 'unidades', 'fob'];
   public columnsToDisplay_t1 = ['caracteristica', 'car_unidades', 'car_fob']; 
   public expandedElement_t1: PeriodicElement_t1 | null | undefined;
   public bandera_t1=false;
+  public sortedDataT1:any=[];
 
 
   public dataSource_t2:any=[];
@@ -134,6 +135,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       { id_mes: "12", mes: "diciembre" }
   ];
   this.sortedDataT2=this.dataSource_t2.slice();
+  this.sortedDataT1=this.dataSource_t1.slice();
    
   }
   ngAfterViewInit(): void {
@@ -997,46 +999,30 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     for (const marca in resultado) {
       if (resultado.hasOwnProperty(marca)) {
         const marcaInfo = resultado[marca];
-        let fob= new Intl.NumberFormat('es-ES', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }).format(marcaInfo.total_fob);
-        let unidades= new Intl.NumberFormat('es-ES', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }).format(marcaInfo.total_unidades);
         var elemento: {
           marca: string;
-          unidades: string;
-          fobU$S: string;
+          unidades: number;
+          fob: number;
           caracteristicas: {
             caracteristica: string;
-            car_unidades: string;
-            car_fob: string;
+            car_unidades: number;
+            car_fob: number;
           }[];
         } = {
           marca: marcaInfo.marca,
-          unidades: unidades,
-          fobU$S: fob,
+          unidades: parseFloat(marcaInfo.total_unidades),
+          fob: marcaInfo.total_fob,
           caracteristicas: []
         };
         for (const caracteristica of marcaInfo.carcateristicas) {
-          let fob_caracteristica= new Intl.NumberFormat('es-ES', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }).format(caracteristica.car_fob);
-          let unidades_caracteristica= new Intl.NumberFormat('es-ES', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }).format(caracteristica.car_unidades);
           var caract_elemento: {
             caracteristica: string;
-            car_unidades: string;
-            car_fob: string;
+            car_unidades: number;
+            car_fob: number;
           } = {
             caracteristica: caracteristica.carcateristica,
-            car_unidades: unidades_caracteristica,
-            car_fob: fob_caracteristica
+            car_unidades:parseFloat( caracteristica.car_unidades),
+            car_fob: caracteristica.car_fob
           };
     
           elemento.caracteristicas.push(caract_elemento);
@@ -1045,7 +1031,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           this.dataSource_t1.push(elemento)
       }
     }
-    console.log(this.dataSource_t1);
+    this.sortedDataT1=this.dataSource_t1;
   }
   getTablaVentaXImportadorT2(resultado:any){
     this.dataSource_t2=[];
@@ -1076,6 +1062,25 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     }
 
     this.sortedDataT2 = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'fob':
+          return compare(a.fob, b.fob, isAsc);
+        case 'unidades':
+          return compare(a.unidades, b.unidades, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
+  sortDataT1(sort: Sort) {
+    const data = this.dataSource_t1.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedDataT1 = data;
+      return;
+    }
+
+    this.sortedDataT1 = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'fob':
@@ -1558,7 +1563,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 export interface PeriodicElement_t1 {
   marca: string;
   unidades: number;
-  fobU$S: string;
+  fob: string;
   caracteristicas: Caracteristica[];
 }
 
