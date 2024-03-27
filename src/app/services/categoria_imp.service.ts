@@ -4,17 +4,17 @@ import { GLOBAL } from './global.service';
 
 
 @Injectable({providedIn:'root'})
-export class CategoriaImpService {
+export class SubCategoriaImpService {
   public url!:string;
   constructor( private _http:HttpClient) { 
     this.url=GLOBAL.url
   }
-  getCategoriasImp(){
-    return this._http.get(this.url+'categorias-imp')
+  getSubCategoriasImp(){
+    return this._http.get(this.url+'subcategorias-imp')
   }
 
-  getCategoriaImp(id:number){
-    return this._http.get(this.url+'categorias-imp/'+id)
+  getSubCategoriaImp(id:number){
+    return this._http.get(this.url+'subcategorias-imp/'+id)
   }
 
 }

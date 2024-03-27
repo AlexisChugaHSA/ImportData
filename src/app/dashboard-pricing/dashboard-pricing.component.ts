@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartType } from 'chart.js/auto';
 import { LocalStorageService } from 'angular-2-local-storage';
-import { CategoriaImpService } from '../services/categoria_imp.service';
+import { SubCategoriaImpService } from '../services/categoria_imp.service';
 import { EmpresasImpService } from '../services/empresas_imp.service';
 import { MarcasImpService } from '../services/marcas_imp.service';
 import { TiendasImpService } from '../services/tiendas_imp.service';
@@ -47,7 +47,7 @@ export class DashboardPricingComponent {
 
   public marcas_imp!: any;
   public consulta_resultado!: any;
-  public consultaImp=new ConsultaImp([],[],[],[],[],[],[]);
+  public consultaImp=new ConsultaImp(0,[],[],[],[],[],[],[]);
 
   dropdownSettings!: IDropdownSettings;
   dropdownList !: any;
@@ -76,7 +76,7 @@ export class DashboardPricingComponent {
     private _produserService: ProductoUsuarioService,
     private localStorageService: LocalStorageService,
     private _productoService:ProductoService,
-    private _categoriaImpService: CategoriaImpService,
+    private _categoriaImpService: SubCategoriaImpService,
     private _tiendaImpService: TiendasImpService,
     private _productoImpService: ProductosImpService,
     private _precioImpService: PreciosImpService,
@@ -449,14 +449,14 @@ export class DashboardPricingComponent {
 
   
   onItemSelectCategoria(item: any) {
-    this.consultaImp.categoria.push(item.nombre_categoria_producto);
+    this.consultaImp.subcategoria.push(item.nombre_categoria_producto);
     console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCategoria(item: any) {
-    const index = this.consultaImp.categoria.indexOf(item.nombre_categoria_producto);
+    const index = this.consultaImp.subcategoria.indexOf(item.nombre_categoria_producto);
     if (index !== -1) {
-      this.consultaImp.categoria.splice(index, 1);
+      this.consultaImp.subcategoria.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
     console.log(this.consultaImp);
@@ -549,7 +549,7 @@ export class DashboardPricingComponent {
     )
   }
   getCategorias(){
-    this._categoriaImpService.getCategoriasImp().subscribe(
+    this._categoriaImpService.getSubCategoriasImp().subscribe(
       result=>{
         console.log(result);
         this.categorias_imp=result;

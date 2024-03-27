@@ -74,10 +74,10 @@ export class ConsultaImpService {
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     return this._http.post(this.url+'consulta-ventas-por-importador',params,{headers})
   }
-  getAnios(){
-    return this._http.get(this.url+'consulta-anios-fecha-despacho')
+  getAnios(id:number){
+    return this._http.get(this.url+'consulta-anios-fecha-despacho'+id)
   }
-  getCaracteristicas(){
-    return this._http.get(this.url+'consulta-filtro-caracteristicas')
+  getCaracteristicas(id:number){
+    return this._http.get(this.url+'consulta-filtro-caracteristicas'+id)
   }
 }

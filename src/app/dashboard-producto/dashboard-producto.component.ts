@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Chart, ChartData, ChartType, registerables,CartesianScaleOptions} from 'chart.js/auto';
 import { LocalStorageService } from 'angular-2-local-storage';
-import { CategoriaImpService } from '../services/categoria_imp.service';
+import { SubCategoriaImpService } from '../services/categoria_imp.service';
 import { EmpresasImpService } from '../services/empresas_imp.service';
 import { MarcasImpService } from '../services/marcas_imp.service';
 import { TiendasImpService } from '../services/tiendas_imp.service';
@@ -63,7 +63,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
   public marcas_imp!: any;
   public consulta_resultado!: any;
-  public consultaImp=new ConsultaImp([],[],[],[],[],[],[]);
+  public consultaImp=new ConsultaImp(0,[],[],[],[],[],[],[]);
 
   dropdownSettings!: IDropdownSettings;
   dropdownList !: any;
@@ -106,7 +106,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     private _produserService: ProductoUsuarioService,
     private localStorageService: LocalStorageService,
     private _productoService:ProductoService,
-    private _categoriaImpService: CategoriaImpService,
+    private _subCategoriaImpService: SubCategoriaImpService,
     private _tiendaImpService: TiendasImpService,
     private _productoImpService: ProductosImpService,
     private _precioImpService: PreciosImpService,
@@ -173,6 +173,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
     this.id =this.route.snapshot.paramMap.get('id');
+    this.consultaImp.id_producto=parseInt(this.id);
+    console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp);
  
     this.setDropDownListSettings();
@@ -719,7 +721,12 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           legend: {
             display: true,
             position:'right',
-            align:'center'
+            align:'center',
+            labels:{
+              font:{
+                size:10
+              }
+            }
         }, 
         },
         responsive: true,
@@ -929,7 +936,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         const data2:any=[];
         for (let j = 0; j < aniosUnicos.length; j++){
           let precioEncontrado!:any;
-          let precio=0;
+          let precio=null;
           precioEncontrado = resultado.find(
             (registro) => registro.anio === aniosUnicos[j] && registro.nombre_marca === marcasUnicas[i]
           );
@@ -937,7 +944,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           //console.log("Año: ", aniosUnicos[j]," marca: ", marcasUnicas[i], " precio: ", precio);
           data2.push(precio)
         }
-        //console.log(" marca: ", marcasUnicas[i], "precio: ",data2)
+        console.log(" marca: ", marcasUnicas[i], "precio: ",data2)
         const newDataset = {
           label: marcasUnicas[i],
           data: data2, // Aquí puedes agregar los datos respectivos para cada dataset
@@ -975,6 +982,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               }).format(tooltipItem.raw);
+              tooltip.push(tooltipItem.dataset.label+"      $ "+tooltipItem.formattedValue)
                return tooltip;
              },
             }
@@ -1137,8 +1145,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     };
     this.dropdownSettings_categoria = {
       singleSelection: false,
-      idField: 'id_categoria_producto',
-      textField: 'nombre_categoria_producto',
+      idField: 'id_subcategoria',
+      textField: 'subcategoria',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 2,
@@ -1193,9 +1201,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     };
 
   }
-  onItemSelect(item: any) {
-    console.log(item);
-  }
+
   onItemSelectAnio(item: any) {
     this.ngOnDestroy();
     this.consultaImp.anio.push(item.anio);
@@ -1204,7 +1210,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
   onItemDeSelectAnio(item: any) {
     this.ngOnDestroy();
-    const index = this.consultaImp.anio.indexOf(item);
+    const index = this.consultaImp.anio.indexOf(item.anio);
     if (index !== -1) {
       this.consultaImp.anio.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
@@ -1245,15 +1251,16 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   
   onItemSelectCategoria(item: any) {
     this.ngOnDestroy();
-    this.consultaImp.categoria.push(item.nombre_categoria_producto);
+    this.consultaImp.subcategoria.push(item.subcategoria);
     console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCategoria(item: any) {
     this.ngOnDestroy();
-    const index = this.consultaImp.categoria.indexOf(item.nombre_categoria_producto);
+    const index = this.consultaImp.subcategoria.indexOf(item.subcategoria);
+    console.log(item.subcategoria)
     if (index !== -1) {
-      this.consultaImp.categoria.splice(index, 1);
+      this.consultaImp.subcategoria.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
     console.log(this.consultaImp);
@@ -1305,22 +1312,29 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
 
 
-  onSelectAll(items: any) {
-    console.log(items);
+  onSelectAllAnio(items: any) {
+    this.ngOnDestroy()
+    this.consultaImp.anio=items.map((item: any) => item.anio);
+    this.getDatosDashboard(this.consultaImp);
+  }
+  onSelectAllMes(items: any) {
+    this.ngOnDestroy()
+    this.consultaImp.mes=items.map((item: any) => item.id_mes);
+    this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllCaracteristica(items: any) {
- 
-    this.consultaImp.caracteristica=[];
+    this.ngOnDestroy()
+    this.consultaImp.caracteristica=items.map((item: any) => item.caracteristica);
     this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllCategoria(items: any) {
     this.ngOnDestroy();
-    this.consultaImp.categoria=[];
+    this.consultaImp.subcategoria = items.map((item: any) => item.subcategoria);
     this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllMarca(items: any) {
     this.ngOnDestroy();
-    this.consultaImp.nombre_marca=[];
+    this.consultaImp.nombre_marca=items.map((item: any) => item.nombre_marca);
     this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllEmpresa(items: any) {
@@ -1432,7 +1446,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     )
   }
   getCategorias(){
-    this._categoriaImpService.getCategoriasImp().subscribe(
+    this._subCategoriaImpService.getSubCategoriasImp().subscribe(
       result=>{
         console.log(result);
         this.categorias_imp=result;
@@ -1537,7 +1551,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     )*/
   }
   getCaracterísticas(){
-    this._consultaImpService.getCaracteristicas().subscribe(
+    this._consultaImpService.getCaracteristicas(this.id).subscribe(
       result=>{
         this.caracteristicas_imp=result;
       },
@@ -1548,7 +1562,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
 
   getAnios(){
-    this._consultaImpService.getAnios().subscribe(
+    this._consultaImpService.getAnios(this.id).subscribe(
       result=>{
         this.anios=result;
       },
