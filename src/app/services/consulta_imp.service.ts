@@ -75,9 +75,9 @@ export class ConsultaImpService {
     return this._http.post(this.url+'consulta-ventas-por-importador',params,{headers})
   }
   getAnios(id:number){
-    return this._http.get(this.url+'consulta-anios-fecha-despacho'+id)
+    return this._http.get(this.url+'consulta-anios-fecha-despacho/'+id)
   }
   getCaracteristicas(id:number){
-    return this._http.get(this.url+'consulta-filtro-caracteristicas'+id)
+    return this._http.get(this.url+'consulta-filtro-caracteristicas/'+id)
   }
 }

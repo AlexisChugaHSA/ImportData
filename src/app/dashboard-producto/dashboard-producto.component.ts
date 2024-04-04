@@ -167,12 +167,12 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
 
   ngOnInit(): void {
+    this.id =this.route.snapshot.paramMap.get('id');
     this.getAnios();
     this.getCaracterísticas()
     this.getImportadores();
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
-    this.id =this.route.snapshot.paramMap.get('id');
     this.consultaImp.id_producto=parseInt(this.id);
     console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp);
