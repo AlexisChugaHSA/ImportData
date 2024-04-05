@@ -96,6 +96,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
   public dataSource_t2:any=[];
   public t2_columnsToDisplay= ['importador', 'fob', 'unidades'];
+  public columnsToDisplay_t2 = ['marca', 'mar_unidades', 'mar_fob']; 
+  public expandedElement_t2: PeriodicElement_t2 | null | undefined;
   public bandera_t2=false;
   public sortedDataT2:any=[];
 
@@ -928,20 +930,22 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
 
   getDataDiagramaLineas(resultado:any) {
-    const aniosUnicos = Array.from(new Set(resultado.map(item => item.anio)));
+    const mesesUnicos = Array.from(new Set(resultado.map(item => item.mes)));
     const marcasUnicas = Array.from(new Set((resultado as { nombre_marca: string }[]).map(item => item.nombre_marca))).sort((a, b) => a.localeCompare(b));
     const datasets2: any=[];
+    const meses= this.meses.map(mes => mes.mes);
     const data2:any=[];
       for (let i = 0; i < marcasUnicas.length; i++) {
         const data2:any=[];
-        for (let j = 0; j < aniosUnicos.length; j++){
+        for (let j = 0; j < mesesUnicos.length; j++){
+
           let precioEncontrado!:any;
           let precio=null;
           precioEncontrado = resultado.find(
-            (registro) => registro.anio === aniosUnicos[j] && registro.nombre_marca === marcasUnicas[i]
+            (registro) => registro.mes === mesesUnicos[j] && registro.nombre_marca === marcasUnicas[i]
           );
           if(precioEncontrado){precio=precioEncontrado.precio_promedio}
-          //console.log("Año: ", aniosUnicos[j]," marca: ", marcasUnicas[i], " precio: ", precio);
+          //console.log("Año: ", mesesUnicos[j]," marca: ", marcasUnicas[i], " precio: ", precio);
           data2.push(precio)
         }
         console.log(" marca: ", marcasUnicas[i], "precio: ",data2)
@@ -952,7 +956,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         };
         datasets2.push(newDataset);}
     const data = {
-      labels: aniosUnicos,
+      labels: meses,
       datasets: datasets2
       
     };
@@ -1050,11 +1054,30 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           importador: string;
           unidades: number;
           fob: number;
+          marcas: {
+            marca: string;
+            mar_unidades: number;
+            mar_fob: number;
+          }[];
         } = {
           importador: importadorInfo.importador,
-          unidades: parseFloat(importadorInfo.unidades),
-          fob: importadorInfo.fob
+          unidades: parseFloat(importadorInfo.total_unidades),
+          fob: importadorInfo.total_fob,
+          marcas: []
         };
+        for (const marca of importadorInfo.marcas) {
+          var marca_elemento: {
+            marca: string;
+            mar_unidades: number;
+            mar_fob: number;
+          } = {
+            marca: marca.marca,
+            mar_unidades:parseFloat( marca.mar_unidades),
+            mar_fob: marca.mar_fob
+          };
+    
+          elemento.marcas.push(marca_elemento);
+        }
         this.bandera_t2=true;
           this.dataSource_t2.push(elemento)
       }
@@ -1580,11 +1603,23 @@ export interface PeriodicElement_t1 {
   fob: string;
   caracteristicas: Caracteristica[];
 }
+export interface PeriodicElement_t2 {
+  importador: string;
+  unidades: number;
+  fob: string;
+  marcas: Caracteristica[];
+}
+
 
 export interface Caracteristica {
   caracteristica: string;
   car_unidades: number;
   car_fob: string;
+}
+export interface Marca {
+  marca: string;
+  mar_unidades: number;
+  mar_fob: string;
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
