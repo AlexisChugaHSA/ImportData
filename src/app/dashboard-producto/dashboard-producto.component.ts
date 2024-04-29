@@ -78,7 +78,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
   public id!:any;
   public producto!:Producto;
-  public usuario: any;
+  public usuario: Usuario= new Usuario(0, "", "", "");
   public persona: any;
   public prodsUser: any = [];
   public productos: any = [];
@@ -120,8 +120,6 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     private _consultaImpService: ConsultaImpService,
     private renderer: Renderer2
   ){
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
-    this.persona=new Persona(0,0,0,0,"","","","");
     this.meses= [
       { id_mes: "01", mes: "enero" },
       { id_mes: "02", mes: "febrero" },
@@ -169,25 +167,40 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
 
 
   ngOnInit(): void {
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.id =this.route.snapshot.paramMap.get('id');
+    this.consultaImp.id_producto=parseInt(this.id);
+    const fechaActual = new Date();
+    const max_año = fechaActual.getFullYear();
+    const cantidadAnios = 4;
+    const arrayAnios:any = [];
+    for (let i = 0; i < cantidadAnios; i++) {
+          arrayAnios.push(max_año - i);
+    }
+    this.consultaImp.anio=arrayAnios;
+    this.getDatosDashboard(this.consultaImp);
+    this.consultaImp.anio=[];
     this.getAnios();
     this.getCaracterísticas()
-    this.getImportadores();
+    this.getCategorias();
+    this.getMarcas();
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
-    this.consultaImp.id_producto=parseInt(this.id);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp);
- 
+    //console.log(this.consultaImp);
     this.setDropDownListSettings();
-    this.getCategorias();
-    this.getTiendas();
-    this.getEmpresas();
-    this.getHomologaciones();
-    this.getImportaciones();
-    this.getProductos();
-    this.getPrecios();
-    this.getMarcas();
+
+    //this.getImportadores();
+    //this.getTiendas();
+    //this.getEmpresas();
+    //this.getHomologaciones();
+    //this.getImportaciones();
+    //this.getProductos();
+    //this.getPrecios();
+  }
+  BtnBuscar(){
+    this.ngOnDestroy();
+    this.getDatosDashboard(this.consultaImp)
+   // ////console.log("XYXYXYXYX****"+this.consultaImp)
   }
 
   BtnGeneral() {
@@ -272,7 +285,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._produserService.getP_U(this.usuario.id_usuario).subscribe(
       result => {
         this.prodsUser= <any[]>result;
-        console.log(this.prodsUser);
+        ////console.log(this.prodsUser);
         const existe = this.prodsUser.some(item =>item.id_producto.toString()===this.id);
       if(existe) {
         this._productoService.getProducto(this.id).subscribe(
@@ -280,7 +293,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
             this.producto=<Producto>result;
           },
           error=>{
-            console.log(<any>error)
+            //console.log(<any>error)
           }
         )
   }
@@ -363,7 +376,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 return "";
               },
              label(tooltipItem:any) {
-              console.log("XXXXXXXXXXXXXXX:"+tooltipItem.formattedValue)
+              //console.log("XXXXXXXXXXXXXXX:"+tooltipItem.formattedValue)
               if(tooltipItem.chart.data.datasets[tooltipItem.datasetIndex].label=='Fob'){
                 let tooltip=["Fecha-Año   "+tooltipItem.chart.data.labels[tooltipItem.dataIndex]];
                 //tooltip.push("FOB U$S     $"+resultado[tooltipItem.dataIndex].fob);
@@ -655,7 +668,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getDataBarrasApiladas1(resultado:any) {
     const aniosUnicos = Array.from(new Set(resultado.map(item => item.anio)));
     const marcasUnicas = Array.from(new Set((resultado as { nombre_marca: string }[]).map(item => item.nombre_marca))).sort((a, b) => a.localeCompare(b));
-    console.log(marcasUnicas);
+    //console.log(marcasUnicas);
     const datasets2: any=[];
     const data2:any=[];
       for (let i = 0; i < marcasUnicas.length; i++) {
@@ -667,10 +680,10 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
             (registro) => registro.anio === aniosUnicos[j] && registro.nombre_marca === marcasUnicas[i]
           );
           if(fobEncontrados){porcentaje_fob=fobEncontrados.porcentaje_fob}
-         // console.log("Año: ", aniosUnicos[j]," marca: ", marcasUnicas[i], " fob: ", porcentaje_fob);
+         // //console.log("Año: ", aniosUnicos[j]," marca: ", marcasUnicas[i], " fob: ", porcentaje_fob);
           data2.push(porcentaje_fob)
         }
-       // console.log(" marca: ", marcasUnicas[i], " fob: ",data2)
+       // //console.log(" marca: ", marcasUnicas[i], " fob: ",data2)
         const newDataset = {
           label: marcasUnicas[i],
           data: data2, // Aquí puedes agregar los datos respectivos para cada dataset
@@ -760,7 +773,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getDataBarrasApiladas2(resultado:any) {
     const aniosUnicos = Array.from(new Set(resultado.map(item => item.anio)));
     const CaracteristicasUnicas = Array.from(new Set((resultado as { caracteristica: string }[]).map(item => item.caracteristica)))
-    console.log(CaracteristicasUnicas);
+    //console.log(CaracteristicasUnicas);
     const datasets2: any=[];
     const data2:any=[];
       for (let i = 0; i < CaracteristicasUnicas.length; i++) {
@@ -860,7 +873,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
 
   getDataDiagramaPie(resultado: any) {
-    console.log(resultado.map(item => item.porcentaje_fob+"%"))
+    //console.log(resultado.map(item => item.porcentaje_fob+"%"))
     const data = {
       labels: resultado.map(item => item.importador),
       datasets: [{
@@ -945,10 +958,10 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
             (registro) => registro.mes === mesesUnicos[j] && registro.nombre_marca === marcasUnicas[i]
           );
           if(precioEncontrado){precio=precioEncontrado.precio_promedio}
-          //console.log("Año: ", mesesUnicos[j]," marca: ", marcasUnicas[i], " precio: ", precio);
+          ////console.log("Año: ", mesesUnicos[j]," marca: ", marcasUnicas[i], " precio: ", precio);
           data2.push(precio)
         }
-        console.log(" marca: ", marcasUnicas[i], "precio: ",data2)
+        //console.log(" marca: ", marcasUnicas[i], "precio: ",data2)
         const newDataset = {
           label: marcasUnicas[i],
           data: data2, // Aquí puedes agregar los datos respectivos para cada dataset
@@ -1226,233 +1239,226 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
 
   onItemSelectAnio(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.anio.push(item.anio);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp)
+    //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectAnio(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.anio.indexOf(item.anio);
     if (index !== -1) {
       this.consultaImp.anio.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
   }
   onItemSelectMes(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.mes.push(item.id_mes);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp)
+    //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectMes(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.mes.indexOf(item.id_mes);
     if (index !== -1) {
       this.consultaImp.mes.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
   }
   onItemSelectCaracteristica(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.caracteristica.push(item.caracteristica);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp)
+    //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCaracteristica(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.caracteristica.indexOf(item.caracteristica);
     if (index !== -1) {
       this.consultaImp.caracteristica.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
   }
 
   
   onItemSelectCategoria(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.subcategoria.push(item.subcategoria);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp)
+    //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCategoria(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.subcategoria.indexOf(item.subcategoria);
-    console.log(item.subcategoria)
     if (index !== -1) {
       this.consultaImp.subcategoria.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    ////console.log(this.consultaImp);
   }
   onItemSelectMarca(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.nombre_marca.push(item.nombre_marca);
-    this.getDatosDashboard(this.consultaImp)
-    console.log(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp)
+    //console.log(this.consultaImp);
   }
   onItemDeSelectMarca(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.nombre_marca.indexOf(item.nombre_marca);
     if (index !== -1) {
       this.consultaImp.nombre_marca.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectEmpresa(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.nombre_empresa.push(item.nombre_empresa);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp)
+    //console.log(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectEmpresa(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.nombre_empresa.indexOf(item.nombre_empresa);
     if (index !== -1) {
       this.consultaImp.nombre_empresa.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectModelo(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.modelo_homologado.push(item.modelo_homologado);
-    console.log(this.consultaImp);
-    this.getDatosDashboard(this.consultaImp)
+    //console.log(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectModelo(item: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     const index = this.consultaImp.modelo_homologado.indexOf(item.modelo_homologado);
     if (index !== -1) {
       this.consultaImp.modelo_homologado.splice(index, 1);
-      this.getDatosDashboard(this.consultaImp)
+      //this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
 
 
   onSelectAllAnio(items: any) {
-    this.ngOnDestroy()
+    //this.ngOnDestroy()
     this.consultaImp.anio=items.map((item: any) => item.anio);
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllMes(items: any) {
-    this.ngOnDestroy()
+    //this.ngOnDestroy()
     this.consultaImp.mes=items.map((item: any) => item.id_mes);
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllCaracteristica(items: any) {
-    this.ngOnDestroy()
+    //this.ngOnDestroy()
     this.consultaImp.caracteristica=items.map((item: any) => item.caracteristica);
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllCategoria(items: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.subcategoria = items.map((item: any) => item.subcategoria);
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllMarca(items: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.nombre_marca=items.map((item: any) => item.nombre_marca);
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllEmpresa(items: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.nombre_empresa=[];
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
   onSelectAllModelo(items: any) {
-    this.ngOnDestroy();
+    //this.ngOnDestroy();
     this.consultaImp.modelo_homologado=[];
-    this.getDatosDashboard(this.consultaImp);
+    //this.getDatosDashboard(this.consultaImp);
   }
 
 
   getDatosDashboard(consulta:ConsultaImp){
     this.ngOnDestroy();
+    this._consultaImpService.getDatosImportacionesXFob(consulta).subscribe(
+      result3=>{
+        //console.log(result3);
+        this.getDataBarrasVerticales(result3);
+      },
+      error=>{
+        //console.log(<any>error)
+      }
+    )
     this._consultaImpService.getDatosMarcaXUnidades(consulta).subscribe(
       result1=>{
         this.getDataBarrasHorizontales1(result1);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._consultaImpService.getDatosMarcaXFob(consulta).subscribe(
       result2=>{
-        console.log(result2);
+        //console.log(result2);
         this.getDataBarrasHorizontales2(result2);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
-    this._consultaImpService.getDatosImportacionesXFob(consulta).subscribe(
-      result3=>{
-        console.log(result3);
-        this.getDataBarrasVerticales(result3);
-      },
-      error=>{
-        console.log(<any>error)
-      }
-    )
+
     this._consultaImpService.getDatosShareXMarca(consulta).subscribe(
       result4=>{
-        console.log(result4);
+        //console.log(result4);
         this.getDataBarrasApiladas1(result4);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
 
     this._consultaImpService.getDatosPrecioXMarca(consulta).subscribe(
       result5=>{
-        console.log(result5);
+        //console.log(result5);
         this.getDataDiagramaLineas(result5);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._consultaImpService.getDatosFobXImportador(consulta).subscribe(
       result6=>{
-        console.log(result6);
+        //console.log(result6);
         this.getDataDiagramaPie(result6);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._consultaImpService.getDatosShareXSegmento(consulta).subscribe(
       result7=>{
-        console.log(result7);
+        //console.log(result7);
         this.getDataBarrasApiladas2(result7);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._consultaImpService.getCaracterísticasXMarca(consulta).subscribe(
       result8=>{
-        console.log(result8);
+        //console.log(result8);
         this.getTablaCaracteristicaXMarcaT1(result8);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._consultaImpService.getVentasXImportador(consulta).subscribe(
       result9=>{
-        console.log(result9);
+        //console.log(result9);
         this.getTablaVentaXImportadorT2(result9);
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -1460,34 +1466,34 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getMarcas(){
     this._marcasImpService.getMarcas().subscribe(
       result=>{
-        console.log(result);
+        //console.log(result);
         this.marcas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
   getCategorias(){
     this._subCategoriaImpService.getSubCategoriasImp().subscribe(
       result=>{
-        console.log(result);
+        //console.log(result);
         this.categorias_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
-
+/*
   getEmpresas(){
     this._empresaImpService.getEmpresasImp().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.empresas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -1495,11 +1501,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getTiendas(){
     this._tiendaImpService.getTiendas().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.tiendas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -1507,11 +1513,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getProductos(){
     this._productoImpService.getProductos().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.productos_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -1519,11 +1525,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getPrecios(){
     this._precioImpService.getPrecios().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.precios_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -1531,11 +1537,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getHomologaciones(){
     this._homologacionImpService.getHomologaciones().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.homologaciones_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -1543,15 +1549,15 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   getImportadores(){
     this._importadorImpService.getImportadores().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.importadores_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
-
+*/
   getImportaciones(){
     const aniosDespachoSet = new Set<number>();
     /*
@@ -1566,10 +1572,10 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       });
       this.anios= Array.from(aniosDespachoSet).sort((a, b) => a - b);
       this.anios.shift();
-      console.log(this.anios)
+      //console.log(this.anios)
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )*/
   }
@@ -1579,20 +1585,23 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         this.caracteristicas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
 
   getAnios(){
+
     this._consultaImpService.getAnios(this.id).subscribe(
       result=>{
         this.anios=result;
+
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
+    
   }
 
 }

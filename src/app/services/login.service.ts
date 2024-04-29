@@ -41,9 +41,6 @@ export class AuthService {
     this.setLoggedIn(false);
   }
 
-  getLoggedIn() {
-    return this.isLoggedIn;
-  }
 
   setLoggedIn(value: boolean) {
     this.isLoggedIn = value;

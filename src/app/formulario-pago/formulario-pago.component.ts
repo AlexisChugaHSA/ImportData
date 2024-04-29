@@ -65,16 +65,17 @@ export class FormularioPagoComponent {
     private renderer: Renderer2,
     private _detalleFacturaService: DetalleFacturaService,
     private localStorageService: LocalStorageService) {
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
+    this.usuario = new Usuario(0, "", "", "");
     this.metodo_pago = new MetodoPago(0, "", "");
     this.pago = new Pago(0, 0, 0, 0, 0, "", 0, 0, "",0,"");
-    this.prod_user = new ProductoUsuario(0, 0, 0, 0,0, 0, "",0);
+    this.prod_user = new ProductoUsuario(0, 0, 0, 0,0, 0,0);
     this.factura = new Factura(0,0,0,0,"",0,0);
     this.detalle_factura = new DetalleFactura(0, 1, 0, 1, 0);
 
   }
 
   ngOnInit() {
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.get_carrito()
     this.get_total()
     this.obtenerDatos()
@@ -233,7 +234,7 @@ export class FormularioPagoComponent {
     this.productos_carrito.forEach(producto => {
       this.prod_user.id_producto = parseInt(producto.id_producto);
       this.prod_user.precio = producto.precio;
-      console.log(this.prod_user);
+      console.log("XXXXXX" +this.prod_user);
       this._productoUsuarioService.addProdUser(this.prod_user).subscribe(
         result => {
           this.prod_users.push(result)

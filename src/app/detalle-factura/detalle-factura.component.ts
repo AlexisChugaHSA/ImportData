@@ -28,7 +28,7 @@ import { Membresia } from '../models/membresia';
 export class DetalleFacturaComponent {
   public persona!: Persona;
   public empresa!: Empresa;
-  public usuario: Usuario;
+  public usuario: Usuario= new Usuario(0, "", "", "");
   public direccionE!: Direccion;
   public paisE!: Pais;
   public ciudadE!: Ciudad;
@@ -55,7 +55,6 @@ export class DetalleFacturaComponent {
     private _productoService: ProductoService,
     private _membresiaService: MembresiaService
   ) {
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
   }
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');

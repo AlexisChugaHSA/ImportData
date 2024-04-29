@@ -27,7 +27,7 @@ export class ProductosComponent {
     private _router: Router,
     private localStorageService: LocalStorageService
   ){
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
+    this.usuario = new Usuario(0, "", "", "");
   }
 
     /*
@@ -47,6 +47,7 @@ export class ProductosComponent {
     }*/
 
   ngOnInit(){
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     console.log("Productos funcionando")
     this._productoService.getProductos().subscribe(
       result=>{

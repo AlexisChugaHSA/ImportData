@@ -13,6 +13,7 @@ import { EmpresaService } from '../services/empresa.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupPagoComponent } from '../popup-pago/popup-pago.component';
 import { PopupCancelarPagoComponent } from '../popup-cancelar-pago/popup-cancelar-pago.component';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-factracion',
@@ -23,7 +24,7 @@ export class FacturacionComponent {
   public facturas: any = [];
   public pagos: any = [];
   public det_facturas: any = [];
-  public usuario!: Usuario;
+  public usuario: Usuario = new Usuario(0, "", "", "");
   public pago!:Pago;
   public persona!: Persona;
   public empresa!:Empresa;
@@ -32,14 +33,15 @@ export class FacturacionComponent {
     private _pagoService: PagoService,
     private _personaService: PersonaService,
     private dialog: MatDialog,
+    private localStorageService: LocalStorageService,
     private _empresaService: EmpresaService,
     private _detfactService: DetalleFacturaService,
     private _facturaService: FacturaService){
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
 
 
   }
   ngOnInit() {
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.obtenerDatos();
   }
 

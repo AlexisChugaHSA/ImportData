@@ -25,9 +25,10 @@ export class HomeComponent {
     private localStorageService: LocalStorageService,
     private _produserService: ProductoUsuarioService,
   ){
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
+    this.usuario = new Usuario(0, "", "", "");
   }
   ngOnInit() {
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.getCarrito();
     this.obtenerDatos();
 

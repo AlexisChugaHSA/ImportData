@@ -93,7 +93,7 @@
                         Marcas</td>
                 </tr>
             </thead>
-            <tr *ngIf="producto.nombre !== ''">
+            <tr *ngIf="marcas_imp.length > 0">
                 <td style="padding: 20px; width: 230px; border: 1px solid black ">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_anio" [data]="anios"
                         (onSelect)="onItemSelectAnio($event)" (onSelectAll)="onSelectAllAnio($event)"
@@ -153,9 +153,17 @@
            -->
             </tr>
         </table>
+            
+          
+        <br>
+        <div class="col-lg-3 col-md-6 my-sm-auto ms-sm-auto mx-auto mt-3" >
+            <button  (click)="BtnBuscar()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                <span class="btn-inner--icon"><i class="material-icons">search</i></span>
+                Buscar</button>
+        </div>
         <!-- 
-    <div *ngIf="consulta_resultado">roun
-        <ul>
+    <div *ngIf="consulta_resultado">roun 
+        <ul> 
             <li *ngFor="let elemento of consulta_resultado">{{ elemento }}</li>
           </ul>
     

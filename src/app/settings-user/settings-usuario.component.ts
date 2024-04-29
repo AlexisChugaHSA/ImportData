@@ -14,6 +14,7 @@ import { DireccionService } from '../services/direccion.service';
 import { Empresa } from '../models/empresa';
 import { EmpresaService } from '../services/empresa.service';
 import { Usuario } from '../models/usuario';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -48,17 +49,19 @@ export class PerfilUsuarioComponent {
     private _empresaService: EmpresaService,
     private _direccionService: DireccionService,
     private _personaService: PersonaService,
+    private localStorageService: LocalStorageService,
     private _route: ActivatedRoute,
     private _router: Router,
     private renderer: Renderer2
   ) {
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "",""),
+    this.usuario = new Usuario(0, "", "",""),
     this.persona = new Persona(0, 0, 0, 0, "", "", "", "");
     this.direccionP = new Direccion(0, 0, 0);
     this.direccionE = new Direccion(0, 0, 0);
     this.empresa = new Empresa(0,1,"", 0, "", "", "");
   }
   ngOnInit() {
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     console.log("Perfil Usuario esta funcionando")
     //Cargar paises
     this._paisService.getPaises().subscribe(

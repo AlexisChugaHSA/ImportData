@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PersonaService } from '../services/persona.service';
 import { Persona } from '../models/persona';
 import { Usuario } from '../models/usuario';
+import { UsuarioService } from '../services/usuario.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
 import  { ProductoUsuarioService } from '../services/producto_usuario.service';
@@ -15,8 +16,8 @@ import { PopupLogoutComponent } from '../popup-logout/popup-logout.component';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
-  public usuario: Usuario;
-  public persona!: Persona;
+  public usuario: Usuario= new Usuario(0, "", "", "");
+  public persona: Persona=new Persona(0,0,0,0,"","","","");
   public prodsUser: any = [];
   public productos: any = [];
  
@@ -24,15 +25,16 @@ export class MenuComponent {
     private _route:ActivatedRoute,
     private _router: Router,
     private dialog: MatDialog,
+    private _userService: UsuarioService,
     private localStorageService: LocalStorageService,
     private _personaService: PersonaService,
     private _produserService: ProductoUsuarioService,
     private _productoService:ProductoService
   ){
-    this.usuario = new Usuario(45, "alexischuga12345@gmail.com", "", "");
-    this.persona=new Persona(0,0,0,0,"","","","");
+
   }
   ngOnInit() {
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.obtenerDatos();
 
   }

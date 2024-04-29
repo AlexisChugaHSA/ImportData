@@ -7,6 +7,7 @@ import { GLOBAL } from '../services/global.service';
 import { AuthService } from '../services/login.service'; 
 import { UserLogService } from '../services/userLog.service';
 import { AuthGuard } from '../services/auth.guard';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent {
     private _userLogService:UserLogService,
     private _authguard:AuthGuard,
     private _route:ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private localStorageService: LocalStorageService
   ){
     this.user=new Usuario(0,"","","");
   }
@@ -37,9 +39,10 @@ export class LoginComponent {
         console.log(result);
         this.login=result;
         console.log(this.login.mensaje);
+        this.localStorageService.set('id_usuario',this.login.id_usuario);
         if(this.login.mensaje==="OKSI"){
           this._authguard.bandera=true;
-          this._router.navigate(['/dashboard']);
+          this._router.navigate(['/home']);
           this._userLogService.setUser(this.user);
           }
         else if(this.login.mensaje==="TK"){
@@ -55,16 +58,17 @@ export class LoginComponent {
         console.log(error)
       }  ) 
   }
-  onSubmit(){
-    console.log(this.user);
+  loginUsuario(){
     this._authService.loginUsuario(this.user).subscribe(
       result =>{
         console.log(result);
         this.login=result;
+        this.localStorageService.set('id_usuario',this.login.id_usuario);
+        //console.log(this.localStorageService.get('id_usuario'))
         console.log(this.login.mensaje);
         if(this.login.mensaje==="OK"){
           this._userLogService.setUser(this.user)
-          this._router.navigate(['/dashboard']);}
+          this._router.navigate(['/home']);}
         else if(this.login.mensaje==="TK"){
           this.mensajeAlert=this.mensajeTokenUsado;
           this.bandera=true;

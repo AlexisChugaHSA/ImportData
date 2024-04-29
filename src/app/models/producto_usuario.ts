@@ -7,7 +7,6 @@ export class ProductoUsuario{
         public id_pago:number,
         public activo:number,
         public precio:number,
-        public fecha:string,
         public periodo:number
     ){
 
