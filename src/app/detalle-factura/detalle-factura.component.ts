@@ -12,13 +12,14 @@ import { PaisService } from '../services/pais.service';
 import { CiudadService } from '../services/ciudad.service';
 import { Direccion } from '../models/direccion';
 import { DireccionService } from '../services/direccion.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Factura } from '../models/factura';
 import { ProductoService } from '../services/producto.service';
 import { Pago } from '../models/pago';
 import { PagoService } from '../services/pago.service';
 import { MembresiaService } from '../services/membresia.service';
 import { Membresia } from '../models/membresia';
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-detalle-factura',
@@ -41,8 +42,11 @@ export class DetalleFacturaComponent {
   public membresia!: Membresia;
   public periodo = "";
   public total = 0;
+  public login=false
 
   constructor(
+    private authService: AuthService,
+    private _router: Router,
     private route: ActivatedRoute,
     private _pagoService: PagoService,
     private _personaService: PersonaService,
@@ -55,6 +59,19 @@ export class DetalleFacturaComponent {
     private _productoService: ProductoService,
     private _membresiaService: MembresiaService
   ) {
+    this.authService.getIsLoggedIn().subscribe(
+      result => {
+        let mensaje=result
+        this.login=mensaje.login;
+        console.log(mensaje.login)
+      },
+      error => {
+        this._router.navigate(['/login'])
+        console.log(error)
+        this.login=false;
+        
+      })
+
   }
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');

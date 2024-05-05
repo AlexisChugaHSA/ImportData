@@ -15,6 +15,8 @@ import { Empresa } from '../models/empresa';
 import { EmpresaService } from '../services/empresa.service';
 import { Usuario } from '../models/usuario';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -41,8 +43,10 @@ export class PerfilUsuarioComponent {
   public empresa!: Empresa;
   public mensaje!: any;
   public mensajeAlert:string = "";
+  public login:boolean=false;
 
   constructor(
+    private authService: AuthService,
     private _usuarioService: UsuarioService,
     private _paisService: PaisService,
     private _ciudadService: CiudadService,
@@ -54,6 +58,18 @@ export class PerfilUsuarioComponent {
     private _router: Router,
     private renderer: Renderer2
   ) {
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
     this.usuario = new Usuario(0, "", "",""),
     this.persona = new Persona(0, 0, 0, 0, "", "", "", "");
     this.direccionP = new Direccion(0, 0, 0);

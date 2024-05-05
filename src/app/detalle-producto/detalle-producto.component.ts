@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from '../services/producto.service';
 import { Producto } from '../models/producto';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-detalle-producto',
@@ -14,10 +16,27 @@ export class DetalleProductoComponent {
   public producto!:Producto;
   public productos_carrito:any=[];
   public num_productos!:number;
+  public login=false;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private authService: AuthService,
+    private _router: Router,
+    private route: ActivatedRoute,
     private _productoService:ProductoService,
-    private localStorageService: LocalStorageService) {}
+    private localStorageService: LocalStorageService) {
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
+    }
 
   
   addToCar(){

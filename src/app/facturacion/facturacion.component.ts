@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PagoService } from '../services/pago.service';
 import { FacturaService } from '../services/factura.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Empresa } from '../models/empresa';
 import { Usuario } from '../models/usuario';
 import { Persona } from '../models/persona';
@@ -14,6 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupPagoComponent } from '../popup-pago/popup-pago.component';
 import { PopupCancelarPagoComponent } from '../popup-cancelar-pago/popup-cancelar-pago.component';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-factracion',
@@ -28,8 +30,12 @@ export class FacturacionComponent {
   public pago!:Pago;
   public persona!: Persona;
   public empresa!:Empresa;
+  public login=false;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private authService:AuthService,
+    private _router: Router,
+    private route: ActivatedRoute,
     private _pagoService: PagoService,
     private _personaService: PersonaService,
     private dialog: MatDialog,
@@ -37,7 +43,18 @@ export class FacturacionComponent {
     private _empresaService: EmpresaService,
     private _detfactService: DetalleFacturaService,
     private _facturaService: FacturaService){
-
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
 
   }
   ngOnInit() {

@@ -7,6 +7,8 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { PersonaService } from '../services/persona.service';
 import { Persona } from '../models/persona';
 import { Usuario } from '../models/usuario';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-productos',
@@ -21,12 +23,26 @@ export class ProductosComponent {
   public categorias: string[] = [];
   public productos_carrito:any;
   public num_productos!:number;
+  public login=false;
   constructor(
+    private authService: AuthService,
     private _productoService:ProductoService,
     private _route:ActivatedRoute,
     private _router: Router,
     private localStorageService: LocalStorageService
   ){
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
     this.usuario = new Usuario(0, "", "", "");
   }
 

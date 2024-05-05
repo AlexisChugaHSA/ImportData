@@ -4,6 +4,8 @@ import { Usuario } from '../models/usuario';
 import { Router,ActivatedRoute, Params } from '@angular/router';
 import { ProductoService } from '../services/producto.service';
 import { ProductoUsuarioService } from '../services/producto_usuario.service';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -18,16 +20,32 @@ export class HomeComponent {
   public otrosProductos: any = [];
   public num_productos!:number;
   public usuario!: Usuario;
+  public login=false;
+
   constructor(
+    private authService: AuthService,
     private _productoService:ProductoService,
     private _route:ActivatedRoute,
     private _router: Router,
     private localStorageService: LocalStorageService,
     private _produserService: ProductoUsuarioService,
   ){
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
     this.usuario = new Usuario(0, "", "", "");
   }
   ngOnInit() {
+
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.getCarrito();
     this.obtenerDatos();

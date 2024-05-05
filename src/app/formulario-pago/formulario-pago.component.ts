@@ -22,6 +22,8 @@ import { DetalleFactura } from '../models/detalle_factura';
 import { MetodoPago } from '../models/metodo_pago';
 import { ProductoUsuario } from '../models/producto_usuario';
 import { LogProductoUsuario } from '../models/log_producto_usuario';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-formulario-pago',
@@ -50,8 +52,11 @@ export class FormularioPagoComponent {
   public detalle_factura!: DetalleFactura;
   public prod_users: any = [];
   public iva=0.12;
+  public login=false;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
     private _router: Router,
     private _usuarioService: UsuarioService,
     private dialog: MatDialog,
@@ -65,6 +70,18 @@ export class FormularioPagoComponent {
     private renderer: Renderer2,
     private _detalleFacturaService: DetalleFacturaService,
     private localStorageService: LocalStorageService) {
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
     this.usuario = new Usuario(0, "", "", "");
     this.metodo_pago = new MetodoPago(0, "", "");
     this.pago = new Pago(0, 0, 0, 0, 0, "", 0, 0, "",0,"");

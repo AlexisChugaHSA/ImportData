@@ -116,7 +116,7 @@ export class DashboardPricingComponent {
     this.getDataBarrasHorizontales2();
     this.getDataBarrasApiladas1();
     this.setDropDownListSettings();
-    this.getCategorias();
+   // this.getCategorias();
     this.getTiendas();
     this.getEmpresas();
     this.getHomologaciones();
@@ -124,7 +124,7 @@ export class DashboardPricingComponent {
     this.getProductos();
     this.getImportadores();
     this.getPrecios();
-    this.getMarcas();
+   // this.getMarcas();
   }
   dirigirDashboardImp(){
     this._router.navigate(['/home']).then(() =>
@@ -536,7 +536,7 @@ export class DashboardPricingComponent {
       }
     )
   }
-
+/*
   getMarcas(){
     this._marcasImpService.getMarcas().subscribe(
       result=>{
@@ -558,7 +558,7 @@ export class DashboardPricingComponent {
         console.log(<any>error)
       }
     )
-  }
+  }*/
 
   getEmpresas(){
     this._empresaImpService.getEmpresasImp().subscribe(

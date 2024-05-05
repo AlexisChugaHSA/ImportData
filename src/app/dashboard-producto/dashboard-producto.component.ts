@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AuthGuard } from '../services/auth.guard' ;
 import { Chart, ChartData, ChartType, registerables,CartesianScaleOptions} from 'chart.js/auto';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { SubCategoriaImpService } from '../services/categoria_imp.service';
@@ -24,6 +25,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort, Sort } from '@angular/material/sort';
+import { AuthService } from '../services/login.service';
+
 
 Chart.register(...registerables);
 Chart.register(ChartDataLabels);
@@ -92,6 +95,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public expandedElement_t1: PeriodicElement_t1 | null | undefined;
   public bandera_t1=false;
   public sortedDataT1:any=[];
+  public login:boolean=false;
 
 
   public dataSource_t2:any=[];
@@ -102,6 +106,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public sortedDataT2:any=[];
 
   constructor(
+    private authService:AuthService,
     private route: ActivatedRoute,
     private _router: Router,
     private _personaService: PersonaService,
@@ -120,6 +125,20 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     private _consultaImpService: ConsultaImpService,
     private renderer: Renderer2
   ){
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
+        console.log(this.login)
+  
     this.meses= [
       { id_mes: "01", mes: "enero" },
       { id_mes: "02", mes: "febrero" },
@@ -182,8 +201,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this.consultaImp.anio=[];
     this.getAnios();
     this.getCaracterísticas()
-    this.getCategorias();
-    this.getMarcas();
+    this.getCategorias(this.id);
+    this.getMarcas(this.id);
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
     //console.log(this.consultaImp);
@@ -1463,8 +1482,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     )
   }
 
-  getMarcas(){
-    this._marcasImpService.getMarcas().subscribe(
+  getMarcas(id:number){
+    this._marcasImpService.getMarcas(id).subscribe(
       result=>{
         //console.log(result);
         this.marcas_imp=result;
@@ -1474,8 +1493,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       }
     )
   }
-  getCategorias(){
-    this._subCategoriaImpService.getSubCategoriasImp().subscribe(
+  getCategorias(id:number){
+    this._subCategoriaImpService.getSubCategoriasImp(id).subscribe(
       result=>{
         //console.log(result);
         this.categorias_imp=result;

@@ -6,7 +6,8 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { MembresiaService } from '../services/membresia.service';
 import { Membresia } from '../models/membresia';
 import { CategoriaService } from '../services/categoria.service';
-
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 @Component({
   selector: 'app-orden-productos',
   templateUrl: './orden-productos.component.html',
@@ -25,15 +26,31 @@ export class OrdenProductosComponent {
   public total2 = 0;
   public total3 = 0;
   public total4 = 0;
+  public login=false;
 
 
-  constructor(private route: ActivatedRoute,
-    private router: Router,
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private _router: Router,
     private _productoService: ProductoService,
     private _membresiaService: MembresiaService,
     private _catService: CategoriaService,
 
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService) { 
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
+    }
 
   ngOnInit() {
     this.get_carrito();
@@ -76,7 +93,7 @@ export class OrdenProductosComponent {
   redirigir(total: number, membresia: Membresia) {
     this.localStorageService.set('total', total);
     this.localStorageService.set('membresia', membresia);
-    this.router.navigate(['formulario-pago'])
+    this._router.navigate(['formulario-pago'])
     console.log(total)
     console.log(membresia.tipo)
 

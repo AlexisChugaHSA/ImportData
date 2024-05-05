@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { GLOBAL } from './global.service';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 
 @Injectable({
@@ -9,8 +10,10 @@ import { GLOBAL } from './global.service';
 })
 export class UserLogService {
     public url!: string;
-    constructor(private _http: HttpClient) {
-        this.url = GLOBAL.url
+    private access_token!:string;
+    constructor(private _http: HttpClient,private localStorageService: LocalStorageService) {
+        this.url = GLOBAL.url;
+        this.access_token=this.localStorageService.get('token');
     }
     public user_login!: any;
 

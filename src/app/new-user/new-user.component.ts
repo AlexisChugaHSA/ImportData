@@ -13,6 +13,8 @@ import { Direccion } from '../models/direccion';
 import { DireccionService } from '../services/direccion.service';
 import { Empresa } from '../models/empresa';
 import { EmpresaService } from '../services/empresa.service';
+import { AuthGuard } from '../services/auth.guard' ;
+import { AuthService } from '../services/login.service';
 
 @Component({
   selector: 'app-new-user',
@@ -39,9 +41,11 @@ export class NewUserComponent {
   public direccionE2!: any;
   public empresa!: Empresa;
   public empresa2!: any;
+  public login=false;
 
 
   constructor(
+    private authService: AuthService,
     private _usuarioService: UsuarioService,
     private _paisService: PaisService,
     private _ciudadService: CiudadService,
@@ -52,6 +56,18 @@ export class NewUserComponent {
     private _router: Router,
     private renderer: Renderer2
   ) {
+      this.authService.getIsLoggedIn().subscribe(
+        result => {
+          let mensaje=result
+          this.login=mensaje.login;
+          console.log(mensaje.login)
+        },
+        error => {
+          this._router.navigate(['/login'])
+          console.log(error)
+          this.login=false;
+          
+        })
     this.user = new Usuario(0, "", "", "");
     this.persona = new Persona(0, 0, 0, 0, "", "", "", "");
     this.direccionP = new Direccion(0, 0, 0);

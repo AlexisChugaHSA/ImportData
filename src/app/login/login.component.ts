@@ -40,8 +40,10 @@ export class LoginComponent {
         this.login=result;
         console.log(this.login.mensaje);
         this.localStorageService.set('id_usuario',this.login.id_usuario);
+        this.localStorageService.set('token',this.login.token);
+        console.log(this.login.token);
         if(this.login.mensaje==="OKSI"){
-          this._authguard.bandera=true;
+         // this._authguard.bandera=true;
           this._router.navigate(['/home']);
           this._userLogService.setUser(this.user);
           }
@@ -61,9 +63,11 @@ export class LoginComponent {
   loginUsuario(){
     this._authService.loginUsuario(this.user).subscribe(
       result =>{
-        console.log(result);
+        
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
+        this.localStorageService.set('token',this.login.token);
+        console.log(this.login.token);
         //console.log(this.localStorageService.get('id_usuario'))
         console.log(this.login.mensaje);
         if(this.login.mensaje==="OK"){
