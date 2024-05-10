@@ -15,7 +15,7 @@ export class DetalleFacturaService {
 
 
   addDetFactura(detFactura:DetalleFactura){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(detFactura);
     let params=json;
     console.log(params)
@@ -23,6 +23,7 @@ export class DetalleFacturaService {
     return this._http.post(this.url+'detalle-factura',params,{headers})
   }
   getDetFactByIdFact(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'detalle-facturas-fact/'+id,{headers})
   }

@@ -13,11 +13,13 @@ export class TiendasImpService {
     this.access_token=this.localStorageService.get('token');
   }
   getTiendas(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'tiendas-imp',{headers})
   }
 
   getTienda(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'tiendas-imp/'+id,{headers})
   }

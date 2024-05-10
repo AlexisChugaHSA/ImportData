@@ -29,6 +29,19 @@ export class LoginComponent {
     private _router: Router,
     private localStorageService: LocalStorageService
   ){
+    this._authService.getIsLoggedIn().subscribe(
+      result => {
+        let mensaje=result
+        this.login=mensaje.login;
+        this._router.navigate(['/home'])
+        console.log(mensaje.login)
+      },
+      error => {
+        this._router.navigate(['/login'])
+        console.log(error)
+        this.login=false;
+        
+      })
     this.user=new Usuario(0,"","","");
   }
 
@@ -38,14 +51,15 @@ export class LoginComponent {
       result =>{
         console.log(result);
         this.login=result;
-        console.log(this.login.mensaje);
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
+        console.log(this.login.mensaje);
+
         console.log(this.login.token);
         if(this.login.mensaje==="OKSI"){
          // this._authguard.bandera=true;
           this._router.navigate(['/home']);
-          this._userLogService.setUser(this.user);
+          //this._userLogService.setUser(this.user);
           }
         else if(this.login.mensaje==="TK"){
           this.mensajeAlert=this.mensajeTokenUsado;
@@ -70,9 +84,10 @@ export class LoginComponent {
         console.log(this.login.token);
         //console.log(this.localStorageService.get('id_usuario'))
         console.log(this.login.mensaje);
-        if(this.login.mensaje==="OK"){
-          this._userLogService.setUser(this.user)
-          this._router.navigate(['/home']);}
+        if(this.login.mensaje==="OK" ){
+          this._router.navigate(['/home']);
+
+          }
         else if(this.login.mensaje==="TK"){
           this.mensajeAlert=this.mensajeTokenUsado;
           this.bandera=true;

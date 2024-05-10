@@ -16,7 +16,7 @@ export class UserLogService {
         this.access_token=this.localStorageService.get('token');
     }
     public user_login!: any;
-
+/*
     setUser(usuario: Usuario) {
         this._http.get(this.url + 'usuario/' + usuario.usuario).subscribe(
             result => {
@@ -24,7 +24,7 @@ export class UserLogService {
             })
 
         console.log(this.user_login)
-    }
+    }*/
     getUser() {
         return this.user_login;
     }

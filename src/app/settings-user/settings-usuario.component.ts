@@ -249,7 +249,7 @@ export class PerfilUsuarioComponent {
         setTimeout(() => {
           this.renderer.setStyle(alertP, 'display', 'none');
         }, 3000);
-      }, 0);
+      }, 0); 
     }
 
     guardarEmpresa(){
@@ -310,5 +310,15 @@ export class PerfilUsuarioComponent {
           this.bandera=true;
         }
     }
-
+    logout(){
+      this.authService.logout(this.usuario.id_usuario).subscribe(
+        result=>{
+            console.log(result);
+            this._router.navigate(['/login']);
+          },
+          error=> {
+            console.log(error)
+          }
+        )
+    }
   }

@@ -1,6 +1,8 @@
 import { Component, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {Sort, MatSortModule} from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupBienvenidaComponent } from '../popup-bienvenida/popup-bienvenida.component';
 
 
 
@@ -27,8 +29,9 @@ export class PruebasComponent {
 
   sortedData: Dessert[];
 
-  constructor() {
+  constructor(  private dialog: MatDialog) {
     this.sortedData = this.desserts.slice();
+    
   }
 
   sortData(sort: Sort) {

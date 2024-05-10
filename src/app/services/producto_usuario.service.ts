@@ -15,7 +15,7 @@ export class ProductoUsuarioService {
 
 
   addProdUser(pro_user:ProductoUsuario){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(pro_user);
     let params=json;
     console.log(params)
@@ -23,6 +23,7 @@ export class ProductoUsuarioService {
     return this._http.post(this.url+'producto-usuario',params,{headers})
   }
   getP_U(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'producto-usuario/'+id,{headers})
   }

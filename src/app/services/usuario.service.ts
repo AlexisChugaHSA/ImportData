@@ -14,12 +14,13 @@ export class UsuarioService {
     this.access_token=this.localStorageService.get('token');
   }
   getUsuarios(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'usuarios',{headers})
   }
 
   addUsuario(usuario:Usuario){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(usuario);
     let params=json;
     console.log(params)
@@ -28,11 +29,13 @@ export class UsuarioService {
   }
 
   getUsuario(id:string){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'usuario/'+id,{headers})
   }
   
   comprobarPassword(usuario:Usuario){
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(usuario);
     let params=json;
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
@@ -40,6 +43,7 @@ export class UsuarioService {
   }
 
   editUsuario(id:number, usuario:Usuario){
+    this.access_token=this.localStorageService.get('token');
    let json=JSON.stringify(usuario);
    let params=json;
    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
@@ -47,6 +51,7 @@ export class UsuarioService {
   }
 
   deleteUsuario(id:string){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
   return this._http.delete(this.url+'usuario/'+id,{headers});
   }

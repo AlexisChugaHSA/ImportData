@@ -13,6 +13,7 @@ export class SubCategoriaImpService {
     this.access_token=this.localStorageService.get('token')
   }
   getSubCategoriasImp(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'subcategorias-imp/'+id,{headers});
   }

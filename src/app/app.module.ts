@@ -79,6 +79,8 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { PopupBienvenidaComponent } from './popup-bienvenida/popup-bienvenida.component';
+import { PopupAgregarCarritoComponent } from './popup-agregar-carrito/popup-agregar-carrito.component';
 
 
 @NgModule({
@@ -148,6 +150,8 @@ export class DemoMaterialModule {}
     MenuComponent,
     DetalleFacturaComponent,
     PopupLogoutComponent,
+    PopupBienvenidaComponent,
+    PopupAgregarCarritoComponent,
     HomeComponent,
     PopupCancelarPagoComponent,
     DashboardProductoComponent,

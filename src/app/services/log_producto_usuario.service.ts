@@ -15,7 +15,7 @@ export class LogProductoUsuarioService {
 
 
   addLogProdUser(log_pro_user:LogProductoUsuario){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(log_pro_user);
     let params=json;
     console.log(params)

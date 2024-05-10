@@ -142,7 +142,8 @@ export class FormularioPagoComponent {
       this.guardarPago()
       this.openDialog();
       console.log(this.tarjetaVencida)
-      this._router.navigate(['/home']);
+      
+
     } else {
       this.tarjetaVencida = true;
       console.log(this.tarjetaVencida)
@@ -237,6 +238,10 @@ export class FormularioPagoComponent {
         console.log("Pago guardado")
         this.guardarFactura();
         this.gradarProductoUsuario();
+        this.localStorageService.set('Productos-Carrito','');
+        this._router.navigate(['/menu']).then(() =>
+          this._router.navigate(['/mis-productos']).then(() =>     
+          window.location.reload()))
       },
       error => {
         console.log(error)

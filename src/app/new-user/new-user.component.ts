@@ -15,6 +15,9 @@ import { Empresa } from '../models/empresa';
 import { EmpresaService } from '../services/empresa.service';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupBienvenidaComponent } from '../popup-bienvenida/popup-bienvenida.component';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-new-user',
@@ -46,6 +49,7 @@ export class NewUserComponent {
 
   constructor(
     private authService: AuthService,
+    private localStorageService: LocalStorageService,
     private _usuarioService: UsuarioService,
     private _paisService: PaisService,
     private _ciudadService: CiudadService,
@@ -54,20 +58,9 @@ export class NewUserComponent {
     private _personaService: PersonaService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dialog: MatDialog
   ) {
-      this.authService.getIsLoggedIn().subscribe(
-        result => {
-          let mensaje=result
-          this.login=mensaje.login;
-          console.log(mensaje.login)
-        },
-        error => {
-          this._router.navigate(['/login'])
-          console.log(error)
-          this.login=false;
-          
-        })
     this.user = new Usuario(0, "", "", "");
     this.persona = new Persona(0, 0, 0, 0, "", "", "", "");
     this.direccionP = new Direccion(0, 0, 0);
@@ -184,9 +177,14 @@ export class NewUserComponent {
                     console.log("Usuario registrado")
                     //agregar persona
                     console.log(this.persona);
+                    this.localStorageService.set('nombre_usuario',this.persona.nombre);
                     this._personaService.addPersona(this.persona).subscribe(
                       result => {
-                        this._router.navigate(['/login']);
+
+                          const dialogRef = this.dialog.open(PopupBienvenidaComponent);
+                          dialogRef.afterClosed().subscribe(() => {
+                            console.log('El mensaje emergente se cerró.');
+                          });
                         console.log("Persona registrada")
                       },
                       error => {

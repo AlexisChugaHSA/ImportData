@@ -14,12 +14,13 @@ export class DireccionService {
     this.access_token=this.localStorageService.get('token');
   }
   getDirecciones(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'direcciones',{headers})
   }
 
   addDireccion(direccion:Direccion){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(direccion);
     let params=json;
     console.log(params)
@@ -28,6 +29,7 @@ export class DireccionService {
   }
 
   getDireccion(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'direccion/'+id,{headers})
   }

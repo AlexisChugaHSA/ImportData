@@ -13,11 +13,13 @@ export class CategoriaService {
     this.access_token=this.localStorageService.get('token');
   }
   getCategorias(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'categorias',{headers})
   }
 
   getCat(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'categoria/'+id,{headers})
   }

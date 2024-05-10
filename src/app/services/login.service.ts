@@ -36,9 +36,12 @@ export class AuthService {
     return this._http.post(this.url+'login/si',params,{headers})
   }
   getIsLoggedIn():any{
-    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
+    this.access_token=this.localStorageService.get('token');
+    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
+    console.log(headers)
     return this._http.get(this.url+'usuario-logueado',{headers});
   }
+  /*
   isLogin(): boolean {
     this.getIsLoggedIn().subscribe(
       result => {
@@ -51,13 +54,16 @@ export class AuthService {
       })
       return this.bandera;
       
-  }
+  }*/
 
-  logout() {
-    // Aquí se realizaría el proceso de cierre de sesión
-    // Una vez cerrada la sesión, se llama a la función setLoggedIn
-    this.setLoggedIn(false);
+  logout(id: number) {
+    this.access_token=this.localStorageService.get('token');
+    let cabecera = new HttpHeaders({'Authorization': 'Bearer ' + this.access_token});
+    console.log('Bearer ' + this.access_token);
+    let opciones = { headers: cabecera }; // Opciones con el objeto de cabecera
+    return this._http.post(this.url + 'logout/' + id, {}, opciones); // Pasar las opciones en el tercer parámetro
   }
+  
 
 
   setLoggedIn(value: boolean) {

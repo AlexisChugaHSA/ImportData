@@ -14,12 +14,13 @@ export class PersonaService {
     this.access_token=this.localStorageService.get('token');
   }
   getPersonas(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'personas',{headers})
   }
 
   addPersona(persona:Persona){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(persona);
     let params=json;
     console.log(params)
@@ -28,15 +29,19 @@ export class PersonaService {
   }
 
   getPersona(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'persona/'+id,{headers})
   }
   getPersonaByUser(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
+    console.log(headers)
     return this._http.get(this.url+'persona-by-user/'+id,{headers})
   }
 
   editPersona(id:number, persona:Persona){
+    this.access_token=this.localStorageService.get('token');
    let json=JSON.stringify(persona);
    let params=json;
    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
@@ -44,6 +49,7 @@ export class PersonaService {
   }
 
   deletePersona(id:string){
+    this.access_token=this.localStorageService.get('token');
   let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
   return this._http.delete(this.url+'persona/'+id,{headers});
   }

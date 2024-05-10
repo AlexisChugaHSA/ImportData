@@ -13,12 +13,13 @@ export class EmpresaService {
     this.access_token=this.localStorageService.get('token');
   }
   getEmpresas(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'empresas',{headers})
   }
 
   addEmpresa(empresa:Empresa){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(empresa);
     let params=json;
     console.log(params)
@@ -27,11 +28,13 @@ export class EmpresaService {
   }
 
   getEmpresa(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'empresa/'+id,{headers})
   }
 
   editEmpresa(id:number, empresa:Empresa){
+  this.access_token=this.localStorageService.get('token');
    let json=JSON.stringify(empresa);
    let params=json;
    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});

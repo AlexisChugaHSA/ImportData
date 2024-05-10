@@ -13,12 +13,13 @@ export class MembresiaService {
     this.access_token=this.localStorageService.get('token');
   }
   getMembresias(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'membresias',{headers})
   }
 
   addMembresia(membresia:Membresia){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(membresia);
     let params=json;
     console.log(params)
@@ -27,6 +28,7 @@ export class MembresiaService {
   }
 
   getMembresia(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'membresia/'+id,{headers})
   }

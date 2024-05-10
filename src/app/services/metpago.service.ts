@@ -15,6 +15,7 @@ export class EMetPagoService {
 
 
   addMetPago(metPago:MetodoPago){
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(metPago);
     let params=json;
     console.log(params)

@@ -64,13 +64,13 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public importaciones_imp!: any;
   public importadores_imp!: any;
 
-  public marcas_imp!: any;
+  public marcas_imp: any=[];
   public consulta_resultado!: any;
   public consultaImp=new ConsultaImp(0,[],[],[],[],[],[],[]);
 
   dropdownSettings!: IDropdownSettings;
   dropdownList !: any;
-  selectedItems !: any;
+  selectedAnios !: any;
   dropdownSettings_anio!: IDropdownSettings;
   dropdownSettings_mes!: IDropdownSettings;
   dropdownSettings_caracteristica!: IDropdownSettings;
@@ -104,6 +104,12 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public expandedElement_t2: PeriodicElement_t2 | null | undefined;
   public bandera_t2=false;
   public sortedDataT2:any=[];
+  public total_unidades_t1=0;
+  public total_fob_t1=0;
+  public total_unidades_t2=0;
+  public total_fob_t2=0;
+
+  public bandera_IFU=false;
 
   constructor(
     private authService:AuthService,
@@ -197,8 +203,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           arrayAnios.push(max_año - i);
     }
     this.consultaImp.anio=arrayAnios;
+    //this.consultaImp.mes=this.meses.map(mes => mes.id_mes);
     this.getDatosDashboard(this.consultaImp);
-    this.consultaImp.anio=[];
     this.getAnios();
     this.getCaracterísticas()
     this.getCategorias(this.id);
@@ -332,8 +338,9 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
               this.getDatosDashboard(this.consultaImp);
           }
 }};
+
     const data: ChartData<'bar' | 'line'> = {
-      labels: resultado.map(item => item.anio),
+      labels: resultado.map(item => parseInt(item.anio)),
       datasets: [
         {
           label: 'Unidades',
@@ -382,9 +389,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         },
 
       ],
+      
     };
-  
+    
     this.barras_verticales = new Chart('chartBarrasVerticales', {
+
       type: 'scatter', // Tipo principal del gráfico
       data,
       options: {
@@ -422,7 +431,9 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 display: true,
                 text: 'Año'
               },
-          },
+              ticks: {
+                //stepSize:1,
+          }},
           'fob':{
             border: {
               dash: [2,4],
@@ -465,6 +476,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
         onClick: onClickHandler,
       }
     });
+    
   }
   
 
@@ -965,7 +977,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     const mesesUnicos = Array.from(new Set(resultado.map(item => item.mes)));
     const marcasUnicas = Array.from(new Set((resultado as { nombre_marca: string }[]).map(item => item.nombre_marca))).sort((a, b) => a.localeCompare(b));
     const datasets2: any=[];
-    const meses= this.meses.map(mes => mes.mes);
+    const meses=this.meses.map(mes=> mes.mes)
+    //const meses= this.consultaImp.mes.map(id => this.meses.find(mes => mes.id_mes === id)?.mes);
     const data2:any=[];
       for (let i = 0; i < marcasUnicas.length; i++) {
         const data2:any=[];
@@ -998,6 +1011,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       options:{
         scales:{
           x:{
+            //offset: true,
           grid:{
             display:false
           },},
@@ -1039,6 +1053,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   }
   /***------------------------TABLAS-------------------------------------------------------- */
   getTablaCaracteristicaXMarcaT1(resultado:any){
+
     this.dataSource_t1=[];
     for (const marca in resultado) {
       if (resultado.hasOwnProperty(marca)) {
@@ -1058,6 +1073,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           fob: marcaInfo.total_fob,
           caracteristicas: []
         };
+        this.total_fob_t1+=marcaInfo.total_fob;
+        this.total_unidades_t1+=elemento.unidades;
         for (const caracteristica of marcaInfo.carcateristicas) {
           var caract_elemento: {
             caracteristica: string;
@@ -1097,6 +1114,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           fob: importadorInfo.total_fob,
           marcas: []
         };
+        this.total_fob_t2+=importadorInfo.total_fob;
+        this.total_unidades_t2+=elemento.unidades;
         for (const marca of importadorInfo.marcas) {
           var marca_elemento: {
             marca: string;
@@ -1241,10 +1260,14 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       { item_id: 4, item_text: 'Navsari' },
       { item_id: 5, item_text: 'New Delhi' }
     ];
-    this.selectedItems = [
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' }
-    ];
+    
+    /*
+    this.selectedAnios = [
+      { anio: '2024' },
+      { anio: '2023' },
+      { anio: '2022' },
+      { anio: '2021' }
+    ];*/
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'item_id',
@@ -1401,6 +1424,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getDatosImportacionesXFob(consulta).subscribe(
       result3=>{
         //console.log(result3);
+        this.bandera_IFU=true;
         this.getDataBarrasVerticales(result3);
       },
       error=>{
@@ -1614,7 +1638,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getAnios(this.id).subscribe(
       result=>{
         this.anios=result;
-
+        let size=this.anios.length;
+        this.selectedAnios = size > 0 ? [this.anios[size-1],this.anios[size-2],this.anios[size-3],this.anios[size-4]] : [];
       },
       error=>{
         //console.log(<any>error)

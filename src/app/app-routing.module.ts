@@ -21,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardProductoComponent } from './dashboard-producto/dashboard-producto.component';
 import { PruebasImpComponent } from './pruebas-imp/pruebas-imp.component';
 import { DashboardPricingComponent } from './dashboard-pricing/dashboard-pricing.component';
+import { PopupBienvenidaComponent } from './popup-bienvenida/popup-bienvenida.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -43,7 +44,8 @@ const routes: Routes = [
   {path: 'formulario-pago',component: FormularioPagoComponent},
   {path: 'menu',component:MenuComponent},
   {path: 'detalle-factura/:id',component:DetalleFacturaComponent},
-  {path: 'pruebas-imp',component:PruebasImpComponent}
+  {path: 'pruebas-imp',component:PruebasImpComponent},
+  {path: 'bienvenida',component:PopupBienvenidaComponent}
 ];
 
 @NgModule({

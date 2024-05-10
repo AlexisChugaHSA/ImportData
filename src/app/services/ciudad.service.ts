@@ -13,14 +13,17 @@ export class CiudadService {
     this.access_token=this.localStorageService.get('token');
   }
   getCiudades(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'ciudades',{headers})
   }
   getCiudadesP(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'ciudades/'+id,{headers})
   }
   getCiudad(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'ciudad/'+id,{headers})
   }

@@ -24,6 +24,7 @@ export class ProductosComponent {
   public productos_carrito:any;
   public num_productos!:number;
   public login=false;
+  
   constructor(
     private authService: AuthService,
     private _productoService:ProductoService,
@@ -38,7 +39,7 @@ export class ProductosComponent {
           console.log(mensaje.login)
         },
         error => {
-          this._router.navigate(['/login'])
+          //this._router.navigate(['/login'])
           console.log(error)
           this.login=false;
           
@@ -64,7 +65,7 @@ export class ProductosComponent {
 
   ngOnInit(){
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
-    console.log("Productos funcionando")
+    console.log("usuario" +this.usuario.id_usuario)
     this._productoService.getProductos().subscribe(
       result=>{
         console.log(result)

@@ -13,11 +13,13 @@ export class HomologacionImpService {
     this.access_token=this.localStorageService.get('token');
   }
   getHomologaciones(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'homologacion-imp',{headers});
   }
 
   getHomologacion(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'homologacion-imp/'+id,{headers});
   }

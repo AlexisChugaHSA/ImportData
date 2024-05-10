@@ -13,11 +13,13 @@ export class ProductosImpService {
     this.access_token=this.localStorageService.get('token');
   }
   getProductos(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'productos-imp',{headers})
   }
 
   getProducto(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'productos-imp/'+id,{headers})
   }

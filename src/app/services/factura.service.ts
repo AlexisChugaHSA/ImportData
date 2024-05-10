@@ -14,7 +14,7 @@ export class FacturaService {
   }
 
   addFactura(factura:Factura){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(factura);
     let params=json;
     console.log(params)
@@ -22,15 +22,18 @@ export class FacturaService {
     return this._http.post(this.url+'facturacion',params,{headers})
   }
   getFacturas(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'facturacion',{headers})
   }
   getFactura(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'facturacion/'+id,{headers})
   }
 
   getFacturasByIdEmp(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'facturacionbyemp/'+id,{headers})
   }

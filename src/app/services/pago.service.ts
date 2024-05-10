@@ -13,12 +13,13 @@ export class PagoService {
     this.access_token=this.localStorageService.get('token');
   }
   getPagos(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'pagos',{headers});
   }
 
   addPago(pago:Pago){
-    
+    this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(pago);
     let params=json;
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
@@ -26,6 +27,7 @@ export class PagoService {
   }
 
   getPago(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'pago/'+id,{headers})
   }
@@ -35,6 +37,7 @@ export class PagoService {
     return this._http.get(this.url+'pagos-empresa/'+id,{headers})
   }
   putCancelPago(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.put(this.url+'cancelar-pago/'+id,{headers});
   }

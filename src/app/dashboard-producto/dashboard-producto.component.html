@@ -95,12 +95,12 @@
             </thead>
             <tr *ngIf="marcas_imp.length > 0">
                 <td style="padding: 20px; width: 230px; border: 1px solid black ">
-                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_anio" [data]="anios"
-                        (onSelect)="onItemSelectAnio($event)" (onSelectAll)="onSelectAllAnio($event)"
-                        (onDeSelect)="onItemDeSelectAnio($event)">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [(ngModel)]="selectedAnios"
+                        [settings]="dropdownSettings_anio" [data]="anios" (onSelect)="onItemSelectAnio($event)"
+                        (onSelectAll)="onSelectAllAnio($event)" (onDeSelect)="onItemDeSelectAnio($event)">
                     </ng-multiselect-dropdown>
                 </td>
-                <td></td>
+                <td></td><!--[(ngModel)]="meses" -->
                 <td style="padding: 20px; width: 230px; border: 1px solid black">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_mes" [data]="meses"
                         (onSelect)="onItemSelectMes($event)" (onSelectAll)="onSelectAllMes($event)"
@@ -153,11 +153,12 @@
            -->
             </tr>
         </table>
-            
-          
+
+
         <br>
-        <div class="col-lg-3 col-md-6 my-sm-auto ms-sm-auto mx-auto mt-3" >
-            <button  (click)="BtnBuscar()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+        <div class="col-lg-3 col-md-6 my-sm-auto ms-sm-auto mx-auto mt-3">
+            <button (click)="BtnBuscar()" class="btn  mb-0 mt-lg-auto w-100"
+                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                 <span class="btn-inner--icon"><i class="material-icons">search</i></span>
                 Buscar</button>
         </div>
@@ -203,34 +204,34 @@
                             <div class="card-header p-1"
                                 style=" background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Importaciones FOB - UNIDADES</div>
-                            <div class="card z-index-2  " style="background-color: white;">
-                                <canvas id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
-                            </div>
-                            <div style="display: none;" class="col-lg-12 col-md-4 ">
-                                <div class="card-header mt-4 p-1"
-                                    style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
-                                    Detalle de Importaciones</div>
-                                <div class="card z-index-2  ">
-
+                            <div  class="card z-index-2  " style="background-color: white; align-items: center;">
+                                    <img style="height: 50%; width: 50%;" *ngIf="!bandera_IFU" src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
+                                    <canvas  id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
                                 </div>
+                            <div  class="card z-index-2  " style="background-color: white;">
+                                
                             </div>
+                          
+
                         </div>
                         <div class="col-lg-6 col-md-4 ">
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - Unidades
                             </div>
-                            <div class="card z-index-2  ">
+                            <div class="card z-index-2  " style="max-height: 300px;">
+                                <img style=" margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_IFU" src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasHorizontales1">{{ barras_horizontales1 }}</canvas>
                             </div>
 
                         </div>
 
-                        <div class="col-lg-6 col-md-4 ">
+                        <div class="col-lg-6 col-md-4 " style="max-height: 400px;">
                             <div class="card-header  p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - FOB</div>
-                            <div class="card z-index-2  ">
+                            <div class="card z-index-2 " style="max-height: 300px;">
+                                <img style="margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_IFU" src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasHorizontales2">{{ barras_horizontales2 }}</canvas>
                             </div>
                         </div>
@@ -272,15 +273,17 @@
                             <div class="card z-index-2  ">
                                 <div style="height: 500px;" class="table-container" *ngIf="bandera_t1">
                                     <table style="height: 500px;" mat-table [dataSource]="sortedDataT1" matSort
-                                    (matSortChange)="sortDataT1($event)"
-                                        multiTemplateDataRows class="mat-elevation-z8">
+                                        (matSortChange)="sortDataT1($event)" multiTemplateDataRows
+                                        class="mat-elevation-z8">
                                         <!-- Marca Column -->
                                         <ng-container matColumnDef="marca">
                                             <th style="text-transform: uppercase; font-weight: bolder; margin-left: 50px; text-align: center;"
                                                 mat-header-cell *matHeaderCellDef>
                                                 Marca
                                             </th>
-                                            <td mat-cell *matCellDef="let element"><i class="material-icons text-dark text-xl">add</i>&nbsp;&nbsp;&nbsp;{{ element.marca }}</td>
+                                            <td mat-cell *matCellDef="let element"><i
+                                                    class="material-icons text-dark text-xl">add</i>&nbsp;&nbsp;&nbsp;{{
+                                                element.marca }}</td>
                                         </ng-container>
 
                                         <!-- FOB Column -->
@@ -290,7 +293,8 @@
                                                 FOB U$S
                                             </th>
                                             <td mat-cell *matCellDef="let element"
-                                                style="text-align: right; margin-left: 50px;" >$ {{ element.fob| number: '1.2-2' }}
+                                                style="text-align: right; margin-left: 50px;">$ {{ element.fob| number:
+                                                '1.2-2' }}
                                             </td>
                                         </ng-container>
 
@@ -301,48 +305,57 @@
                                                 Unidades
                                             </th>
                                             <td mat-cell *matCellDef="let element"
-                                                style="text-align: right; margin-left: 50px;" >{{ element.unidades| number: '1.2-2' }}
+                                                style="text-align: right; margin-left: 50px;">{{ element.unidades|
+                                                number: '1.2-2' }}
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="expandedDetail">
                                             <td mat-cell *matCellDef="let element" [attr.colspan]="4">
-                                              <div class="example-element-detail"
-                                                   [@detailExpand]="element == expandedElement_t1 ? 'expanded' : 'collapsed'">
-                                                <table mat-table [dataSource]="element.caracteristicas" class="mat-elevation-z8" style="background-color: rgba(245, 245, 245, 0.8)">
-                                                  <!-- Característica Column -->
-                                                  <ng-container matColumnDef="caracteristica">
-                                                    <th mat-header-cell *matHeaderCellDef> Característica </th>
-                                                    <td style="text-align: left; margin-left: 50px;" mat-cell *matCellDef="let caracteristica">
-                                                      {{ caracteristica.caracteristica }}
-                                                    </td>
-                                                  </ng-container>
-                                          
-                                                  <!-- FOB Column -->
-                                                  <ng-container matColumnDef="car_fob">
-                                                    <th mat-header-cell *matHeaderCellDef> FOB </th>
-                                                    <td style="text-align: right; margin-left: 50px;" mat-cell *matCellDef="let caracteristica">
-                                                      $ {{ caracteristica.car_fob| number: '1.2-2' }}
-                                                    </td>
-                                                  </ng-container>
-                                          
-                                                  <!-- Unidades Column -->
-                                                  <ng-container matColumnDef="car_unidades">
-                                                    <th mat-header-cell *matHeaderCellDef> Unidades </th>
-                                                    <td style="text-align: right; margin-left: 50px;" mat-cell *matCellDef="let caracteristica">
-                                                      {{ caracteristica.car_unidades| number: '1.2-2' }}
-                                                    </td>
-                                                  </ng-container>
-                                          
-                                                  <!-- Definición de las filas del detalle expandido -->
-                                                  <tr mat-row *matRowDef="let caracteristica; columns: ['caracteristica', 'car_fob', 'car_unidades']"></tr>
-                                                </table>
-                                              </div>
+                                                <div class="example-element-detail"
+                                                    [@detailExpand]="element == expandedElement_t1 ? 'expanded' : 'collapsed'">
+                                                    <table mat-table [dataSource]="element.caracteristicas"
+                                                        class="mat-elevation-z8"
+                                                        style="background-color: rgba(245, 245, 245, 0.8)">
+                                                        <!-- Característica Column -->
+                                                        <ng-container matColumnDef="caracteristica">
+                                                            <th mat-header-cell *matHeaderCellDef> Característica </th>
+                                                            <td style="text-align: left; margin-left: 50px;" mat-cell
+                                                                *matCellDef="let caracteristica">
+                                                                {{ caracteristica.caracteristica }}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- FOB Column -->
+                                                        <ng-container matColumnDef="car_fob">
+                                                            <th mat-header-cell *matHeaderCellDef> FOB </th>
+                                                            <td style="text-align: right; margin-left: 50px;" mat-cell
+                                                                *matCellDef="let caracteristica">
+                                                                $ {{ caracteristica.car_fob| number: '1.2-2' }}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- Unidades Column -->
+                                                        <ng-container matColumnDef="car_unidades">
+                                                            <th mat-header-cell *matHeaderCellDef> Unidades </th>
+                                                            <td style="text-align: right; margin-left: 50px;" mat-cell
+                                                                *matCellDef="let caracteristica">
+                                                                {{ caracteristica.car_unidades| number: '1.2-2' }}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- Definición de las filas del detalle expandido -->
+                                                        <tr mat-row
+                                                            *matRowDef="let caracteristica; columns: ['caracteristica', 'car_fob', 'car_unidades']">
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </td>
-                                          </ng-container>
+                                        </ng-container>
 
                                         <!-- Definición de las filas y el detalle expandido -->
                                         <tr mat-header-row *matHeaderRowDef="['marca', 'fob', 'unidades']"></tr>
+
                                         <tr mat-row *matRowDef="let element; columns: ['marca', 'fob', 'unidades']"
                                             class="example-element-row"
                                             [class.example-expanded-row]="expandedElement_t1 === element"
@@ -351,8 +364,23 @@
                                         <tr style="height: 0px;" mat-row
                                             *matRowDef="let row; columns: ['expandedDetail']"
                                             class="example-detail-row"></tr>
+
                                     </table>
-                                    
+                                </div>
+                                <div style="display: none;">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td
+                                                style="font-size: medium; font-weight: bold; color: black; margin-left: 50px; text-align: center; padding-left: 40px;">
+                                                TOTAL</td>
+                                            <td
+                                                style="font-size: medium; font-weight: bold; color: black;text-align: right; margin-left: 30px;">
+                                                $ {{total_fob_t1| number: '1.2-2'}}</td>
+                                            <td
+                                                style="font-size: medium; font-weight: bold; color: black; text-align: right; margin-left: 30px; padding-right: 10px;">
+                                                {{total_unidades_t1| number: '1.2-2'}}</td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -370,15 +398,17 @@
                             <div class="card z-index-2  ">
                                 <div style="height: 500px;" class="table-container" *ngIf="bandera_t2">
                                     <table style="height: 500px;" mat-table [dataSource]="sortedDataT2" matSort
-                                    (matSortChange)="sortDataT2($event)"
-                                        multiTemplateDataRows class="mat-elevation-z8">
+                                        (matSortChange)="sortDataT2($event)" multiTemplateDataRows
+                                        class="mat-elevation-z8">
                                         <!-- Marca Column -->
                                         <ng-container matColumnDef="importador">
                                             <th style="text-transform: uppercase; font-weight: bolder; margin-left: 0px; text-align: center;"
                                                 mat-header-cell *matHeaderCellDef>
                                                 Importador
                                             </th>
-                                            <td mat-cell *matCellDef="let element"><i class="material-icons text-dark text-xl">add</i>&nbsp;&nbsp;&nbsp;{{ element.importador }}</td>
+                                            <td mat-cell *matCellDef="let element"><i
+                                                    class="material-icons text-dark text-xl">add</i>&nbsp;&nbsp;&nbsp;{{
+                                                element.importador }}</td>
                                         </ng-container>
 
                                         <!-- FOB Column -->
@@ -388,7 +418,8 @@
                                                 FOB U$S
                                             </th>
                                             <td mat-cell *matCellDef="let element"
-                                                style="text-align: right; margin-left: 50px;" >$ {{ element.fob| number: '1.2-2' }}
+                                                style="text-align: right; margin-left: 50px;">$ {{ element.fob| number:
+                                                '1.2-2' }}
                                             </td>
                                         </ng-container>
 
@@ -399,45 +430,53 @@
                                                 Unidades
                                             </th>
                                             <td mat-cell *matCellDef="let element"
-                                                style="text-align: right; margin-left: 50px;" >{{ element.unidades| number: '1.2-2' }}
+                                                style="text-align: right; margin-left: 50px;">{{ element.unidades|
+                                                number: '1.2-2' }}
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="expandedDetail">
                                             <td mat-cell *matCellDef="let element" [attr.colspan]="4">
-                                              <div class="example-element-detail"
-                                                   [@detailExpand]="element == expandedElement_t2 ? 'expanded' : 'collapsed'">
-                                                <table mat-table [dataSource]="element.marcas" class="mat-elevation-z8" style="background-color: rgba(245, 245, 245, 0.8)">
-                                                  <!-- Característica Column -->
-                                                  <ng-container matColumnDef="marca">
-                                                    <th mat-header-cell *matHeaderCellDef> Marca </th>
-                                                    <td style="text-align: left; margin-left: 50px;" mat-cell *matCellDef="let marca">
-                                                      {{ marca.marca }}
-                                                    </td>
-                                                  </ng-container>
-                                          
-                                                  <!-- FOB Column -->
-                                                  <ng-container matColumnDef="mar_fob">
-                                                    <th mat-header-cell *matHeaderCellDef> FOB </th>
-                                                    <td style="text-align: right; margin-left: 50px;" mat-cell *matCellDef="let marca">
-                                                      $ {{ marca.mar_fob| number: '1.2-2' }}
-                                                    </td>
-                                                  </ng-container>
-                                          
-                                                  <!-- Unidades Column -->
-                                                  <ng-container matColumnDef="mar_unidades">
-                                                    <th mat-header-cell *matHeaderCellDef> Unidades </th>
-                                                    <td style="text-align: right; margin-left: 50px;" mat-cell *matCellDef="let marca">
-                                                      {{ marca.mar_unidades| number: '1.2-2' }}
-                                                    </td>
-                                                  </ng-container>
-                                          
-                                                  <!-- Definición de las filas del detalle expandido -->
-                                                  <tr mat-row *matRowDef="let marca; columns: ['marca', 'mar_fob', 'mar_unidades']"></tr>
-                                                </table>
-                                              </div>
+                                                <div class="example-element-detail"
+                                                    [@detailExpand]="element == expandedElement_t2 ? 'expanded' : 'collapsed'">
+                                                    <table mat-table [dataSource]="element.marcas"
+                                                        class="mat-elevation-z8"
+                                                        style="background-color: rgba(245, 245, 245, 0.8)">
+                                                        <!-- Característica Column -->
+                                                        <ng-container matColumnDef="marca">
+                                                            <th mat-header-cell *matHeaderCellDef> Marca </th>
+                                                            <td style="text-align: left; margin-left: 50px;" mat-cell
+                                                                *matCellDef="let marca">
+                                                                {{ marca.marca }}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- FOB Column -->
+                                                        <ng-container matColumnDef="mar_fob">
+                                                            <th mat-header-cell *matHeaderCellDef> FOB </th>
+                                                            <td style="text-align: right; margin-left: 50px;" mat-cell
+                                                                *matCellDef="let marca">
+                                                                $ {{ marca.mar_fob| number: '1.2-2' }}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- Unidades Column -->
+                                                        <ng-container matColumnDef="mar_unidades">
+                                                            <th mat-header-cell *matHeaderCellDef> Unidades </th>
+                                                            <td style="text-align: right; margin-left: 50px;" mat-cell
+                                                                *matCellDef="let marca">
+                                                                {{ marca.mar_unidades| number: '1.2-2' }}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- Definición de las filas del detalle expandido -->
+                                                        <tr mat-row
+                                                            *matRowDef="let marca; columns: ['marca', 'mar_fob', 'mar_unidades']">
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </td>
-                                          </ng-container>
+                                        </ng-container>
 
                                         <!-- Definición de las filas y el detalle expandido -->
                                         <tr mat-header-row *matHeaderRowDef="['importador', 'fob', 'unidades']"></tr>
@@ -450,7 +489,23 @@
                                             *matRowDef="let row; columns: ['expandedDetail']"
                                             class="example-detail-row"></tr>
                                     </table>
-                                    
+
+                                </div>
+
+                                <div style="display: none;">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td
+                                                style="font-size: medium; font-weight: bold; color: black; margin-left: 50px; text-align: center; padding-left: 40px;">
+                                                TOTAL</td>
+                                            <td
+                                                style="font-size: medium; font-weight: bold; color: black;text-align: right; margin-left: 30px;">
+                                                $ {{total_fob_t2| number: '1.2-2'}}</td>
+                                            <td
+                                                style="font-size: medium; font-weight: bold; color: black; text-align: right; margin-left: 30px; padding-right: 10px;">
+                                                {{total_unidades_t2| number: '1.2-2'}}</td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -476,12 +531,12 @@
             </div>
             Fuente: DATASUR
             <footer class="footer py-4  ">
-                
+
 
             </footer>
         </div>
     </main>
-   
+
 </body>
 
 </html>

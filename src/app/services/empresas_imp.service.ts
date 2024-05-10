@@ -13,11 +13,13 @@ export class EmpresasImpService {
     this.access_token=this.localStorageService.get('token');
   }
   getEmpresasImp(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'empresas-imp',{headers});
   }
 
   getEmpresaImp(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'empresas-imp/'+id,{headers});
   }

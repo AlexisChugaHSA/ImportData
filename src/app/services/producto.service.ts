@@ -14,6 +14,7 @@ export class ProductoService {
     this.access_token=this.localStorageService.get('token');
   }
   getProductos(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'productos',{headers})
   }
@@ -28,11 +29,13 @@ export class ProductoService {
   }
 */
   getProducto(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'producto/'+id,{headers})
   }
 
   getCatProd(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'categoria/'+id,{headers})
   }

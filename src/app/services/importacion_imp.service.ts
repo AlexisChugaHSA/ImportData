@@ -13,11 +13,13 @@ export class ImportacionImpService {
     this.access_token=this.localStorageService.get('token');
   }
   getImportaciones(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'importacion-imp',{headers})
   }
 
   getImportacion(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'importacion-imp/'+id,{headers})
   }

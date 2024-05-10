@@ -14,11 +14,13 @@ export class PaisService {
     this.access_token=this.localStorageService.get('token');
   }
   getPaises(){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'paises',{headers})
   }
 
   getPais(id:number){
+    this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'pais/'+id,{headers})
   }

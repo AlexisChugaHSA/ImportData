@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from '../services/producto.service';
 import { Producto } from '../models/producto';
@@ -21,6 +21,7 @@ export class DetalleProductoComponent {
   constructor(
     private authService: AuthService,
     private _router: Router,
+    private renderer: Renderer2,
     private route: ActivatedRoute,
     private _productoService:ProductoService,
     private localStorageService: LocalStorageService) {
@@ -31,7 +32,7 @@ export class DetalleProductoComponent {
           console.log(mensaje.login)
         },
         error => {
-          this._router.navigate(['/login'])
+          //this._router.navigate(['/login'])
           console.log(error)
           this.login=false;
           
@@ -46,6 +47,13 @@ export class DetalleProductoComponent {
     this.productos_carrito.push(this.producto);
     this.num_productos=this.productos_carrito.length;
     this.localStorageService.set('Productos-Carrito', this.productos_carrito);
+    setTimeout(() => {
+      const alertP= document.querySelector('#alertP');
+      this.renderer.setStyle(alertP, 'display', 'block');
+      setTimeout(() => {
+        this.renderer.setStyle(alertP, 'display', 'none');
+      }, 3000);
+    }, 0); 
   }}
 
   ngOnInit() {
