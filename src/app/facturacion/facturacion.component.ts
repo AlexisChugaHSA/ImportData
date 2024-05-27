@@ -16,6 +16,8 @@ import { PopupCancelarPagoComponent } from '../popup-cancelar-pago/popup-cancela
 import { LocalStorageService } from 'angular-2-local-storage';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+
 
 @Component({
   selector: 'app-factracion',
@@ -31,6 +33,7 @@ export class FacturacionComponent {
   public persona!: Persona;
   public empresa!:Empresa;
   public login=false;
+  public dialogRef1!:any;
 
   constructor(
     private authService:AuthService,
@@ -43,10 +46,17 @@ export class FacturacionComponent {
     private _empresaService: EmpresaService,
     private _detfactService: DetalleFacturaService,
     private _facturaService: FacturaService){
+      this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+          if(this.login){
+             console.log(mensaje.login)
+          }
+          else{
+             this._router.navigate(['/login'])
+          }
           console.log(mensaje.login)
         },
         error => {
@@ -122,6 +132,7 @@ export class FacturacionComponent {
         this.pagos=result;
         this.pagos=this.pagos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
         console.log(this.pagos);
+        this.dialogRef1.close();
       },
       error => {
         console.log(error)

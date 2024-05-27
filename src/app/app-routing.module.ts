@@ -22,9 +22,15 @@ import { DashboardProductoComponent } from './dashboard-producto/dashboard-produ
 import { PruebasImpComponent } from './pruebas-imp/pruebas-imp.component';
 import { DashboardPricingComponent } from './dashboard-pricing/dashboard-pricing.component';
 import { PopupBienvenidaComponent } from './popup-bienvenida/popup-bienvenida.component';
+import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
+import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
+import { CabeceraComponent } from './cabecera/cabecera.component';
+import { FooterComponent } from './footer/footer.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
+  {path: 'cabecera', component: CabeceraComponent},
+  {path: 'footer', component: FooterComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'dashboard2', component: Dashboard2Component  },
   {path: 'login', component: LoginComponent},
@@ -37,7 +43,7 @@ const routes: Routes = [
   {path: 'new-user', component: NewUserComponent},
   // {path: 'payment', component: PaymentComponent},
   //{path: 'membresias', component: MembresiasComponent},
-  {path: 'productos', component: ProductosComponent},
+  //{path: 'productos', component: ProductosComponent},
   {path: 'pruebas', component: PruebasComponent},
   {path: 'detalle-producto/:id', component: DetalleProductoComponent},
   {path: 'orden-productos', component: OrdenProductosComponent},
@@ -45,7 +51,9 @@ const routes: Routes = [
   {path: 'menu',component:MenuComponent},
   {path: 'detalle-factura/:id',component:DetalleFacturaComponent},
   {path: 'pruebas-imp',component:PruebasImpComponent},
-  {path: 'bienvenida',component:PopupBienvenidaComponent}
+  {path: 'bienvenida',component:PopupBienvenidaComponent},
+  {path: 'terminos-condiciones', component: TerminosCondicionesComponent},
+  {path: 'politicas-privacidad', component: PoliticasPrivacidadComponent}
 ];
 
 @NgModule({

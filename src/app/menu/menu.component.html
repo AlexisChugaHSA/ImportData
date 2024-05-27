@@ -66,14 +66,14 @@
             <li class="nav-item mb-2 mt-0">
                 <a class="nav-link text-white" aria-controls="ProfileNav" role="button"
                     [routerLink]="['/perfil-usuario']" aria-expanded="false">
-                    <img src="/assets/img/team-3.jpg" class="avatar">
-                    <span class="nav-link-text ms-2 ps-1">{{persona.nombre}} {{persona.apellido}}</span>
+                    <i class="material-icons cursor-pointer" style="font-size: 15px">person</i>
+                    <span class="nav-link-text ms-2 ps-0">{{persona.nombre}} {{persona.apellido}}</span>
                 </a>
 
             </li>
             <hr class="horizontal light mt-0">
             <li class="nav-item mb-2 mt-0">
-                <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/productos']"
+                <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/home']"
                     aria-expanded="false">
                     <i class="material-icons cursor-pointer" style="font-size: 15px">
                         shopping_cart
@@ -85,11 +85,18 @@
             <hr class="horizontal light mt-0">
             <li class="nav-item mb-2 mt-0">
                 <a class="nav-link text-white" aria-controls="ProfileNav" role="button" aria-expanded="false" href="/mis-productos">
+                    <i class="material-icons cursor-pointer" style="font-size: 15px">
+                    leaderboard
+                    </i>
                     <span class="nav-link-text ms-2 ps-0">Mis productos</span>
                 </a>
                 <ul *ngFor="let prod of productos"> <!-- Lista anidada para los subitems -->
-                    <li><a class="nav-link text-white" aria-controls="ProfileNav" role="button" (click)="dirigirDashboardImp(prod.id_producto)"
-                        aria-expanded="false">{{prod.nombre}}</a></li>
+                    <li ><a  class="nav-link text-white" aria-controls="ProfileNav" role="button" (click)="dirigirDashboardImp(prod.id_producto)"
+                        aria-expanded="false" style="font-size: 13px;    padding: 8px;">
+                        <i class="material-icons" style="font-size: 5px;padding: 0px; ">
+                            circle
+                        </i>
+                        {{prod.nombre}}</a></li>
                 </ul>
 
             </li>
@@ -98,6 +105,9 @@
             <li class="nav-item mb-2 mt-0">
                 <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/facturacion']"
                     aria-expanded="false">
+                    <i class="material-icons cursor-pointer" style="font-size: 15px">
+                    auto_stories
+                </i>
                     <span class="nav-link-text ms-2 ps-0">Facturacion y Pagos</span>
                 </a>
 

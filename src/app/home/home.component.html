@@ -91,17 +91,7 @@
                                         style="background-image: url(&quot;/assets/img/products/product-1-min.jpg&quot;);">
                                     </div>
                                 </div>
-                                <div class="card-body text-center">
-                                    <div class="d-flex mt-n6 mx-auto">
-                                        <a class="btn btn-link text-primary ms-auto border-0" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" title="Refresh">
-                                            <i class="material-icons text-lg">refresh</i>
-                                        </a>
-                                        <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" title="Edit">
-                                            <i class="material-icons text-lg">edit</i>
-                                        </button>
-                                    </div>
+                                <div class="card-body text-center">C
                                     <h5 class="font-weight-normal mt-3">
                                         <a href="javascript:;">{{producto.nombre}}</a>
                                     </h5>
@@ -116,7 +106,7 @@
                                     <p style="text-align: center;" class="font-weight-normal my-auto">
                                         {{producto.precio}}</p>
                                     <button style="margin-left: 137px;" class="btn bg-gradient-dark btn-sm  mt-4 mb-4"
-                                        [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
+                                        [routerLink]="['/dashboard-producto', producto.id_producto]">Ver Detalles</button>
                                 </div>
                             </div><br><br>
                         </div>

@@ -6,6 +6,8 @@ import { ProductoService } from '../services/producto.service';
 import { ProductoUsuarioService } from '../services/producto_usuario.service';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -18,9 +20,10 @@ export class HomeComponent {
   public todosProductos: any = [];
   public productos: any = [];
   public otrosProductos: any = [];
-  public num_productos!:number;
+  public num_productos=0;
   public usuario!: Usuario;
   public login=false;
+  public dialogRef!:any;
 
   constructor(
     private authService: AuthService,
@@ -29,11 +32,19 @@ export class HomeComponent {
     private _router: Router,
     private localStorageService: LocalStorageService,
     private _produserService: ProductoUsuarioService,
+    private dialog: MatDialog
   ){
+      this.dialogRef = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+          if(this.login){
+             console.log(mensaje.login)
+          }
+          else{
+             this._router.navigate(['/login'])
+          }
           console.log(mensaje.login)
         },
         error => {
@@ -75,6 +86,7 @@ export class HomeComponent {
         }
         console.log(this.productos)
         this.obtenerTodosProductos();
+        this.obtenerOtrosProductos();
       },
       error => {
         console.log(error)
@@ -86,7 +98,7 @@ export class HomeComponent {
       result=>{
         console.log(result)
         this.todosProductos=result
-        this.obtenerOtrosProductos();
+        this.dialogRef.close();
       },
       error=>{
         console.log(<any>error)
@@ -97,5 +109,10 @@ export class HomeComponent {
     this.otrosProductos=this.todosProductos.filter(itemA => {
       return !this.productos.some(itemB => itemB.id_producto === itemA.id_producto);
     });
+    console.log(this.otrosProductos.length);
+    console.log(this.todosProductos.length- this.productos.length)
+    if(this.otrosProductos.length==(this.todosProductos.length- this.productos.length)){
+
+    }
   }
 }

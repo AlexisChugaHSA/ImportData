@@ -16,10 +16,15 @@ export class PopupBienvenidaComponent {
     private authService: AuthService,
     private localStorageService: LocalStorageService,
     private _router: Router,
-    public dialogRef: MatDialogRef<PopupBienvenidaComponent>
+    public dialogRef: MatDialogRef<PopupBienvenidaComponent>,
+    private router: Router
   ) {
-    this.nombre_usuario=this.localStorageService.get('nombre_usuario')
+    this.nombre_usuario=this.localStorageService.get('nombre_usuario');
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.redirect();
+    });
   }
+
 
   closeDialog(): void {
     this.dialogRef.close();
@@ -27,6 +32,10 @@ export class PopupBienvenidaComponent {
   login(){
     this._router.navigate(['/login']);
     this.closeDialog()
+  }
+  redirect(): void {
+    this.dialogRef.close();
+    this.router.navigate(['/login']);
   }
 
   }

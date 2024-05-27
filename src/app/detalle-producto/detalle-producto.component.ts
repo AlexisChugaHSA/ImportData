@@ -5,6 +5,8 @@ import { Producto } from '../models/producto';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-detalle-producto',
@@ -15,8 +17,9 @@ export class DetalleProductoComponent {
   public id!:any;
   public producto!:Producto;
   public productos_carrito:any=[];
-  public num_productos!:number;
+  public num_productos=0;
   public login=false;
+  public dialogRef!:any;
 
   constructor(
     private authService: AuthService,
@@ -24,11 +27,19 @@ export class DetalleProductoComponent {
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private _productoService:ProductoService,
+    private dialog: MatDialog,
     private localStorageService: LocalStorageService) {
+      this.dialogRef = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+          if(this.login){
+             console.log(mensaje.login)
+          }
+          else{
+             this._router.navigate(['/login'])
+          }
           console.log(mensaje.login)
         },
         error => {
@@ -74,7 +85,7 @@ export class DetalleProductoComponent {
       this.num_productos=this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
-
+    this.dialogRef.close();
   }
 
   

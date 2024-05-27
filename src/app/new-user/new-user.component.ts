@@ -17,6 +17,7 @@ import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupBienvenidaComponent } from '../popup-bienvenida/popup-bienvenida.component';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
@@ -45,6 +46,7 @@ export class NewUserComponent {
   public empresa!: Empresa;
   public empresa2!: any;
   public login=false;
+  public bra_terminos=false;
 
 
   constructor(
@@ -152,6 +154,7 @@ export class NewUserComponent {
   }
   onSubmit() {
     //agregar direccion persona
+    const dialogRef1 = this.dialog.open(PopupCargandoComponent);
     this._direccionService.addDireccion(this.direccionP).subscribe(
       result => {
         this.direccionP2 = result
@@ -180,7 +183,7 @@ export class NewUserComponent {
                     this.localStorageService.set('nombre_usuario',this.persona.nombre);
                     this._personaService.addPersona(this.persona).subscribe(
                       result => {
-
+                          dialogRef1.close();
                           const dialogRef = this.dialog.open(PopupBienvenidaComponent);
                           dialogRef.afterClosed().subscribe(() => {
                             console.log('El mensaje emergente se cerró.');
@@ -208,6 +211,17 @@ export class NewUserComponent {
         console.log(error)
       })
 
+  }
+  checkConditions() {
+    const checkBox1 = document.getElementById('customCheck1') as HTMLInputElement;
+    const checkBox2 = document.getElementById('customCheck2') as HTMLInputElement;
+    const submitButton = document.getElementById('submitButton') as HTMLButtonElement;
+  
+    if (checkBox1.checked && checkBox2.checked) {
+      this.bra_terminos=true;
+    } else {
+      this.bra_terminos=false;
+    }
   }
 
   compararCon() {

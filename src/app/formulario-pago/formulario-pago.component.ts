@@ -24,6 +24,8 @@ import { ProductoUsuario } from '../models/producto_usuario';
 import { LogProductoUsuario } from '../models/log_producto_usuario';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+
 
 @Component({
   selector: 'app-formulario-pago',
@@ -33,9 +35,9 @@ import { AuthService } from '../services/login.service';
 export class FormularioPagoComponent {
   public tarjeta = new Tarjeta("", "", "", "", "");
   public tarjetaVencida = false;
-  public productos_carrito!: any;
-  public num_productos!: number;
-  public membresia!: Membresia;
+  public productos_carrito: any=[];
+  public num_productos=0;
+  public membresia=new Membresia('',0,0);
   public total!: number;
   public total2!: number;
   public periodo!: number;
@@ -53,6 +55,8 @@ export class FormularioPagoComponent {
   public prod_users: any = [];
   public iva=0.12;
   public login=false;
+  public dialogRef1!:any;
+  
 
   constructor(
     private authService: AuthService,
@@ -70,10 +74,17 @@ export class FormularioPagoComponent {
     private renderer: Renderer2,
     private _detalleFacturaService: DetalleFacturaService,
     private localStorageService: LocalStorageService) {
+      this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+          if(this.login){
+             console.log(mensaje.login)
+          }
+          else{
+             this._router.navigate(['/login'])
+          }
           console.log(mensaje.login)
         },
         error => {
@@ -94,8 +105,6 @@ export class FormularioPagoComponent {
   ngOnInit() {
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.get_carrito()
-    this.get_total()
-    this.obtenerDatos()
   }
 
   openDialog(): void {
@@ -135,6 +144,7 @@ export class FormularioPagoComponent {
 
   }
   subirDatos() {
+    this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
     if (this.validateFecha()) {
       this.tarjetaVencida = false;
       this.guardarMetPago();
@@ -148,20 +158,10 @@ export class FormularioPagoComponent {
       this.tarjetaVencida = true;
       console.log(this.tarjetaVencida)
     }
+    this.dialogRef1.close();
 
   }
 
-  mostrarForm() {
-    var checkbox = document.getElementById("customCheck1");
-    const form1 = document.querySelector('#formPago');
-    if ((checkbox as HTMLInputElement).checked) {
-      this.renderer.setStyle(form1, 'display', 'block');
-    } else {
-      // Ejecutar función cuando el checkbox está deseleccionado
-      this.renderer.setStyle(form1, 'display', 'none');
-    }
-
-  }
 
 
   get_carrito() {
@@ -171,7 +171,14 @@ export class FormularioPagoComponent {
       console.log(this.productos_carrito)
       this.num_productos = this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
+      this.get_total()
+      this.obtenerDatos()
     }
+    else{
+      this.dialogRef1.close();
+    }
+    
+    
   }
   get_total() {
     var subtotal = this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
@@ -199,11 +206,13 @@ export class FormularioPagoComponent {
       result => {
         this.persona = <Persona>result;
         console.log(this.persona)
+        this.dialogRef1.close();
       },
       error => {
         console.log(error)
+        this.dialogRef1.close();
       })
-
+      
   }
   guardarMetPago() {
     // Obtener los primeros y últimos tres dígitos

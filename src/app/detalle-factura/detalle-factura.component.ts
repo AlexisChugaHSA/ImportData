@@ -20,6 +20,9 @@ import { PagoService } from '../services/pago.service';
 import { MembresiaService } from '../services/membresia.service';
 import { Membresia } from '../models/membresia';
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-detalle-factura',
@@ -42,7 +45,8 @@ export class DetalleFacturaComponent {
   public membresia!: Membresia;
   public periodo = "";
   public total = 0;
-  public login=false
+  public login=false;
+  public dialogRef!:any;
 
   constructor(
     private authService: AuthService,
@@ -57,13 +61,22 @@ export class DetalleFacturaComponent {
     private _paisService: PaisService,
     private _ciudadService: CiudadService,
     private _productoService: ProductoService,
-    private _membresiaService: MembresiaService
+    private _membresiaService: MembresiaService,
+    private dialog: MatDialog,
+    private localStorageService: LocalStorageService
   ) {
+    this.dialogRef = this.dialog.open(PopupCargandoComponent);
     this.authService.getIsLoggedIn().subscribe(
       result => {
         let mensaje=result
         this.login=mensaje.login;
-        console.log(mensaje.login)
+        if(this.login){
+          console.log(mensaje.login)
+        }
+        else{
+          this._router.navigate(['/login'])
+        }
+        
       },
       error => {
         this._router.navigate(['/login'])
@@ -74,10 +87,13 @@ export class DetalleFacturaComponent {
 
   }
   ngOnInit() {
+    
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.id = this.route.snapshot.paramMap.get('id');
     this.obtenerDatosEmpresa();
     this.obtenerFactura();
     this.obtenerProductos();
+    
   }
 
   obtenerDatosEmpresa() {
@@ -103,6 +119,7 @@ export class DetalleFacturaComponent {
                   result => {
                     this.ciudadE = <Ciudad>result;
                     console.log(this.ciudadE);
+                    this.dialogRef.close();
                   }
                 )
               })

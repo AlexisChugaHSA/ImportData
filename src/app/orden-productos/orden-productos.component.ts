@@ -8,14 +8,17 @@ import { Membresia } from '../models/membresia';
 import { CategoriaService } from '../services/categoria.service';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-orden-productos',
   templateUrl: './orden-productos.component.html',
   styleUrls: ['./orden-productos.component.css']
 })
 export class OrdenProductosComponent {
-  public productos_carrito!: any;
-  public num_productos!: number;
+  public productos_carrito: any = [];
+  public num_productos=0;
   public membresia1!: Membresia;
   public membresia2!: Membresia;
   public membresia3!: Membresia;
@@ -27,6 +30,7 @@ export class OrdenProductosComponent {
   public total3 = 0;
   public total4 = 0;
   public login=false;
+  public dialogRef!:any;
 
 
   constructor(
@@ -36,12 +40,19 @@ export class OrdenProductosComponent {
     private _productoService: ProductoService,
     private _membresiaService: MembresiaService,
     private _catService: CategoriaService,
-
+    private dialog: MatDialog,
     private localStorageService: LocalStorageService) { 
+      this.dialogRef = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+          if(this.login){
+             console.log(mensaje.login)
+          }
+          else{
+             this._router.navigate(['/login'])
+          }
           console.log(mensaje.login)
         },
         error => {
@@ -68,6 +79,7 @@ export class OrdenProductosComponent {
                   result => {
                     this.membresia4 = <Membresia>result;
                     this.obtenerTotal()
+                    this.dialogRef.close();
                   }
                 )
               }
@@ -120,46 +132,7 @@ export class OrdenProductosComponent {
       }
     )
   }
-  get_membresias() {
-    this._membresiaService.getMembresia(1).subscribe(
-      result => {
-        console.log(result)
-        this.membresia1 = <Membresia>result;
 
-      },
-      error => {
-        console.log(<any>error)
-      }
-    )
-    this._membresiaService.getMembresia(2).subscribe(
-      result => {
-        console.log(result)
-        this.membresia2 = <Membresia>result;
-      },
-      error => {
-        console.log(<any>error)
-      }
-    )
-    this._membresiaService.getMembresia(3).subscribe(
-      result => {
-        console.log(result)
-        this.membresia3 = <Membresia>result;
-      },
-      error => {
-        console.log(<any>error)
-      }
-    )
-    this._membresiaService.getMembresia(4).subscribe(
-      result => {
-        console.log(result)
-        this.membresia4 = <Membresia>result;
-        this.obtenerTotal()
-      },
-      error => {
-        console.log(<any>error)
-      }
-    )
-  }
 
   eliminarProducto_Car(id: number) {
     const indice = this.productos_carrito.findIndex(producto => producto.id_producto === id);

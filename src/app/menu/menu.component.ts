@@ -56,10 +56,10 @@ export class MenuComponent {
           this._productoService.getProducto(prod.id_producto).subscribe(
             result=>{
               this.productos.push(result);
+              this.productos.sort((a, b) => a.nombre.localeCompare(b.nombre));
             }
           )
         }
-        console.log(this.productos)
       },
       error => {
         console.log(error)

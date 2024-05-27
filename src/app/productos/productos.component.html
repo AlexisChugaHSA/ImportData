@@ -75,7 +75,7 @@
           </ul>
           <ul *ngIf="!login" class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2">
-              <a [routerLink]="['/orden-productos']" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton"
+              <a [routerLink]="['/login']" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton"
                 data-bs-toggle="dropdown" aria-expanded="true">
                 <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2" >Iniciar sesión</button>
               </a>
@@ -102,16 +102,6 @@
                     style="background-image: url(&quot;/assets/img/products/product-1-min.jpg&quot;);"></div>
                 </div>
                 <div class="card-body text-center">
-                  <div class="d-flex mt-n6 mx-auto">
-                    <a class="btn btn-link text-primary ms-auto border-0" data-bs-toggle="tooltip"
-                      data-bs-placement="bottom" title="Refresh">
-                      <i class="material-icons text-lg">refresh</i>
-                    </a>
-                    <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip"
-                      data-bs-placement="bottom" title="Edit">
-                      <i class="material-icons text-lg">edit</i>
-                    </button>
-                  </div>
                   <h5 class="font-weight-normal mt-3">
                     <a href="javascript:;">{{producto.nombre}}</a>
                   </h5>

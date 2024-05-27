@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.ng-select .ng-dropdown-panel {
+    background-color: white;
+    color: black; /* Opcional: para asegurar que el texto sea legible */
+  }
+  
+  .ng-select .ng-dropdown-panel .ng-option {
+    background-color: white;
+    color: black; /* Opcional: para asegurar que el texto sea legible */
+  }
+  
+  .ng-select .ng-dropdown-panel .ng-option:hover {
+    background-color: #f1f1f1; /* Opcional: color de fondo al pasar el ratón */
+  }
+  

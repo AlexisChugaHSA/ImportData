@@ -8,6 +8,8 @@ import { AuthService } from '../services/login.service';
 import { UserLogService } from '../services/userLog.service';
 import { AuthGuard } from '../services/auth.guard';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +21,11 @@ export class LoginComponent {
   public login:any="";
   public bandera=false;
   public mensajeAlert="";
+  public tokenUsado=false;
   public mensajeNoEncontrado="EL usuario o la contraseña ingresados son incorrectos";
   public mensajeTokenUsado="Este usuario ha iniciado sesion en otra maquina. Desea ingresar en esta maquina?"
   constructor(
+    private dialog: MatDialog,
     private _authService:AuthService,
     private _userLogService:UserLogService,
     private _authguard:AuthGuard,
@@ -29,24 +33,38 @@ export class LoginComponent {
     private _router: Router,
     private localStorageService: LocalStorageService
   ){
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
     this._authService.getIsLoggedIn().subscribe(
       result => {
         let mensaje=result
         this.login=mensaje.login;
-        this._router.navigate(['/home'])
+        if(this.login){
+          console.log(mensaje.login)
+          dialogRef.close();
+          this._router.navigate(['/home'])
+         
+        }
+        else{
+          dialogRef.close();
+          this._router.navigate(['/login'])
+          
+        }
         console.log(mensaje.login)
       },
       error => {
+        dialogRef.close();
         this._router.navigate(['/login'])
         console.log(error)
         this.login=false;
         
       })
     this.user=new Usuario(0,"","","");
+    
   }
 
 
   ocultarMensajeCon(){
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
     this._authService.loginUsuarioSi(this.user).subscribe(
       result =>{
         console.log(result);
@@ -59,11 +77,14 @@ export class LoginComponent {
         if(this.login.mensaje==="OKSI"){
          // this._authguard.bandera=true;
           this._router.navigate(['/home']);
+          dialogRef.close();
           //this._userLogService.setUser(this.user);
           }
         else if(this.login.mensaje==="TK"){
           this.mensajeAlert=this.mensajeTokenUsado;
+          this.tokenUsado=true;
           this.bandera=true;
+          dialogRef.close()
         }
         else{
           this.mensajeAlert=this.mensajeNoEncontrado
@@ -75,6 +96,7 @@ export class LoginComponent {
       }  ) 
   }
   loginUsuario(){
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
     this._authService.loginUsuario(this.user).subscribe(
       result =>{
         
@@ -86,15 +108,18 @@ export class LoginComponent {
         console.log(this.login.mensaje);
         if(this.login.mensaje==="OK" ){
           this._router.navigate(['/home']);
-
+          dialogRef.close()
           }
         else if(this.login.mensaje==="TK"){
           this.mensajeAlert=this.mensajeTokenUsado;
+          this.tokenUsado=true;
           this.bandera=true;
+          dialogRef.close()
         }
         else{
           this.mensajeAlert=this.mensajeNoEncontrado
           this.bandera=true;
+          dialogRef.close()
         }
       },
       error=>{

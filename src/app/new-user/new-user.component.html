@@ -81,7 +81,7 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <form class="multisteps-form__form" #formP="ngForm" >
+                      <form class="multisteps-form__form" #formP="ngForm">
                         <!--single form panel-->
                         <div class="card-body">
                           <div class="multisteps-form__panel border-radius-xl bg-white js-active"
@@ -125,7 +125,7 @@
                                 <div class="input-group input-group-dynamic">
                                   <ng-select class="multisteps-form__input form-control" [items]="paises"
                                     [searchable]="true" [virtualScroll]="true" [bindValue]="'id_pais'"
-                                    [bindLabel]="'nombre'"  (change)="onCountryPSelectionChange($event)">
+                                    [bindLabel]="'nombre'" (change)="onCountryPSelectionChange($event)">
                                   </ng-select>
                                 </div>
                               </div>
@@ -147,11 +147,16 @@
                         </div>
                       </form>
                     </div>
-                  </div></div></div></div>
-                    <div class="row" id="form2">
-                      <div class="col-12 col-lg-8 m-auto">
-                        <div class="card">
-                          <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row" id="form2">
+              <div class="col-12 col-lg-8 m-auto">
+                <div class="card">
+                  <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div id="btn2" class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                       <div class="multisteps-form__progress">
                         <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
@@ -166,7 +171,7 @@
 
 
                     <div class="card-body">
-                      <form class="multisteps-form__form" #formP="ngForm" >
+                      <form class="multisteps-form__form" #formP="ngForm">
                         <!--single form panel-->
                         <div class="card-body">
                           <div class="multisteps-form__panel border-radius-xl bg-white js-active"
@@ -180,15 +185,15 @@
                             <div class="row mt-3">
                               <div class="col-12 col-sm-6">
                                 <div class="input-group input-group-dynamic">
-                                  <input class="multisteps-form__input form-control" placeholder="Identificacion de la empresa"
-                                    type="text" #nombre="ngModel" name="identificacion" [(ngModel)]="empresa.identificacion" />
+                                  <input class="multisteps-form__input form-control"
+                                    placeholder="Identificacion de la empresa" type="text" #nombre="ngModel"
+                                    name="identificacion" [(ngModel)]="empresa.identificacion" />
                                 </div>
                               </div>
                               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                 <div class="input-group input-group-dynamic">
-                                  <input class="multisteps-form__input form-control"
-                                    placeholder="Nombre de la empresa" type="text" #apellido="ngModel"
-                                    name="nombre" [(ngModel)]="empresa.nombre" />
+                                  <input class="multisteps-form__input form-control" placeholder="Nombre de la empresa"
+                                    type="text" #apellido="ngModel" name="nombre" [(ngModel)]="empresa.nombre" />
                                 </div>
                               </div>
                             </div>
@@ -240,27 +245,31 @@
                       </form>
 
                     </div>
-                          </div></div></div></div>
-                    <div class="row" id="form3">
-                      <div class="col-12 col-lg-8 m-auto">
-                        <div class="card">
-                          <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div id="btn3" class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                              <div class="multisteps-form__progress">
-                                <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
-                                  <span>Informacion Personal</span>
-                                </button>
-                                <button class="multisteps-form__progress-btn js-active" type="button"
-                                  title="Address">Empresa</button>
-                                <button class="multisteps-form__progress-btn js-active" type="button" title="Profile">Usuario</button>
-                              </div>
-                            </div>
-                    <div class="card-body" >
-                      <form class="multisteps-form__form"  #formP="ngForm">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="form3">
+              <div class="col-12 col-lg-8 m-auto">
+                <div class="card">
+                  <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div id="btn3" class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                      <div class="multisteps-form__progress">
+                        <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
+                          <span>Informacion Personal</span>
+                        </button>
+                        <button class="multisteps-form__progress-btn js-active" type="button"
+                          title="Address">Empresa</button>
+                        <button class="multisteps-form__progress-btn js-active" type="button"
+                          title="Profile">Usuario</button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form class="multisteps-form__form" #formP="ngForm">
                         <!--single form panel-->
-                        <div >
+                        <div>
                           <div class="multisteps-form__panel border-radius-xl bg-white js-active"
-                          data-animation="FadeIn">
+                            data-animation="FadeIn">
                             <h5 class="font-weight-bolder mb-0">About me</h5>
                             <p class="mb-0 text-sm">Mandatory informations</p>
 
@@ -272,41 +281,68 @@
                                 <div class="input-group input-group-dynamic">
                                   <input class="multisteps-form__input form-control" title="usuario"
                                     placeholder="Ingresa un usuario" type="text" #usuario="ngModel" name="usuario"
-                                    [(ngModel)]="user.usuario " disabled/>
+                                    [(ngModel)]="user.usuario " disabled />
                                 </div>
                               </div>
                               <div class="col-sm-6">
                                 <div class="input-group input-group-dynamic">
-                                  <input id="pass1" class="multisteps-form__input form-control" 
-                                    placeholder="Ingresa una contraseña" type="password" #password="ngModel" name="password"
-                                    [(ngModel)]="user.password" />
+                                  <input id="pass1" class="multisteps-form__input form-control"
+                                    placeholder="Ingresa una contraseña" type="password" #password="ngModel"
+                                    name="password" [(ngModel)]="user.password" />
                                 </div>
                               </div>
                               <div class=" col-sm-6">
                                 <div class="input-group input-group-dynamic">
-                                  <input id="pass2" class="multisteps-form__input form-control" 
+                                  <input id="pass2" class="multisteps-form__input form-control"
                                     placeholder="Repita su contraseña" type="password" name="rpassword"
                                     [(ngModel)]="rpassword" />
 
                                 </div>
 
                                 <div *ngIf="bandera">
-                                  <div class="alert alert-primary alert-dismissible text-white" role="alert" id="alerta">
+                                  <div class="alert alert-primary alert-dismissible text-white" role="alert"
+                                    id="alerta">
                                     <span class="text-sm">Las contraseñas no Coinciden.</span>
-                                    <button type="button" class="btn-close text-lg py-3 opacity-10" (click)="ocultarMensajeCon()" data-bs-dismiss="alert" aria-label="Close">
+                                    <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                      (click)="ocultarMensajeCon()" data-bs-dismiss="alert" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                   </div>
-                                
                                 </div>
+
+                              </div>
+                            </div>
+                            <br>
+                            <div style="text-align: left;">
+                              <div class="d-flex align-items-left">
+                                <div class="form-check">
+                                  <input style="transform: scale(2)" type="checkbox" id="customCheck1"
+                                    (click)="checkConditions()">
+                                </div>
+                                <h2 style="font-size: 20px;" class="text-md font-weight-bolder ms-2 mb-0">
+                                  &nbsp;&nbsp;<a href="/terminos-condiciones" target="_blank"
+                                    rel="noopener noreferrer">Aceptar términos y condiciones</a>
+                                </h2>
+                              </div>
+                            </div>
+                            <div style="text-align: left;">
+                              <div class="d-flex align-items-left">
+                                <div class="form-check">
+                                  <input style="transform: scale(2)" type="checkbox" id="customCheck2"
+                                    (click)="checkConditions()">
+                                </div>
+                                <h2 style="font-size: 20px;" class="text-md font-weight-bolder ms-2 mb-0">
+                                  &nbsp;&nbsp;<a href="/politicas-privacidad" target="_blank"
+                                    rel="noopener noreferrer">Aceptar políticas de privacidad</a>
+                                </h2>
                               </div>
                             </div>
 
-                            <div class="button-row d-flex mt-4" >
+                            <div class="button-row d-flex mt-4">
                               <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev"
-                              (click)="prevForm3()">Prev</button>
+                                (click)="prevForm3()">Prev</button>
                               <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" (click)="compararCon()"
-                                 title="Next" [disabled]="!user.password">Finalizar</button>
+                                title="Next" [disabled]="!user.password || !bra_terminos">Finalizar</button>
                             </div>
                           </div>
                         </div>

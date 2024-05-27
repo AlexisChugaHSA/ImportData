@@ -80,7 +80,12 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { PopupBienvenidaComponent } from './popup-bienvenida/popup-bienvenida.component';
-import { PopupAgregarCarritoComponent } from './popup-agregar-carrito/popup-agregar-carrito.component';
+import { PopupCargandoComponent } from './popup-cargando/popup-cargando.component';
+import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
+import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
+import { CabeceraComponent } from './cabecera/cabecera.component';
+import { FooterComponent } from './footer/footer.component';
+
 
 
 @NgModule({
@@ -122,6 +127,13 @@ import { PopupAgregarCarritoComponent } from './popup-agregar-carrito/popup-agre
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+  ],
+  declarations: [
+    PopupCargandoComponent,
+    TerminosCondicionesComponent,
+    PoliticasPrivacidadComponent,
+    CabeceraComponent,
+    FooterComponent
   ]
 })
 export class DemoMaterialModule {}
@@ -151,7 +163,6 @@ export class DemoMaterialModule {}
     DetalleFacturaComponent,
     PopupLogoutComponent,
     PopupBienvenidaComponent,
-    PopupAgregarCarritoComponent,
     HomeComponent,
     PopupCancelarPagoComponent,
     DashboardProductoComponent,

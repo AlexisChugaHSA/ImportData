@@ -9,6 +9,8 @@ import { Persona } from '../models/persona';
 import { Usuario } from '../models/usuario';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-productos',
@@ -22,7 +24,7 @@ export class ProductosComponent {
   public usuario!: Usuario;
   public categorias: string[] = [];
   public productos_carrito:any;
-  public num_productos!:number;
+  public num_productos=0;
   public login=false;
   
   constructor(
@@ -30,7 +32,8 @@ export class ProductosComponent {
     private _productoService:ProductoService,
     private _route:ActivatedRoute,
     private _router: Router,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private dialog: MatDialog
   ){
       this.authService.getIsLoggedIn().subscribe(
         result => {
@@ -39,10 +42,8 @@ export class ProductosComponent {
           console.log(mensaje.login)
         },
         error => {
-          //this._router.navigate(['/login'])
           console.log(error)
           this.login=false;
-          
         })
     this.usuario = new Usuario(0, "", "", "");
   }
@@ -64,12 +65,14 @@ export class ProductosComponent {
     }*/
 
   ngOnInit(){
+    const dialogRef1 = this.dialog.open(PopupCargandoComponent);
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     console.log("usuario" +this.usuario.id_usuario)
     this._productoService.getProductos().subscribe(
       result=>{
         console.log(result)
         this.productos=result
+        dialogRef1.close();
       },
       error=>{
         console.log(<any>error)
@@ -82,6 +85,7 @@ export class ProductosComponent {
       this.num_productos=this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
+    
   }
 
 

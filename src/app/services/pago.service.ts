@@ -38,8 +38,10 @@ export class PagoService {
   }
   putCancelPago(id:number){
     this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-    return this._http.put(this.url+'cancelar-pago/'+id,{headers});
+    console.log(this.access_token)
+    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
+    let opciones = { headers: headers };
+    return this._http.put(this.url+'cancelar-pago/'+id,{},opciones);
   }
 /*
   editPago(id:number, pago:Pago){

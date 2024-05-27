@@ -37,6 +37,7 @@
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.1" rel="stylesheet" />
 </head>
 
+
 <body class="bg-gray-200">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  mt-4">
@@ -44,6 +45,7 @@
     <h2 style="color: white;"> HSA - Import Data </h2> 
     </div>
   </nav>
+  
   <!-- End Navbar -->
   <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
@@ -85,8 +87,8 @@
                   <div *ngIf="bandera">
                     <div class="alert alert-primary alert-dismissible text-white" role="alert" id="alerta">
                       <span class="text-sm">{{mensajeAlert}}</span>
-                      <button type="button" class="btn-close text-lg py-3 opacity-10" (click)="ocultarMensajeCon()" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true" style="color: white; font-size: large;">SI</span>
+                      <button *ngIf="tokenUsado" type="button" class="btn-close text-lg py-3 opacity-10" (click)="ocultarMensajeCon()" data-bs-dismiss="alert" aria-label="Close">
+                        <span   aria-hidden="true" style="color: white; font-size: large;">SI</span>
                       </button>
                       
                     </div>

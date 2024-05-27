@@ -17,6 +17,8 @@ import { Usuario } from '../models/usuario';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -44,6 +46,7 @@ export class PerfilUsuarioComponent {
   public mensaje!: any;
   public mensajeAlert:string = "";
   public login:boolean=false;
+  public dialogRef!:any;
 
   constructor(
     private authService: AuthService,
@@ -56,12 +59,15 @@ export class PerfilUsuarioComponent {
     private localStorageService: LocalStorageService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dialog: MatDialog
   ) {
+      this.dialogRef = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+
           console.log(mensaje.login)
         },
         error => {
@@ -148,6 +154,7 @@ export class PerfilUsuarioComponent {
             this._ciudadService.getCiudadesP(this.direccionP.id_pais).subscribe(
               result => {
                 this.ciudadesP = result;
+                this.dialogRef.close();
               })
           })
       },
@@ -314,11 +321,16 @@ export class PerfilUsuarioComponent {
       this.authService.logout(this.usuario.id_usuario).subscribe(
         result=>{
             console.log(result);
+            this.clearLocalStorage();
             this._router.navigate(['/login']);
           },
           error=> {
             console.log(error)
           }
         )
+    }
+    clearLocalStorage(): void {
+      localStorage.clear();
+      console.log('Local Storage borrado');
     }
   }

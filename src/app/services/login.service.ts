@@ -12,9 +12,11 @@ export class AuthService {
     public bandera=true;
     public url!:string;
     private access_token!:string;
+    private id_usuario!:any;
     constructor( private _http:HttpClient,private localStorageService: LocalStorageService) { 
       this.url=GLOBAL.url;
       this.access_token=this.localStorageService.get('token');
+      this.id_usuario=this.localStorageService.get('id_usuario');
     }
   private isLoggedIn = false;
 
@@ -37,9 +39,11 @@ export class AuthService {
   }
   getIsLoggedIn():any{
     this.access_token=this.localStorageService.get('token');
+    this.id_usuario=this.localStorageService.get('id_usuario');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     console.log(headers)
-    return this._http.get(this.url+'usuario-logueado',{headers});
+    return this._http.get(this.url+'usuario-logueado/'+this.id_usuario,{headers});
+    
   }
   /*
   isLogin(): boolean {
@@ -63,6 +67,7 @@ export class AuthService {
     let opciones = { headers: cabecera }; // Opciones con el objeto de cabecera
     return this._http.post(this.url + 'logout/' + id, {}, opciones); // Pasar las opciones en el tercer parámetro
   }
+
   
 
 

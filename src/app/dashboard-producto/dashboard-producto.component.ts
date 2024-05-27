@@ -26,6 +26,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort, Sort } from '@angular/material/sort';
 import { AuthService } from '../services/login.service';
+import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 Chart.register(...registerables);
@@ -87,6 +89,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public productos: any = [];
   public anios!:any;
   public meses!: any;
+  public mesesSelected!: any;
   public caracteristicas_imp!:any;
 
   public dataSource_t1:any=[];
@@ -110,6 +113,14 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   public total_fob_t2=0;
 
   public bandera_IFU=false;
+  public bandera_TMU=false;
+  public bandera_TMF=false;
+  public bandera_SM=false;
+  public bandera_SS=false;
+  public bandera_CM=false;
+  public bandera_VURS=false;
+  public bandera_PPM=false;
+  public bandera_TF=false;
 
   constructor(
     private authService:AuthService,
@@ -129,12 +140,20 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     private _importadorImpService: ImportadorImpService,
     private _marcasImpService: MarcasImpService,
     private _consultaImpService: ConsultaImpService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dialog: MatDialog,
   ){
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
         result => {
           let mensaje=result
           this.login=mensaje.login;
+          if(this.login){
+             console.log(mensaje.login)
+          }
+          else{
+             this._router.navigate(['/login'])
+          }
           console.log(mensaje.login)
         },
         error => {
@@ -159,9 +178,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       { id_mes: "11", mes: "noviembre" },
       { id_mes: "12", mes: "diciembre" }
   ];
+  this.mesesSelected=this.meses;
+  console.log(this.meses);
   this.sortedDataT2=this.dataSource_t2.slice();
   this.sortedDataT1=this.dataSource_t1.slice();
-   
+  dialogRef.close();
   }
   ngAfterViewInit(): void {
     this.dataSource_t2.sort = this.sort;
@@ -203,7 +224,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           arrayAnios.push(max_año - i);
     }
     this.consultaImp.anio=arrayAnios;
-    //this.consultaImp.mes=this.meses.map(mes => mes.id_mes);
+    this.consultaImp.mes=this.meses.map(mes => mes.id_mes);
     this.getDatosDashboard(this.consultaImp);
     this.getAnios();
     this.getCaracterísticas()
@@ -213,7 +234,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this.getProductoD();
     //console.log(this.consultaImp);
     this.setDropDownListSettings();
-
+  
     //this.getImportadores();
     //this.getTiendas();
     //this.getEmpresas();
@@ -432,7 +453,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
                 text: 'Año'
               },
               ticks: {
-                //stepSize:1,
+                stepSize:1,
           }},
           'fob':{
             border: {
@@ -977,8 +998,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     const mesesUnicos = Array.from(new Set(resultado.map(item => item.mes)));
     const marcasUnicas = Array.from(new Set((resultado as { nombre_marca: string }[]).map(item => item.nombre_marca))).sort((a, b) => a.localeCompare(b));
     const datasets2: any=[];
-    const meses=this.meses.map(mes=> mes.mes)
-    //const meses= this.consultaImp.mes.map(id => this.meses.find(mes => mes.id_mes === id)?.mes);
+    //const meses=this.meses.map(mes=> mes.mes)
+    const meses= this.consultaImp.mes.map(id => this.meses.find(mes => mes.id_mes === id)?.mes);
     const data2:any=[];
       for (let i = 0; i < marcasUnicas.length; i++) {
         const data2:any=[];
@@ -1011,7 +1032,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       options:{
         scales:{
           x:{
-            //offset: true,
+            offset: true,
           grid:{
             display:false
           },},
@@ -1296,6 +1317,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   onItemSelectMes(item: any) {
     //this.ngOnDestroy();
     this.consultaImp.mes.push(item.id_mes);
+    this.consultaImp.mes=this.ordenarMeses(this.consultaImp.mes);
     //this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectMes(item: any) {
@@ -1305,6 +1327,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
       this.consultaImp.mes.splice(index, 1);
       //this.getDatosDashboard(this.consultaImp)
     }
+    this.consultaImp.mes=this.ordenarMeses(this.consultaImp.mes);
   }
   onItemSelectCaracteristica(item: any) {
     //this.ngOnDestroy();
@@ -1390,7 +1413,11 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   onSelectAllMes(items: any) {
     //this.ngOnDestroy()
     this.consultaImp.mes=items.map((item: any) => item.id_mes);
+    this.consultaImp.mes=this.ordenarMeses(this.consultaImp.mes);
     //this.getDatosDashboard(this.consultaImp);
+  }
+  onDeselectAllMes(items: any) {
+    this.consultaImp.mes=[];
   }
   onSelectAllCaracteristica(items: any) {
     //this.ngOnDestroy()
@@ -1433,6 +1460,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     )
     this._consultaImpService.getDatosMarcaXUnidades(consulta).subscribe(
       result1=>{
+        this.bandera_TMU=true;
         this.getDataBarrasHorizontales1(result1);
       },
       error=>{
@@ -1442,6 +1470,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getDatosMarcaXFob(consulta).subscribe(
       result2=>{
         //console.log(result2);
+        this.bandera_TMF=true;
         this.getDataBarrasHorizontales2(result2);
       },
       error=>{
@@ -1452,6 +1481,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getDatosShareXMarca(consulta).subscribe(
       result4=>{
         //console.log(result4);
+        this.bandera_SM=true;
         this.getDataBarrasApiladas1(result4);
       },
       error=>{
@@ -1462,6 +1492,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getDatosPrecioXMarca(consulta).subscribe(
       result5=>{
         //console.log(result5);
+        this.bandera_PPM=true;
         this.getDataDiagramaLineas(result5);
       },
       error=>{
@@ -1471,6 +1502,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getDatosFobXImportador(consulta).subscribe(
       result6=>{
         //console.log(result6);
+        this.bandera_TF=true;
         this.getDataDiagramaPie(result6);
       },
       error=>{
@@ -1480,6 +1512,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getDatosShareXSegmento(consulta).subscribe(
       result7=>{
         //console.log(result7);
+        this.bandera_SS=true;
         this.getDataBarrasApiladas2(result7);
       },
       error=>{
@@ -1489,6 +1522,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getCaracterísticasXMarca(consulta).subscribe(
       result8=>{
         //console.log(result8);
+        this.bandera_CM=true;
         this.getTablaCaracteristicaXMarcaT1(result8);
       },
       error=>{
@@ -1498,6 +1532,7 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     this._consultaImpService.getVentasXImportador(consulta).subscribe(
       result9=>{
         //console.log(result9);
+        this.bandera_VURS=true;
         this.getTablaVentaXImportadorT2(result9);
       },
       error=>{
@@ -1647,6 +1682,9 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     )
     
   }
+  ordenarMeses(array: string[]): string[] {
+    return array.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+  }
 
 }
 
@@ -1677,4 +1715,6 @@ export interface Marca {
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+
+
 }

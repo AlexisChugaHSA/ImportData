@@ -100,11 +100,12 @@
                         (onSelectAll)="onSelectAllAnio($event)" (onDeSelect)="onItemDeSelectAnio($event)">
                     </ng-multiselect-dropdown>
                 </td>
-                <td></td><!--[(ngModel)]="meses" -->
+                <td></td><!-- -->
                 <td style="padding: 20px; width: 230px; border: 1px solid black">
-                    <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_mes" [data]="meses"
-                        (onSelect)="onItemSelectMes($event)" (onSelectAll)="onSelectAllMes($event)"
-                        (onDeSelect)="onItemDeSelectMes($event)">
+                    <ng-multiselect-dropdown [placeholder]="'Todas'" [(ngModel)]="mesesSelected"
+                        [settings]="dropdownSettings_mes" [data]="meses" (onSelect)="onItemSelectMes($event)"
+                        (onSelectAll)="onSelectAllMes($event)" (onDeSelect)="onItemDeSelectMes($event)"
+                        (onDeSelectAll)="onDeselectAllMes($event)">
                     </ng-multiselect-dropdown>
                 </td>
                 <td></td>
@@ -204,14 +205,11 @@
                             <div class="card-header p-1"
                                 style=" background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Importaciones FOB - UNIDADES</div>
-                            <div  class="card z-index-2  " style="background-color: white; align-items: center;">
-                                    <img style="height: 50%; width: 50%;" *ngIf="!bandera_IFU" src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
-                                    <canvas  id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
-                                </div>
-                            <div  class="card z-index-2  " style="background-color: white;">
-                                
+                            <div class="card z-index-2  " style="background-color: white; align-items: center;">
+                                <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_IFU"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
+                                <canvas id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
                             </div>
-                          
 
                         </div>
                         <div class="col-lg-6 col-md-4 ">
@@ -220,7 +218,8 @@
                                 Top Marcas - Unidades
                             </div>
                             <div class="card z-index-2  " style="max-height: 300px;">
-                                <img style=" margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_IFU" src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
+                                <img style=" margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_TMU"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasHorizontales1">{{ barras_horizontales1 }}</canvas>
                             </div>
 
@@ -231,7 +230,8 @@
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - FOB</div>
                             <div class="card z-index-2 " style="max-height: 300px;">
-                                <img style="margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_IFU" src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
+                                <img style="margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_TMF"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasHorizontales2">{{ barras_horizontales2 }}</canvas>
                             </div>
                         </div>
@@ -245,7 +245,9 @@
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Share por Marca</div>
-                            <div class="card z-index-2  ">
+                            <div class="card z-index-2" style="align-items: center;">
+                                <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_SM"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasApiladas1">{{ barras_apiladas1 }}</canvas>
                             </div>
                         </div><br>
@@ -253,7 +255,9 @@
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Share por Segmento</div>
-                            <div class="card z-index-2  ">
+                            <div class="card z-index-2  " style="align-items: center;">
+                                <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_SS"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasApiladas2">{{ barras_apiladas2 }}</canvas>
                             </div>
                         </div>
@@ -271,6 +275,8 @@
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Características por Marcas</div>
                             <div class="card z-index-2  ">
+                                <img style="height: 50%; width: 50%;margin-left: 300px;" *ngIf="!bandera_CM"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <div style="height: 500px;" class="table-container" *ngIf="bandera_t1">
                                     <table style="height: 500px;" mat-table [dataSource]="sortedDataT1" matSort
                                         (matSortChange)="sortDataT1($event)" multiTemplateDataRows
@@ -367,7 +373,7 @@
 
                                     </table>
                                 </div>
-                                <div style="display: none;">
+                                <div>
                                     <table style="width: 100%;">
                                         <tr>
                                             <td
@@ -395,7 +401,9 @@
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Ventas y Unidades por Razón Social</div>
-                            <div class="card z-index-2  ">
+                            <div class="card z-index-2">
+                                <img style="height: 50%; width: 50%; margin-left: 300px;" *ngIf="!bandera_VURS"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <div style="height: 500px;" class="table-container" *ngIf="bandera_t2">
                                     <table style="height: 500px;" mat-table [dataSource]="sortedDataT2" matSort
                                         (matSortChange)="sortDataT2($event)" multiTemplateDataRows
@@ -492,7 +500,7 @@
 
                                 </div>
 
-                                <div style="display: none;">
+                                <div>
                                     <table style="width: 100%;">
                                         <tr>
                                             <td
@@ -513,7 +521,9 @@
                             <div class="card-header p-1"
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Precio promedio por marca</div>
-                            <div class="card z-index-2  ">
+                            <div class="card z-index-2  " style="align-items: center;">
+                                <img style="height: 50%; width: 50%;padding-top: 150px;" *ngIf="!bandera_PPM"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartLineas">{{ diagrama_lineas }}</canvas>
                             </div>
                         </div>
@@ -522,6 +532,8 @@
                                 style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
                                 Top FOB</div>
                             <div class="card z-index-2" style="height: 600px; align-items: center;">
+                                <img style="height: 100%; width: 50%;padding-top: 100px;" *ngIf="!bandera_TF"
+                                    src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartPie">{{ diagrama_pie }}</canvas>
                             </div>
                         </div>
