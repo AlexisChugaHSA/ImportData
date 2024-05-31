@@ -39,7 +39,32 @@
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.1" rel="stylesheet" />
 </head>
 
+  <nav style="display: none;"
+  class="navbar navbar-main navbar-expand-lg position-sticky mt-0 top-0 px-0 mx-0 shadow-none border-radius-xl z-index-sticky"
+  id="navbarBlur" data-scroll="true">
+  <div class="container-fluid py-0 px-3">
+ 
+      <img src="/assets/hsa-02.png" alt="" style="width: 200px; height: 100px; padding: 20px;">
+   
+    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+      <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      </div>
+      <ul *ngIf="!login" class="navbar-nav  justify-content-end">
+        <li class="nav-item dropdown pe-2">
+          <a [routerLink]="['/login']" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="true">
+            <button type="button" style="background-color: #3D5463; color: white;" class="btn w-100 my-4 mb-2" >Iniciar sesión</button>
+          </a>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <body  class="g-sidenav-show  bg-gray-200">
+  <app-cabecera></app-cabecera>
+
   <aside *ngIf="login" class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
     <app-menu></app-menu>
@@ -70,14 +95,13 @@
                   <span class="visually-hidden">unread notifications</span>
                 </span>
               </a>
-
             </li>
           </ul>
           <ul *ngIf="!login" class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2">
               <a [routerLink]="['/login']" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton"
                 data-bs-toggle="dropdown" aria-expanded="true">
-                <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2" >Iniciar sesión</button>
+                <button type="button" style="background-color: #3D5463; color: white;" class="btn  w-100 my-4 mb-2" >Iniciar sesión</button>
               </a>
 
             </li>
@@ -86,7 +110,7 @@
       </div>
     </nav>
     <!-- End Navbar -->
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4" *ngIf="!login" >
       <div class="row">
         <div class="col-lg-12 position-relative z-index-2">
           <div class="row mt-5">
@@ -112,7 +136,47 @@
                 </div>
 
                 <div style="justify-content: center; align-items: center;">
-                  <p style="text-align: center;" class="font-weight-normal my-auto">{{producto.precio}}</p>
+                  <p style="text-align: center;" class="font-weight-normal my-auto">$ {{ producto.precio| number:
+                    '1.2-2' }} USD</p>
+                  <button style="margin-left: 175px; background-color: #3D5463; color: white;" class="btn  btn-sm  mt-4 mb-4"
+                    [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
+                </div>
+              </div><br><br>
+            </div>
+
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+    <div class="container-fluid py-4" *ngIf="login" >
+      <div class="row">
+        <div class="col-lg-12 position-relative z-index-2">
+          <div class="row mt-5">
+            <div class="col-lg-4 col-md-6" *ngFor="let producto of productos">
+
+              <div class="card" data-animation="true">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <a class="d-block blur-shadow-image">
+                    <img src="/assets/img/products/product-1-min.jpg" alt="img-blur-shadow"
+                      class="img-fluid shadow border-radius-lg">
+                  </a>
+                  <div class="colored-shadow"
+                    style="background-image: url(&quot;/assets/img/products/product-1-min.jpg&quot;);"></div>
+                </div>
+                <div class="card-body text-center">
+                  <h5 class="font-weight-normal mt-3">
+                    <a href="javascript:;">{{producto.nombre}}</a>
+                  </h5>
+                  <p>
+                    The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where
+                    you can enjoy the main night life in Barcelona.
+                  </p>
+                </div>
+
+                <div style="justify-content: center; align-items: center;">
+                  <p style="text-align: center;" class="font-weight-normal my-auto">$ {{ producto.precio| number:
+                    '1.2-2' }} USD</p>
                   <button style="margin-left: 137px;" class="btn bg-gradient-dark btn-sm  mt-4 mb-4"
                     [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
                 </div>
@@ -124,6 +188,7 @@
       </div>
  
     </div>
+    <app-footer></app-footer>
   </main>
 
   <!--   Core JS Files   -->
@@ -443,6 +508,7 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/assets/js/material-dashboard.min.js?v=3.0.1"></script>
+
 </body>
 
 </html>

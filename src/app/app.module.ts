@@ -132,8 +132,6 @@ import { FooterComponent } from './footer/footer.component';
     PopupCargandoComponent,
     TerminosCondicionesComponent,
     PoliticasPrivacidadComponent,
-    CabeceraComponent,
-    FooterComponent
   ]
 })
 export class DemoMaterialModule {}
@@ -167,7 +165,9 @@ export class DemoMaterialModule {}
     PopupCancelarPagoComponent,
     DashboardProductoComponent,
     PruebasImpComponent,
-    DashboardPricingComponent
+    DashboardPricingComponent,
+    FooterComponent,
+    CabeceraComponent
   ],
   imports: [
     BrowserModule,

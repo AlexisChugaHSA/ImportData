@@ -40,6 +40,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
+  <app-cabecera></app-cabecera>
   <aside *ngIf="login"
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
@@ -71,7 +72,7 @@
               <div class="col-12 col-lg-8 m-auto">
                 <div class="card">
                   <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div id="btn1" class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <div id="btn1" style="background-color: #FF764B;" class="shadow-primary border-radius-lg pt-4 pb-3">
                       <div class="multisteps-form__progress">
                         <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
                           <span>Informacion Personal</span>
@@ -109,19 +110,28 @@
                               <div class="col-12 col-sm-6">
                                 <div class="input-group input-group-dynamic">
                                   <input class="multisteps-form__input form-control" placeholder="Correo" type="email"
-                                    #correo="ngModel" name="correo" [(ngModel)]="persona.correo" />
+                                    #correo="ngModel" name="correo" [(ngModel)]="persona.correo" required email />
+                                </div>
+                                <div *ngIf="correo.invalid && (correo.dirty || correo.touched)" class="text-danger">
+                                  <div *ngIf="correo.errors?.['required']">
+                                    El correo es requerido.
+                                  </div>
+                                  <div *ngIf="correo.errors?.['email']">
+                                    El correo no es válido.
+                                  </div>
                                 </div>
                               </div>
+
                               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                 <div class="input-group input-group-dynamic">
-                                  <input class="multisteps-form__input form-control" placeholder="Telefono" type="text"
+                                  <input class="multisteps-form__input form-control" placeholder="Teléfono" type="text"
                                     #telefono="ngModel" name="telefono" [(ngModel)]="persona.telefono" />
                                 </div>
                               </div>
                             </div>
                             <div class="row mt-3">
                               <div class="col-12 col-sm-6">
-                                <label style="color: #6c757d;">Pais:</label>
+                                <label style="color: #6c757d;">País:</label>
                                 <div class="input-group input-group-dynamic">
                                   <ng-select class="multisteps-form__input form-control" [items]="paises"
                                     [searchable]="true" [virtualScroll]="true" [bindValue]="'id_pais'"
@@ -140,8 +150,9 @@
                               </div>
                             </div>
                             <div class="button-row d-flex mt-4">
-                              <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" (click)="nextForm1()"
-                                title="Next" [disabled]="!ciudadSeleccionadaP">Next</button>
+                              <button style="background-color: #3D5463; color: white;"
+                                class="btn ms-auto mb-0 js-btn-next" (click)="nextForm1()" title="Next"
+                                [disabled]="!ciudadSeleccionadaP">Siguiente</button>
                             </div>
                           </div>
                         </div>
@@ -157,7 +168,8 @@
               <div class="col-12 col-lg-8 m-auto">
                 <div class="card">
                   <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div id="btn2" class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <div id="btn2" style="background-color: #FF764B;"
+                      class=" shadow-primary border-radius-lg pt-4 pb-3">
                       <div class="multisteps-form__progress">
                         <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
                           <span>Informacion Personal</span>
@@ -177,7 +189,6 @@
                           <div class="multisteps-form__panel border-radius-xl bg-white js-active"
                             data-animation="FadeIn">
                             <h5 class="font-weight-bolder mb-0">Ingresa los datos solicitados sobre tu empresa</h5>
-                            <p class="mb-0 text-sm">Mandatory informations</p>
 
                           </div>
                           <br><br>
@@ -186,7 +197,7 @@
                               <div class="col-12 col-sm-6">
                                 <div class="input-group input-group-dynamic">
                                   <input class="multisteps-form__input form-control"
-                                    placeholder="Identificacion de la empresa" type="text" #nombre="ngModel"
+                                    placeholder="Identificación de la empresa" type="text" #nombre="ngModel"
                                     name="identificacion" [(ngModel)]="empresa.identificacion" />
                                 </div>
                               </div>
@@ -201,13 +212,22 @@
                               <div class="col-12 col-sm-6">
                                 <div class="input-group input-group-dynamic">
                                   <input class="multisteps-form__input form-control" placeholder="Correo de la empresa"
-                                    type="email" #correo="ngModel" name="correo" [(ngModel)]="empresa.correo" />
+                                    type="email" #correoEmpresa="ngModel" name="correoEmpresa"
+                                    [(ngModel)]="empresa.correo" required email />
+                                </div>
+                                <div *ngIf="correoEmpresa.invalid && (correoEmpresa.dirty || correoEmpresa.touched)"
+                                  class="text-danger">
+                                  <div *ngIf="correoEmpresa.errors?.['required']">El correo de la empresa es requerido.
+                                  </div>
+                                  <div *ngIf="correoEmpresa.errors?.['email']">El correo de la empresa no es válido.
+                                  </div>
                                 </div>
                               </div>
+
                               <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                 <div class="input-group input-group-dynamic">
                                   <input class="multisteps-form__input form-control"
-                                    placeholder="Telefono de la empresa" type="text" #telefono="ngModel" name="telefono"
+                                    placeholder="Teléfono de la empresa" type="text" #telefono="ngModel" name="telefono"
                                     [(ngModel)]="empresa.telefono" />
                                 </div>
                               </div>
@@ -215,7 +235,7 @@
 
                             <div class="row mt-3">
                               <div class="col-12 col-sm-6">
-                                <label style="color: #6c757d;">Pais:</label>
+                                <label style="color: #6c757d;">País:</label>
                                 <div class="input-group input-group-dynamic">
                                   <ng-select class="multisteps-form__input form-control" [items]="paises"
                                     [searchable]="true" [virtualScroll]="true" [bindValue]="'id_pais'"
@@ -234,10 +254,11 @@
                               </div>
                             </div>
                             <div class="button-row d-flex mt-4">
-                              <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev"
-                                (click)="prevForm2()">Prev</button>
-                              <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" (click)="nextForm2()"
-                                title="Next" [disabled]="!ciudadSeleccionadaE">Next</button>
+                              <button style="background-color: #3D5463; color: white;" class="btn mb-0 js-btn-prev"
+                                type="button" title="Prev" (click)="prevForm2()">Atrás</button>
+                              <button style="background-color: #3D5463; color: white;"
+                                class="btn ms-auto mb-0 js-btn-next" (click)="nextForm2()" title="Next"
+                                [disabled]="!ciudadSeleccionadaE">Siguiente</button>
 
                             </div>
                           </div>
@@ -253,7 +274,7 @@
               <div class="col-12 col-lg-8 m-auto">
                 <div class="card">
                   <div class="card-header  p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div id="btn3" class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <div id="btn3" style="background-color: #FF764B;" class="shadow-primary border-radius-lg pt-4 pb-3">
                       <div class="multisteps-form__progress">
                         <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">
                           <span>Informacion Personal</span>
@@ -270,88 +291,114 @@
                         <div>
                           <div class="multisteps-form__panel border-radius-xl bg-white js-active"
                             data-animation="FadeIn">
-                            <h5 class="font-weight-bolder mb-0">About me</h5>
-                            <p class="mb-0 text-sm">Mandatory informations</p>
+                            <h5 class="font-weight-bolder mb-0">Creación de su usario</h5>
 
                           </div>
                           <br><br>
-                          <div class="multisteps-form__content">
-                            <div class="row mt-3">
-                              <div class="col-sm-6">
-                                <div class="input-group input-group-dynamic">
-                                  <input class="multisteps-form__input form-control" title="usuario"
-                                    placeholder="Ingresa un usuario" type="text" #usuario="ngModel" name="usuario"
-                                    [(ngModel)]="user.usuario " disabled />
-                                </div>
-                              </div>
-                              <div class="col-sm-6">
-                                <div class="input-group input-group-dynamic">
-                                  <input id="pass1" class="multisteps-form__input form-control"
-                                    placeholder="Ingresa una contraseña" type="password" #password="ngModel"
-                                    name="password" [(ngModel)]="user.password" />
-                                </div>
-                              </div>
-                              <div class=" col-sm-6">
-                                <div class="input-group input-group-dynamic">
-                                  <input id="pass2" class="multisteps-form__input form-control"
-                                    placeholder="Repita su contraseña" type="password" name="rpassword"
-                                    [(ngModel)]="rpassword" />
-
-                                </div>
-
-                                <div *ngIf="bandera">
-                                  <div class="alert alert-primary alert-dismissible text-white" role="alert"
-                                    id="alerta">
-                                    <span class="text-sm">Las contraseñas no Coinciden.</span>
-                                    <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                      (click)="ocultarMensajeCon()" data-bs-dismiss="alert" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
+                          <div class="container">
+                            <div class="row">
+                              <div class="col-md-6 column-content">
+                                <div class="multisteps-form__content">
+                                  <div>
+                                    <div>
+                                      <div class="input-group input-group-dynamic">
+                                        <input class="multisteps-form__input form-control" title="usuario"
+                                          placeholder="Ingresa un usuario" type="text" #usuario="ngModel" name="usuario"
+                                          [(ngModel)]="user.usuario" disabled />
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
+                                  <br>
+                                  <div>
+                                    <div>
+                                      <div class="input-group input-group-dynamic">
+                                        <input id="pass1" class="multisteps-form__input form-control"
+                                          placeholder="Ingresa una contraseña" type="password" #password="ngModel"
+                                          name="password" [(ngModel)]="user.password" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <div>
+                                    <div>
+                                      <div class="input-group input-group-dynamic">
+                                        <input id="pass2" class="multisteps-form__input form-control"
+                                          placeholder="Repita su contraseña" type="password" name="rpassword"
+                                          [(ngModel)]="rpassword" />
+                                      </div>
 
-                              </div>
-                            </div>
-                            <br>
-                            <div style="text-align: left;">
-                              <div class="d-flex align-items-left">
-                                <div class="form-check">
-                                  <input style="transform: scale(2)" type="checkbox" id="customCheck1"
-                                    (click)="checkConditions()">
-                                </div>
-                                <h2 style="font-size: 20px;" class="text-md font-weight-bolder ms-2 mb-0">
-                                  &nbsp;&nbsp;<a href="/terminos-condiciones" target="_blank"
-                                    rel="noopener noreferrer">Aceptar términos y condiciones</a>
-                                </h2>
-                              </div>
-                            </div>
-                            <div style="text-align: left;">
-                              <div class="d-flex align-items-left">
-                                <div class="form-check">
-                                  <input style="transform: scale(2)" type="checkbox" id="customCheck2"
-                                    (click)="checkConditions()">
-                                </div>
-                                <h2 style="font-size: 20px;" class="text-md font-weight-bolder ms-2 mb-0">
-                                  &nbsp;&nbsp;<a href="/politicas-privacidad" target="_blank"
-                                    rel="noopener noreferrer">Aceptar políticas de privacidad</a>
-                                </h2>
-                              </div>
-                            </div>
+                                      <div *ngIf="bandera">
+                                        <div class="alert alert-primary alert-dismissible text-white" role="alert"
+                                          id="alerta">
+                                          <span class="text-sm">Las contraseñas no Coinciden.</span>
+                                          <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                            (click)="ocultarMensajeCon()" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
-                            <div class="button-row d-flex mt-4">
-                              <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev"
-                                (click)="prevForm3()">Prev</button>
-                              <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" (click)="compararCon()"
-                                title="Next" [disabled]="!user.password || !bra_terminos">Finalizar</button>
+
+                                  <br>
+
+                                </div>
+                              </div>
+                              <div class="col-md-6 column-content" style="align-items: baseline; background-color: #ecf3f9; color: black;">
+                                <h5 >Requerimientos de una contraseña</h5>
+                                <p class="text-muted mb-2">
+                                  Por favor considere los siguientes consejos para crear una contraseña segura:
+                                </p>
+                                <ul class="text-muted ps-4 mb-0 float-start">
+                                  <li>
+                                    <span class="text-sm">Al menos un caracter especial</span>
+                                  </li>
+                                  <li>
+                                    <span class="text-sm">Mínimo 8 caracteres</span>
+                                  </li>
+                                  <li>
+                                    <span class="text-sm">Al menos un número</span>
+                                  </li>
+                                  <li>
+                                    <span class="text-sm">Evite la información personal en sus contraseñas</span>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
+                          </div>
+<br>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="form-check">
+    <input style="transform: scale(2)" type="checkbox" id="customCheck1" (click)="checkConditions()">
+  </div>
+  <h2 style="font-size: 20px;" class="text-md font-weight-bolder ms-2 mb-0">
+    &nbsp;&nbsp;<a href="/terminos-condiciones" target="_blank" rel="noopener noreferrer">Aceptar términos y condiciones</a>
+  </h2>
+</div>
+
+                          <div class="d-flex justify-content-center align-items-center">
+                              <div class="form-check">
+                                <input style="transform: scale(2)" type="checkbox" id="customCheck2"
+                                  (click)="checkConditions()">
+                              </div>
+                              <h2 style="font-size: 20px;" class="text-md font-weight-bolder ms-2 mb-0">
+                                &nbsp;&nbsp;<a href="/politicas-privacidad" target="_blank"
+                                  rel="noopener noreferrer">Aceptar políticas de privacidad</a>
+                              </h2>
+                            
+                          </div>
+
+                          <div class="button-row d-flex mt-4">
+                            <button style="background-color: #3D5463; color: white;" class="btn mb-0 js-btn-prev"
+                              type="button" title="Prev" (click)="prevForm3()">Atrás</button>
+                            <button style="background-color: #3D5463; color: white;"
+                              class="btn ms-auto mb-0 js-btn-next" (click)="compararCon()" title="Next"
+                              [disabled]="!user.password || !bra_terminos">Finalizar</button>
                           </div>
                         </div>
                       </form>
                     </div>
-
-
-
-
                   </div>
                 </div>
               </div>
@@ -359,10 +406,8 @@
           </div>
         </div>
       </div>
-      <footer class="footer py-4  ">
-
-      </footer>
     </div>
+    <app-footer></app-footer>
   </main>
 
   <!--   Core JS Files   -->

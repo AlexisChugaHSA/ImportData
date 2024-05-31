@@ -39,6 +39,7 @@
 </head>
 
 <body  class="g-sidenav-show  bg-gray-200">
+  <app-cabecera></app-cabecera>
   <aside *ngIf="login"
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
@@ -165,14 +166,13 @@ It's a separate element, as animating opacity is faster than rgba(). -->
                   </div>
                 </div>
                 <div class="col-lg-5 mx-auto">
-                  <h3 class="mt-lg-0 mt-4">{{producto.nombre}}</h3>
-
+                  <h1 style="font-weight: bold; " class="mt-lg-0 mt-4">{{producto.nombre}}</h1>
+                  <h3 class="mb-0 mt-3">Precio Desde:</h3>
+                  <h2>$ {{ producto.precio| number:
+                    '1.2-2' }} USD</h2>
+                  <span class="badge badge-success">Disponible</span>
                   <br>
-                  <h6 class="mb-0 mt-3">Price</h6>
-                  <h5>{{producto.precio}}</h5>
-                  <span class="badge badge-success">In Stock</span>
-                  <br>
-                  <label class="mt-4">Description</label>
+                  <h3 class="mt-4">Descripción:</h3>
                   <ul>
                     <li>{{producto.descripcion}}</li>
 
@@ -180,13 +180,13 @@ It's a separate element, as animating opacity is faster than rgba(). -->
 
                   <div *ngIf="login" class="row mt-4">
                     <div class="col-lg-5">
-                      <button class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button"
+                      <button style="background-color: #3D5463; color: white;" class="btn mb-0 mt-lg-auto w-100" type="button" name="button"
                         (click)="addToCar()">Añadir al carrito</button>
                     </div>
                   </div>
                   <div *ngIf="!login" class="row mt-4">
                     <div class="col-lg-5">
-                      <button class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button"
+                      <button style="background-color: #3D5463; color: white;" class="btn mb-0 mt-lg-auto w-100" type="button" name="button"
                       [routerLink]="['/login']">Añadir al carrito</button>
                     </div>
                   </div>
@@ -197,10 +197,9 @@ It's a separate element, as animating opacity is faster than rgba(). -->
           </div>
         </div>
       </div>
-      <footer class="footer py-4  ">
 
-      </footer>
     </div>
+    <app-footer></app-footer>
   </main>
 
   <!--   Core JS Files   -->
