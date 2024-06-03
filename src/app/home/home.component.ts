@@ -62,6 +62,37 @@ export class HomeComponent {
     this.obtenerDatos();
 
   }
+  getDescripcion(nombre: string): string {
+    switch (nombre) {
+      case 'Aires acondicionados':
+        return 'Sumérgete en el análisis de importaciones de aire acondicionado. Descubre quiénes son los principales importadores y las marcas más populares.';
+        break;
+      case 'Celulares':
+        return 'Explora datos clave sobre la importación de celulares. Descubre las marcas más populares, el volumen importado y más.';
+        break;
+      case 'Cocinas':
+        return 'Descubre insights sobre la importación de cocinas. Obtén información detallada sobre marcas líderes, volumen importado y más.';
+        break;
+      case 'Computadoras':
+        return 'Explora los datos clave sobre la importación de computadoras. Obtén información detallada sobre marcas, segmento de mercado y más.';
+        break;
+      case 'Lavadoras y Secadoras':
+          return ' Sumérgete en el análisis de importaciones de lavadoras y secadoras. Encuentra información detallada sobre marcas, volumen importado y más.';
+          break;
+      case 'Motos':
+          return 'Descubre insights sobre la importación de motos. Obtén información detallada sobre marcas líderes, volumen importado y más.';
+          break;
+      case 'Refrigeracion':
+          return 'Sumérgete en el análisis de importaciones de refrigeradores. Descubre quiénes son los principales importadores y las marcas más populares.';
+          break;
+      case 'Televisores':
+          return 'Descubre los datos más relevantes sobre la importación de televisores. Obtén insights sobre el share de mercado, los principales importadores y más.';
+          break;
+      default:
+        return 'Descripción no disponible';
+    }
+  }
+
 
   getCarrito(){
     const savedArray = this.localStorageService.get('Productos-Carrito');

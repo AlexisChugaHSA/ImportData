@@ -39,9 +39,13 @@
 
 <body *ngIf="login" class="g-sidenav-show  bg-gray-200">
   <app-cabecera></app-cabecera>
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <app-menu></app-menu>
-  </aside>
+  <div class="row" *ngIf="login">
+    <div class="" style="width: 19%; display: block;">
+      <aside >
+        <app-menu></app-menu>
+      </aside>
+    </div>
+    <div style="width: 80%; display: block;">
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <div class="container-fluid py-4">
       <div class="row mt-4">
@@ -118,8 +122,8 @@
                       
                       </td>
                     <td style="text-align: center;">
-                      <button *ngIf="pago.procesado===0 && pago.cancelado!==1"
-                      class="btn bg-gradient-dark btn-sm  mt-0 mb-0" (click)="openDialogCancelar(pago.id_pago)">Cancelar</button>
+                      <button *ngIf="pago.procesado===0 && pago.cancelado!==1" style="background-color: #3D5463; color: white;"
+                      class="btn  btn-sm  mt-0 mb-0" (click)="openDialogCancelar(pago.id_pago)">Cancelar</button>
                       <button *ngIf="pago.procesado===1 || pago.procesado===0 && pago.cancelado===1" style="background-color: white; border: none; box-shadow: none;"
                       (click)="openDialog(pago.detalle,pago.valor)">
                       <i
@@ -136,7 +140,7 @@
       </div>
     </div>
     <app-footer></app-footer>
-  </main>
+  </main></div></div>
 
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>

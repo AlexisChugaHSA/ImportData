@@ -40,11 +40,13 @@
 
 <body  class="g-sidenav-show  bg-gray-200">
   <app-cabecera></app-cabecera>
-  <aside *ngIf="login"
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
-    id="sidenav-main">
-    <app-menu></app-menu>
-  </aside>
+  <div class="row" *ngIf="login">
+    <div class="" style="width: 19%; display: block;">
+      <aside >
+        <app-menu></app-menu>
+      </aside>
+    </div>
+    <div style="width: 80%; display: block;">
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
                 <!-- Navbar -->
                 <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
@@ -89,33 +91,33 @@
               <h2 class="mb-4">Detalles del Producto</h2>
               <div class="row">
                 <div class="col-xl-5 col-lg-6 text-center">
-                  <img class="w-100 border-radius-lg shadow-lg mx-auto" src="/assets/img/products/product-details-1.jpg"
+                  <img class="w-100 border-radius-lg shadow-lg mx-auto" [src]="'/assets/img/productos/' + producto.nombre + '.png'"
                     alt="chair">
                   <div class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a href="/assets/img/products/product-details-2.jpg" itemprop="contentUrl" data-size="500x600">
+                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'1.png'" itemprop="contentUrl" data-size="500x600">
                         <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                          src="/assets/img/products/product-details-2.jpg" alt="Image description" />
+                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'1.png'" alt="Image description" />
                       </a>
                     </figure>
-                    <figure class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a href="/assets/img/products/product-details-3.jpg" itemprop="contentUrl" data-size="500x600">
+                    <figure class="ms-2" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'2.png'" itemprop="contentUrl" data-size="500x600">
                         <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                          src="/assets/img/products/product-details-3.jpg" itemprop="thumbnail"
+                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'2.png'" itemprop="thumbnail"
                           alt="Image description" />
                       </a>
                     </figure>
-                    <figure class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a href="/assets/img/products/product-details-4.jpg" itemprop="contentUrl" data-size="500x600">
+                    <figure class="ms-2" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'3.png'" itemprop="contentUrl" data-size="500x600">
                         <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                          src="/assets/img/products/product-details-4.jpg" itemprop="thumbnail"
+                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'3.png'" itemprop="thumbnail"
                           alt="Image description" />
                       </a>
                     </figure>
-                    <figure class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a href="/assets/img/products/product-details-5.jpg" itemprop="contentUrl" data-size="500x600">
+                    <figure class="ms-2" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'4.png'" itemprop="contentUrl" data-size="500x600">
                         <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                          src="/assets/img/products/product-details-5.jpg" itemprop="thumbnail"
+                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'4.png'" itemprop="thumbnail"
                           alt="Image description" />
                       </a>
                     </figure>
@@ -173,7 +175,7 @@ It's a separate element, as animating opacity is faster than rgba(). -->
                   <span class="badge badge-success">Disponible</span>
                   <br>
                   <h3 class="mt-4">Descripción:</h3>
-                  <ul>
+                  <ul style="text-align: justify;">
                     <li>{{producto.descripcion}}</li>
 
                   </ul>
@@ -200,7 +202,7 @@ It's a separate element, as animating opacity is faster than rgba(). -->
 
     </div>
     <app-footer></app-footer>
-  </main>
+  </main></div></div>
 
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>

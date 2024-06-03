@@ -39,9 +39,13 @@
 
 <body *ngIf="login" class="g-sidenav-show bg-gray-200">
   <app-cabecera></app-cabecera>
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <app-menu></app-menu>
-  </aside>
+  <div class="row" *ngIf="login">
+    <div class="" style="width: 19%; display: block;">
+      <aside >
+        <app-menu></app-menu>
+      </aside>
+    </div>
+    <div style="width: 80%; display: block;">
   <main class="main-content max-height-vh-100 h-100">
 
     <div class="container-fluid my-3 py-3" *ngIf="empresa.nombre">
@@ -141,7 +145,7 @@
      
     </div>
     <app-footer></app-footer>
-  </main>
+  </main></div></div>
 
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>

@@ -85,6 +85,7 @@ import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-co
 import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { FooterComponent } from './footer/footer.component';
+import { Footer2Component } from './footer2/footer2.component';
 
 
 
@@ -131,7 +132,7 @@ import { FooterComponent } from './footer/footer.component';
   declarations: [
     PopupCargandoComponent,
     TerminosCondicionesComponent,
-    PoliticasPrivacidadComponent,
+    PoliticasPrivacidadComponent
   ]
 })
 export class DemoMaterialModule {}
@@ -167,6 +168,7 @@ export class DemoMaterialModule {}
     PruebasImpComponent,
     DashboardPricingComponent,
     FooterComponent,
+    Footer2Component,
     CabeceraComponent
   ],
   imports: [

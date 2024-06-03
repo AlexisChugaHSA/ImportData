@@ -40,12 +40,14 @@
 
 <body *ngIf="login" class="g-sidenav-show  bg-gray-200">
     <app-cabecera></app-cabecera>
-    <aside
-        class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
-        id="sidenav-main">
-        <app-menu></app-menu>
-    </aside>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="row" *ngIf="login">
+      <div class="" style="width: 19%; display: block;">
+        <aside >
+          <app-menu></app-menu>
+        </aside>
+      </div>
+      <div style="width: 80%; display: block;">
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
             id="navbarBlur" data-scroll="true">
@@ -85,28 +87,26 @@
                             <div class="card" data-animation="true">
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                     <a class="d-block blur-shadow-image">
-                                        <img src="/assets/img/products/product-1-min.jpg" alt="img-blur-shadow"
+                                        <img [src]="'/assets/img/productos/' + producto.nombre + '.png'" alt="img-blur-shadow"
                                             class="img-fluid shadow border-radius-lg">
                                     </a>
                                     <div class="colored-shadow"
                                         style="background-image: url(&quot;/assets/img/products/product-1-min.jpg&quot;);">
                                     </div>
                                 </div>
-                                <div class="card-body text-center">C
+                                <div class="card-body text-center">
                                     <h5 class="font-weight-normal mt-3">
                                         <a href="javascript:;">{{producto.nombre}}</a>
                                     </h5>
-                                    <p>
-                                        The place is close to Barceloneta Beach and bus stop just 2 min by walk and near
-                                        to "Naviglio" where
-                                        you can enjoy the main night life in Barcelona.
+                                    <p style="text-align: justify;">
+                                        {{ getDescripcion(producto.nombre) }}
                                     </p>
                                 </div>
 
                                 <div style="justify-content: center; align-items: center;">
                                     <p style="text-align: center;" class="font-weight-normal my-auto">
                                         {{producto.precio}}</p>
-                                    <button style="margin-left: 137px;" class="btn bg-gradient-dark btn-sm  mt-4 mb-4"
+                                    <button style="margin-left: 137px; background-color: #3D5463; color: white;" class="btn  btn-sm  mt-4 mb-4"
                                         [routerLink]="['/dashboard-producto', producto.id_producto]">Ver Detalles</button>
                                 </div>
                             </div><br><br>
@@ -128,7 +128,7 @@
                             <div class="card" data-animation="true">
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                     <a class="d-block blur-shadow-image">
-                                        <img src="/assets/img/products/product-1-min.jpg" alt="img-blur-shadow"
+                                        <img [src]="'/assets/img/productos/' + producto.nombre + '.png'" alt="img-blur-shadow"
                                             class="img-fluid shadow border-radius-lg">
                                     </a>
                                     <div class="colored-shadow"
@@ -136,30 +136,19 @@
                                     </div>
                                 </div>
                                 <div class="card-body text-center">
-                                    <div class="d-flex mt-n6 mx-auto">
-                                        <a class="btn btn-link text-primary ms-auto border-0" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" title="Refresh">
-                                            <i class="material-icons text-lg">refresh</i>
-                                        </a>
-                                        <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" title="Edit">
-                                            <i class="material-icons text-lg">edit</i>
-                                        </button>
-                                    </div>
+                           
                                     <h5 class="font-weight-normal mt-3">
                                         <a href="javascript:;">{{producto.nombre}}</a>
                                     </h5>
                                     <p>
-                                        The place is close to Barceloneta Beach and bus stop just 2 min by walk and near
-                                        to "Naviglio" where
-                                        you can enjoy the main night life in Barcelona.
+                                        {{ getDescripcion(producto.nombre) }}
                                     </p>
                                 </div>
 
                                 <div style="justify-content: center; align-items: center;">
                                     <p style="text-align: center;" class="font-weight-normal my-auto">
                                         {{producto.precio}}</p>
-                                    <button style="margin-left: 137px;" class="btn bg-gradient-dark btn-sm  mt-4 mb-4"
+                                    <button style="margin-left: 137px; background-color: #3D5463; color: white;" class="btn  mt-4 mb-4"
                                         [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
                                 </div>
                             </div><br><br>
@@ -170,7 +159,7 @@
             </div>
         </div>
         <app-footer></app-footer>
-    </main>
+    </main> </div></div>
 
     <!--   Core JS Files   -->
     <script src="/assets/js/core/popper.min.js"></script>

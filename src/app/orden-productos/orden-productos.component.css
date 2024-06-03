@@ -2,3 +2,17 @@
     text-decoration: line-through;
     color: red; /* Opcional: puedes cambiar el color a 'white' para una raya blanca */
   }
+
+  /* Make sure the text wraps within the column */
+.text-wrap {
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+/* Optional: Set a max-width for the columns if needed */
+td {
+  max-width: 200px; /* Adjust this value as needed */
+  overflow-wrap: break-word;
+  word-break: break-word;
+}

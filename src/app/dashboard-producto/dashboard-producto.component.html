@@ -40,11 +40,13 @@
 
 <body *ngIf="login" class="g-sidenav-show  bg-gray-200">
     <app-cabecera></app-cabecera>
-    <aside
-        class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
-        id="sidenav-main">
-        <app-menu></app-menu>
-    </aside>
+    <div class="row" *ngIf="login">
+      <div class="" style="width: 19%; display: block;">
+        <aside >
+          <app-menu></app-menu>
+        </aside>
+      </div>
+      <div style="width: 80%; display: block;">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg "
         style="background-color: white;">
         <!-- Navbar -->
@@ -57,16 +59,16 @@
             </div>
         </nav>
         <div
-            style="height: 50px; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder; font-size: 30px;">
+            style="height: 50px; background-color:  #3D5463; color: white; text-align: center; font-weight: bolder; font-size: 30px;">
             Import Data
         </div>
         <!-- End Navbar 
         <div style="margin-left: 85%;">
             <div style="padding: 5px;">
-                <button  (click)="dirigirDashboardImp()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">Importaciones</button>
+                <button  (click)="dirigirDashboardImp()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">Importaciones</button>
             </div>
             <div style="padding: 5px;">
-                <button  (click)="dirigirDashboardPri()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">E-Commerce</button>
+                <button  (click)="dirigirDashboardPri()" class="btn  mb-0 mt-lg-auto w-100"  style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">E-Commerce</button>
             </div>
         </div>-->
         <br>
@@ -74,23 +76,23 @@
             <thead>
                 <tr>
                     <td
-                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        style="border: 1px solid black; background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                         Año</td>
                     <td></td>
                     <td
-                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        style="border: 1px solid black; background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                         Mes</td>
                     <td></td>
                     <td
-                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        style="border: 1px solid black; background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                         Caracteristica</td>
                     <td></td>
                     <td
-                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        style="border: 1px solid black; background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                         Categoria</td>
                     <td></td>
                     <td
-                        style="border: 1px solid black; background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                        style="border: 1px solid black; background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                         Marcas</td>
                 </tr>
             </thead>
@@ -160,7 +162,7 @@
         <br>
         <div class="col-lg-3 col-md-6 my-sm-auto ms-sm-auto mx-auto mt-3">
             <button (click)="BtnBuscar()" class="btn  mb-0 mt-lg-auto w-100"
-                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                 <span class="btn-inner--icon"><i class="material-icons">search</i></span>
                 Buscar</button>
         </div>
@@ -204,7 +206,7 @@
                     <div class="row mb-4">
                         <div class="col-lg-12 col-md-4  mt-4 mb-4">
                             <div class="card-header p-1"
-                                style=" background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style=" background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Importaciones FOB - UNIDADES</div>
                             <div class="card z-index-2  " style="background-color: white; align-items: center;">
                                 <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_IFU"
@@ -215,7 +217,7 @@
                         </div>
                         <div class="col-lg-6 col-md-4 ">
                             <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - Unidades
                             </div>
                             <div class="card z-index-2  " style="max-height: 300px;">
@@ -228,7 +230,7 @@
 
                         <div class="col-lg-6 col-md-4 " style="max-height: 400px;">
                             <div class="card-header  p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - FOB</div>
                             <div class="card z-index-2 " style="max-height: 300px;">
                                 <img style="margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_TMF"
@@ -244,7 +246,7 @@
                     <div class="row mb-4">
                         <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Share por Marca</div>
                             <div class="card z-index-2" style="align-items: center;">
                                 <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_SM"
@@ -254,7 +256,7 @@
                         </div><br>
                         <div class="col-lg-12 col-md-4 mb-1 mt-4  ">
                             <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Share por Segmento</div>
                             <div class="card z-index-2  " style="align-items: center;">
                                 <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_SS"
@@ -265,7 +267,7 @@
                         <!--
                         <div class="col-lg-8 col-md-4 ">
                             <div class="card-header mt-4 p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Detalle de Importaciones</div>
                             <div class="card z-index-2  ">
 
@@ -273,7 +275,7 @@
                         </div>-->
                         <div class="col-lg-12 col-md-4 ">
                             <div class="card-header mt-4 p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Características por Marcas</div>
                             <div class="card z-index-2  ">
                                 <img style="height: 50%; width: 50%;margin-left: 300px;" *ngIf="!bandera_CM"
@@ -400,7 +402,7 @@
                     <div class="row mb-4 mt-4 ">
                         <div class="col-lg-12 col-md-2 mb-4 mt-4 ">
                             <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Ventas y Unidades por Razón Social</div>
                             <div class="card z-index-2">
                                 <img style="height: 50%; width: 50%; margin-left: 300px;" *ngIf="!bandera_VURS"
@@ -520,7 +522,7 @@
                         </div>
                         <div class="col-lg-12 col-md-2  mb-4">
                             <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Precio promedio por marca</div>
                             <div class="card z-index-2  " style="align-items: center;">
                                 <img style="height: 50%; width: 50%;padding-top: 150px;" *ngIf="!bandera_PPM"
@@ -530,7 +532,7 @@
                         </div>
                         <div class="col-lg-12 col-md-2  ">
                             <div class="card-header p-1"
-                                style="background-color: rgb(61, 84, 99); color: white; text-align: center; font-weight: bolder;">
+                                style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Top FOB</div>
                             <div class="card z-index-2" style="height: 600px; align-items: center;">
                                 <img style="height: 100%; width: 50%;padding-top: 100px;" *ngIf="!bandera_TF"
@@ -546,7 +548,7 @@
         
         </div>
         <app-footer></app-footer>
-    </main>
+    </main></div></div>
 
 </body>
 
