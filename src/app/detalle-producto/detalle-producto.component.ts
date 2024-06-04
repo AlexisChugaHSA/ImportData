@@ -7,6 +7,7 @@ import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ContentObserver } from '@angular/cdk/observers';
 
 @Component({
   selector: 'app-detalle-producto',
@@ -15,7 +16,9 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DetalleProductoComponent {
   public id!:any;
+  public otrosProductos: any = [];
   public producto!:Producto;
+  public todosProductos: any = [];
   public productos_carrito:any=[];
   public num_productos=0;
   public login=false;
@@ -73,6 +76,7 @@ export class DetalleProductoComponent {
     this._productoService.getProducto(this.id).subscribe(
       result=>{
         this.producto=<Producto>result
+        this.obtenerTodosProductos();
       },
       error=>{
         console.log(<any>error)
@@ -85,8 +89,60 @@ export class DetalleProductoComponent {
       this.num_productos=this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
-    this.dialogRef.close();
+    
   }
 
-  
+
+  obtenerTodosProductos(){
+    this._productoService.getProductos().subscribe(
+      result=>{
+        console.log(result)
+        this.todosProductos=result
+        this.otrosProductos = this.todosProductos.filter(item => item.id_producto !== this.producto.id_producto);
+        this.dialogRef.close();
+    console.log(this.otrosProductos);
+        this.dialogRef.close();
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
+}
+getDescripcion(nombre: string): string {
+  switch (nombre) {
+    case 'Aires acondicionados':
+      return 'Sumérgete en el análisis de importaciones de aire acondicionado. Descubre quiénes son los principales importadores y las marcas más populares.';
+      break;
+    case 'Celulares':
+      return 'Explora datos clave sobre la importación de celulares. Descubre las marcas más populares, el volumen importado y más.';
+      break;
+    case 'Cocinas':
+      return 'Descubre insights sobre la importación de cocinas. Obtén información detallada sobre marcas líderes, volumen importado y más.';
+      break;
+    case 'Computadoras':
+      return 'Explora los datos clave sobre la importación de computadoras. Obtén información detallada sobre marcas, segmento de mercado y más.';
+      break;
+    case 'Lavadoras y Secadoras':
+        return ' Sumérgete en el análisis de importaciones de lavadoras y secadoras. Encuentra información detallada sobre marcas, volumen importado y más.';
+        break;
+    case 'Motos':
+        return 'Descubre insights sobre la importación de motos. Obtén información detallada sobre marcas líderes, volumen importado y más.';
+        break;
+    case 'Refrigeracion':
+        return 'Sumérgete en el análisis de importaciones de refrigeradores. Descubre quiénes son los principales importadores y las marcas más populares.';
+        break;
+    case 'Televisores':
+        return 'Descubre los datos más relevantes sobre la importación de televisores. Obtén insights sobre el share de mercado, los principales importadores y más.';
+        break;
+    default:
+      return 'Descripción no disponible';
+  }
+}
+dirigirProducto(id: string){
+  this._router.navigate(['/home']).then(() =>
+    this._router.navigate(['/detalle-producto', id]).then(() =>     
+    window.location.reload())
+);
+
+}
 }

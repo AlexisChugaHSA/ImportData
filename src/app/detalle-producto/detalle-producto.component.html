@@ -38,171 +38,223 @@
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.1" rel="stylesheet" />
 </head>
 
-<body  class="g-sidenav-show  bg-gray-200">
+<body class="g-sidenav-show  bg-gray-200">
   <app-cabecera></app-cabecera>
   <div class="row" *ngIf="login">
     <div class="" style="width: 19%; display: block;">
-      <aside >
+      <aside>
         <app-menu></app-menu>
       </aside>
     </div>
     <div style="width: 80%; display: block;">
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-                <!-- Navbar -->
-                <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
-                id="navbarBlur" data-scroll="true">
-                <div class="container-fluid py-1 px-3">
-                    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        </div>
-                        <ul *ngIf="login"  class="navbar-nav  justify-content-end">
-                            <li class="ms-auto   dropdown pe-2">
-                                <a [routerLink]="['/orden-productos']" class="nav-link text-body p-0"
-                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
-                                    <i class="material-icons cursor-pointer" style="font-size: 30px">
-                                        shopping_cart 
-                                    </i>
-                                    <span
-                                        class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
-                                        <span class="small">{{num_productos}}</span>
-                                        <span class="visually-hidden">unread notifications</span>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-              
-                    </div>
-                    <div>
-                      <ul class=" navbar-nav  justify-content-end">
-                        <li class="position-absolute nav-item dropdown pe-12">
-                          <div id="alertP" class="position-absolute bottom-15 start-0 text-center" style="display: none;">
-                            <span class="badge badge-success" style="height: 30px;">El producto se ha añadido al carrito</span>
-                        </div>
-                        </li>
-                      </ul>
-                    </div>
-                </div>
-            </nav>
-    <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="mb-4">Detalles del Producto</h2>
-              <div class="row">
-                <div class="col-xl-5 col-lg-6 text-center">
-                  <img class="w-100 border-radius-lg shadow-lg mx-auto" [src]="'/assets/img/productos/' + producto.nombre + '.png'"
-                    alt="chair">
-                  <div class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
-                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'1.png'" itemprop="contentUrl" data-size="500x600">
-                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'1.png'" alt="Image description" />
-                      </a>
-                    </figure>
-                    <figure class="ms-2" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'2.png'" itemprop="contentUrl" data-size="500x600">
-                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'2.png'" itemprop="thumbnail"
-                          alt="Image description" />
-                      </a>
-                    </figure>
-                    <figure class="ms-2" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'3.png'" itemprop="contentUrl" data-size="500x600">
-                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'3.png'" itemprop="thumbnail"
-                          alt="Image description" />
-                      </a>
-                    </figure>
-                    <figure class="ms-2" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                      <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'4.png'" itemprop="contentUrl" data-size="500x600">
-                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
-                        [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'4.png'" itemprop="thumbnail"
-                          alt="Image description" />
-                      </a>
-                    </figure>
+      <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav
+          class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
+          id="navbarBlur" data-scroll="true">
+          <div class="container-fluid py-1 px-3">
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+              <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+              </div>
+              <ul *ngIf="login" class="navbar-nav  justify-content-end">
+                <li class="ms-auto   dropdown pe-2">
+                  <a [routerLink]="['/orden-productos']" class="nav-link text-body p-0" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="true">
+                    <i class="material-icons cursor-pointer" style="font-size: 30px">
+                      shopping_cart
+                    </i>
+                    <span
+                      class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
+                      <span class="small">{{num_productos}}</span>
+                      <span class="visually-hidden">unread notifications</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+
+            </div>
+            <div>
+              <ul class=" navbar-nav  justify-content-end">
+                <li class="position-absolute nav-item dropdown pe-12">
+                  <div id="alertP" class="position-absolute bottom-15 start-0 text-center" style="display: none;">
+                    <span class="badge badge-success" style="height: 30px;">El producto se ha añadido al carrito</span>
                   </div>
-                  <!-- Root element of PhotoSwipe. Must have class pswp. -->
-                  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-                    <!-- Background of PhotoSwipe.
-It's a separate element, as animating opacity is faster than rgba(). -->
-                    <div class="pswp__bg"></div>
-                    <!-- Slides wrapper with overflow:hidden. -->
-                    <div class="pswp__scroll-wrap">
-                      <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
-                      <!-- don't modify these 3 pswp__item elements, data is added later on. -->
-                      <div class="pswp__container">
-                        <div class="pswp__item"></div>
-                        <div class="pswp__item"></div>
-                        <div class="pswp__item"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class="container-fluid py-2">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="mb-4">Detalles del Producto</h2>
+                  <div class="row">
+                    <div class="col-xl-5 col-lg-6 text-center">
+                      <img class="w-100 border-radius-lg shadow-lg mx-auto"
+                        [src]="'/assets/img/productos/' + producto.nombre + '.png'" alt="chair">
+                      <div class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
+                        <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                          <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'1.png'"
+                            itemprop="contentUrl" data-size="500x600">
+                            <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                              [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'1.png'"
+                              alt="Image description" />
+                          </a>
+                        </figure>
+                        <figure class="ms-2" itemprop="associatedMedia" itemscope
+                          itemtype="http://schema.org/ImageObject">
+                          <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'2.png'"
+                            itemprop="contentUrl" data-size="500x600">
+                            <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                              [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'2.png'"
+                              itemprop="thumbnail" alt="Image description" />
+                          </a>
+                        </figure>
+                        <figure class="ms-2" itemprop="associatedMedia" itemscope
+                          itemtype="http://schema.org/ImageObject">
+                          <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'3.png'"
+                            itemprop="contentUrl" data-size="500x600">
+                            <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                              [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'3.png'"
+                              itemprop="thumbnail" alt="Image description" />
+                          </a>
+                        </figure>
+                        <figure class="ms-2" itemprop="associatedMedia" itemscope
+                          itemtype="http://schema.org/ImageObject">
+                          <a [href]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'4.png'"
+                            itemprop="contentUrl" data-size="500x600">
+                            <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                              [src]="'/assets/img/productos/' + producto.nombre + '/'+ producto.nombre +'4.png'"
+                              itemprop="thumbnail" alt="Image description" />
+                          </a>
+                        </figure>
                       </div>
-                      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-                      <div class="pswp__ui pswp__ui--hidden">
-                        <div class="pswp__top-bar">
-                          <!--  Controls are self-explanatory. Order can be changed. -->
-                          <div class="pswp__counter"></div>
-                          <button class="btn btn-white btn-sm pswp__button pswp__button--close">Close (Esc)</button>
-                          <button class="btn btn-white btn-sm pswp__button pswp__button--fs">Fullscreen</button>
-                          <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--left">Prev
-                          </button>
-                          <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--right">Next
-                          </button>
-                          <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
-                          <!-- element will get class pswp__preloader--active when preloader is running -->
-                          <div class="pswp__preloader">
-                            <div class="pswp__preloader__icn">
-                              <div class="pswp__preloader__cut">
-                                <div class="pswp__preloader__donut"></div>
+                      <!-- Root element of PhotoSwipe. Must have class pswp. -->
+                      <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                        <!-- Background of PhotoSwipe.
+It's a separate element, as animating opacity is faster than rgba(). -->
+                        <div class="pswp__bg"></div>
+                        <!-- Slides wrapper with overflow:hidden. -->
+                        <div class="pswp__scroll-wrap">
+                          <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+                          <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+                          <div class="pswp__container">
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                            <div class="pswp__item"></div>
+                          </div>
+                          <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+                          <div class="pswp__ui pswp__ui--hidden">
+                            <div class="pswp__top-bar">
+                              <!--  Controls are self-explanatory. Order can be changed. -->
+                              <div class="pswp__counter"></div>
+                              <button class="btn btn-white btn-sm pswp__button pswp__button--close">Close (Esc)</button>
+                              <button class="btn btn-white btn-sm pswp__button pswp__button--fs">Fullscreen</button>
+                              <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--left">Prev
+                              </button>
+                              <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--right">Next
+                              </button>
+                              <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                              <!-- element will get class pswp__preloader--active when preloader is running -->
+                              <div class="pswp__preloader">
+                                <div class="pswp__preloader__icn">
+                                  <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                  </div>
+                                </div>
                               </div>
+                            </div>
+                            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                              <div class="pswp__share-tooltip"></div>
+                            </div>
+                            <div class="pswp__caption">
+                              <div class="pswp__caption__center"></div>
                             </div>
                           </div>
                         </div>
-                        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                          <div class="pswp__share-tooltip"></div>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 mx-auto">
+                      <h1 style="font-weight: bold; " class="mt-lg-0 mt-4">{{producto.nombre}}</h1>
+                      <h3 class="mb-0 mt-3">Precio Desde:</h3>
+                      <h2>$ {{ producto.precio| number:
+                        '1.2-2' }} USD</h2>
+                      <span class="badge badge-success">Disponible</span>
+                      <br>
+                      <h3 class="mt-4">Descripción:</h3>
+                      <ul style="text-align: justify;">
+                        <li>{{producto.descripcion}}</li>
+
+                      </ul>
+
+                      <div *ngIf="login" class="row mt-4">
+                        <div class="col-lg-5">
+                          <button style="background-color: #3D5463; color: white;" class="btn mb-0 mt-lg-auto w-100"
+                            type="button" name="button" (click)="addToCar()">Añadir al carrito</button>
                         </div>
-                        <div class="pswp__caption">
-                          <div class="pswp__caption__center"></div>
+                      </div>
+                      <div *ngIf="!login" class="row mt-4">
+                        <div class="col-lg-5">
+                          <button style="background-color: #3D5463; color: white;" class="btn mb-0 mt-lg-auto w-100"
+                            type="button" name="button" [routerLink]="['/login']">Añadir al carrito</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-lg-5 mx-auto">
-                  <h1 style="font-weight: bold; " class="mt-lg-0 mt-4">{{producto.nombre}}</h1>
-                  <h3 class="mb-0 mt-3">Precio Desde:</h3>
-                  <h2>$ {{ producto.precio| number:
-                    '1.2-2' }} USD</h2>
-                  <span class="badge badge-success">Disponible</span>
-                  <br>
-                  <h3 class="mt-4">Descripción:</h3>
-                  <ul style="text-align: justify;">
-                    <li>{{producto.descripcion}}</li>
 
-                  </ul>
-
-                  <div *ngIf="login" class="row mt-4">
-                    <div class="col-lg-5">
-                      <button style="background-color: #3D5463; color: white;" class="btn mb-0 mt-lg-auto w-100" type="button" name="button"
-                        (click)="addToCar()">Añadir al carrito</button>
-                    </div>
-                  </div>
-                  <div *ngIf="!login" class="row mt-4">
-                    <div class="col-lg-5">
-                      <button style="background-color: #3D5463; color: white;" class="btn mb-0 mt-lg-auto w-100" type="button" name="button"
-                      [routerLink]="['/login']">Añadir al carrito</button>
-                    </div>
-                  </div>
                 </div>
               </div>
+            </div>
+          </div>
 
+        </div>
+        <div class="container-fluid py-2">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="mb-4">Otros Productos</h2> <br>
+                  <div class="row" style="height: 262px;">
+                    <div style="width: 157.3px;" *ngFor="let producto of otrosProductos">
+                      <div class="card" style="width: 145px;" data-animation="true">
+                        <div class="card-header p-0 position-relative mt-n4 mx-2 z-index-2">
+                          <a class="d-block blur-shadow-image">
+                            <img [src]="'/assets/img/productos/' + producto.nombre + '.png'" alt="img-blur-shadow"
+                              class="img-fluid shadow border-radius-lg">
+                          </a>
+                          <div class="colored-shadow"
+                            style="background-image: url(&quot;/assets/img/products/product-1-min.jpg&quot;);">
+                          </div>
+                        </div>
+                        <div class="card-body text-center" style="height: 185px; width: 150px;">
+                          <h5 class="font-weight-normal mt-1" style=" height: 41px;">
+                            <a href="javascript:;">{{producto.nombre}}</a>
+                          </h5>
+                          <div style="justify-content: center; align-items: center;">
+                            <p style="text-align: center;" class="font-weight-normal my-auto">
+                              $ {{ producto.precio| number:
+                              '1.2-2' }} USD</p>
+                            <button style=" background-color: #3D5463; color: white; align-items: center;"
+                              class="btn  mt-4 mb-4" (click)="dirigirProducto(producto.id_producto)">Ver</button>
+                          </div>
+                        </div>
+                      </div>
+                      <br><br>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <app-footer></app-footer>
 
+      </main>
     </div>
-    <app-footer></app-footer>
-  </main></div></div>
+  </div>
 
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>

@@ -78,7 +78,7 @@
             </div>
         </nav>
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
+        <div class="container-fluid py-4" >
             <div class="row">
                 <div class="col-lg-12 position-relative z-index-2">
                     <div class="row mt-5">
@@ -95,20 +95,20 @@
                                     </div>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h5 class="font-weight-normal mt-3">
+                                    <h4 class="font-weight-normal mt-3">
                                         <a href="javascript:;">{{producto.nombre}}</a>
-                                    </h5>
+                                    </h4>
                                     <p style="text-align: justify;">
-                                        {{ getDescripcion(producto.nombre) }}
+                                        {{ getDescripcion(producto.nombre) }}     
                                     </p>
-                                </div>
+                                    Desde: {{ producto.fecha }} <br>
+                                    Hasta: {{ producto.fecha_hasta }}
+                                
 
                                 <div style="justify-content: center; align-items: center;">
-                                    <p style="text-align: center;" class="font-weight-normal my-auto">
-                                        {{producto.precio}}</p>
-                                    <button style="margin-left: 137px; background-color: #3D5463; color: white;" class="btn  btn-sm  mt-4 mb-4"
-                                        [routerLink]="['/dashboard-producto', producto.id_producto]">Ver Detalles</button>
-                                </div>
+                                    <button style=" background-color: #3D5463; color: white;" class="btn  btn-sm  mt-4 mb-4"
+                                        [routerLink]="['/dashboard-producto', producto.id_producto]">Ver Analítica</button>
+                                </div></div>
                             </div><br><br>
                         </div>
 
@@ -143,14 +143,15 @@
                                     <p>
                                         {{ getDescripcion(producto.nombre) }}
                                     </p>
+                                    <div style="justify-content: center; align-items: center;">
+                                        <p style="text-align: center;" class="font-weight-normal my-auto">
+                                            {{producto.precio}}</p>
+                                        <button style="background-color: #3D5463; color: white;" class="btn  mt-4 mb-4"
+                                            [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
+                                    </div>
                                 </div>
 
-                                <div style="justify-content: center; align-items: center;">
-                                    <p style="text-align: center;" class="font-weight-normal my-auto">
-                                        {{producto.precio}}</p>
-                                    <button style="margin-left: 137px; background-color: #3D5463; color: white;" class="btn  mt-4 mb-4"
-                                        [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
-                                </div>
+
                             </div><br><br>
                         </div>
 

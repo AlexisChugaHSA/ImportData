@@ -106,23 +106,36 @@ export class HomeComponent {
   obtenerDatos(){
     this._produserService.getP_U(this.usuario.id_usuario).subscribe(
       result => {
-        this.prodsUser= result;
-        console.log(this.prodsUser)
+        this.prodsUser = result;
+        console.log(this.prodsUser);
+        const productosTemp:any=[];
         for (const prod of this.prodsUser) {
           this._productoService.getProducto(prod.id_producto).subscribe(
-            result=>{
-              this.productos.push(result);
+            (result) => {
+              // Agregar el campo 'fecha' al producto
+              const producto2:any=result
+              producto2.fecha=prod.fecha;
+              producto2.fecha_hasta=prod.fecha_hasta;
+              productosTemp.push(producto2);
+              // Solo actualizar 'this.productos' una vez que todos los productos se han agregado
+              if (productosTemp.length === this.prodsUser.length) {
+                this.productos = productosTemp;
+                this.obtenerTodosProductos();
+                this.obtenerOtrosProductos();
+              }
+            },
+            error => {
+              console.log(error);
             }
-          )
+          );
         }
-        console.log(this.productos)
-        this.obtenerTodosProductos();
-        this.obtenerOtrosProductos();
       },
       error => {
-        console.log(error)
-      })
-
+        console.log(error);
+      }
+    );
+    
+    
   }
   obtenerTodosProductos(){
     this._productoService.getProductos().subscribe(
@@ -140,10 +153,14 @@ export class HomeComponent {
     this.otrosProductos=this.todosProductos.filter(itemA => {
       return !this.productos.some(itemB => itemB.id_producto === itemA.id_producto);
     });
-    console.log(this.otrosProductos.length);
-    console.log(this.todosProductos.length- this.productos.length)
-    if(this.otrosProductos.length==(this.todosProductos.length- this.productos.length)){
-
-    }
   }
+  obtenerFechaDesde(id:number){
+    console.log("ZZZZZ "+id)
+    console.log(this.prodsUser)
+    const productoEncontrado = this.prodsUser.find(item => item.id_producto === id);
+    console.log(productoEncontrado)
+    return productoEncontrado.fecha;
+  }
+  
 }
+
