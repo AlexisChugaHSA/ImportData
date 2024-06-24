@@ -89,7 +89,7 @@
           </div>
         </div>
       </div>
-      <div class="row mt-4" >
+      <div class="row mt-4" style="display: none;">
         <div class="col-12">
           <div class="card">
             <!-- Card header -->
@@ -125,7 +125,7 @@
                       <button *ngIf="pago.procesado===0 && pago.cancelado!==1" style="background-color: #3D5463; color: white;"
                       class="btn  btn-sm  mt-0 mb-0" (click)="openDialogCancelar(pago.id_pago)">Cancelar</button>
                       <button *ngIf="pago.procesado===1 || pago.procesado===0 && pago.cancelado===1" style="background-color: white; border: none; box-shadow: none;"
-                      (click)="openDialog(pago.detalle,pago.valor)">
+                      (click)="openDialog(pago.id_pago)">
                       <i
                           class="material-icons text-secondary position-relative text-lg">visibility</i>
                   </button>

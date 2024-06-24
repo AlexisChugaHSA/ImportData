@@ -22,10 +22,11 @@ import { DetalleFactura } from '../models/detalle_factura';
 import { MetodoPago } from '../models/metodo_pago';
 import { ProductoUsuario } from '../models/producto_usuario';
 import { LogProductoUsuario } from '../models/log_producto_usuario';
-import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
-
+import { IvaService } from '../services/iva.service';
+import {IPayPalConfig,ICreateOrderRequest } from 'ngx-paypal';
+import { PayPalService } from '../services/paypal.service';
 
 @Component({
   selector: 'app-formulario-pago',
@@ -33,6 +34,12 @@ import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.compone
   styleUrls: ['./formulario-pago.component.css']
 })
 export class FormularioPagoComponent {
+  //public clientIdPayPal='AYLqvj3pfMRED1JHhtL2p1TvTMT_m_jvqTF_VvwtZ-nE8aCfzVdRDLxNs_eR9scSx9ZzKtnlButvv3nw';
+  public clientIdPayPal='ARtjJFZcqm22276sVRvg6KzZX65Kjexm6Pm4J39MoQPzu6L5ynz1KqGhPRFRIJMpOkWa7lMKVCJSUj3y'
+  //public secretPayPal='EFHeU2Aj6D3tAteJ-yXpEbM6sIVyOdZnCY9HL2jkFXig4xHFWqTUMtoPWLC9vao2VZwRw0l3OIjprmdp';
+  public secretPayPal='EIEDCARpUX0a3njRKN_lTqwx5lee3OH2ds6Zf4sXZFyotRkI8uevdDGYhRO87l4LXFMcUzadOMhORhIe'
+  public apiPaypal='https://api-m.sandbox.paypal.com';
+
   public tarjeta = new Tarjeta("", "", "", "", "");
   public tarjetaVencida = false;
   public productos_carrito: any=[];
@@ -53,15 +60,16 @@ export class FormularioPagoComponent {
   public log_prod_user!: LogProductoUsuario;
   public detalle_factura!: DetalleFactura;
   public prod_users: any = [];
-  public iva=0.12;
+  public iva!: any;
   public login=false;
   public dialogRef1!:any;
-  
+  public payPalConfig ? : IPayPalConfig;
 
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
     private _router: Router,
+    private _paypalService: PayPalService,
     private _usuarioService: UsuarioService,
     private dialog: MatDialog,
     private _productoService: ProductoService,
@@ -72,6 +80,7 @@ export class FormularioPagoComponent {
     private _productoUsuarioService: ProductoUsuarioService,
     private _logPU: LogProductoUsuarioService,
     private renderer: Renderer2,
+    private _ivaService: IvaService,
     private _detalleFacturaService: DetalleFacturaService,
     private localStorageService: LocalStorageService) {
       this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
@@ -99,12 +108,29 @@ export class FormularioPagoComponent {
     this.prod_user = new ProductoUsuario(0, 0, 0, 0,0, 0,0);
     this.factura = new Factura(0,0,0,0,"",0,0);
     this.detalle_factura = new DetalleFactura(0, 1, 0, 1, 0);
+    this._paypalService.getToken().subscribe(
+      response => {
+        console.log('Token de acceso:', response.access_token);
+      },
+      error => {
+        console.error('Error al obtener el token:', error);
+      }
+    );
 
   }
 
   ngOnInit() {
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
-    this.get_carrito()
+    this._ivaService.getIva().subscribe(
+      result => {
+        let iva:any=result;
+        this.iva=iva.iva_valor;
+        console.log(this.iva)
+        this.get_carrito();
+      },
+      error => {
+      })
+      this.initConfig();
   }
 
   openDialog(): void {
@@ -147,13 +173,10 @@ export class FormularioPagoComponent {
     this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
     if (this.validateFecha()) {
       this.tarjetaVencida = false;
-      this.guardarMetPago();
-
+     // this.guardarMetPago();
       this.guardarPago()
       this.openDialog();
       console.log(this.tarjetaVencida)
-      
-
     } else {
       this.tarjetaVencida = true;
       console.log(this.tarjetaVencida)
@@ -177,8 +200,20 @@ export class FormularioPagoComponent {
     else{
       this.dialogRef1.close();
     }
-    
-    
+  }
+  getListaProductosPP():any[]{
+    const items: any[]=[];
+    let item= {};
+    this.productos_carrito.forEach((it)=>{
+      item={
+        name:it.nombre,
+        quantity:this.periodo,
+        unit_amount:{value:it.precio*(1-this.membresia.descuento+parseFloat(this.iva)) ,currency_code:'USD'}
+      };
+      items.push(item);
+    });
+    console.log(items)
+    return items;
   }
   get_total() {
     var subtotal = this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
@@ -188,8 +223,7 @@ export class FormularioPagoComponent {
     if (this.membresia.tipo === "Trimestral") { this.periodo = 3 }
     if (this.membresia.tipo === "Semestral") { this.periodo = 6 }
     if (this.membresia.tipo === "Anual") { this.periodo = 12 }
-    this.total2 = this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio * this.periodo, 0);
-    this.total = Math.round((1 - this.membresia.descuento) * this.total2*(1+this.iva)*100)/100;
+    this.total = Math.round( this.obtenerSubtotalT()*(1-this.membresia.descuento+parseFloat(this.iva))*100)/100;
   }
   soloNumeros(event: KeyboardEvent): void {
     const keyCode = event.keyCode || event.which;
@@ -314,9 +348,57 @@ export class FormularioPagoComponent {
 
   }
   obtenerSubtotalT(){
-    return Math.round(this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio * this.periodo, 0)*(1-this.membresia.descuento)*100)/100;
+    return Math.round(this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio * this.periodo, 0)*100)/100;
   }
+  private initConfig(): void {
+    this.payPalConfig = {
+        currency: 'USD',
+        clientId: this.clientIdPayPal,
+        createOrderOnClient: (data) => < ICreateOrderRequest > {
+            intent: 'CAPTURE',
+            purchase_units: [{
+                amount: {
+                    currency_code: 'USD',
+                    value: this.total.toString(),
+                    breakdown: {
+                        item_total: {
+                            currency_code: 'USD',
+                            value: this.total.toString()
+                        }
+                    }
+                },
+                items: this.getListaProductosPP()
+            }]
+        },
+        advanced: {
+            commit: 'true'
+        },
+        style: {
+            label: 'paypal',
+            layout: 'vertical'
+        },
+        onApprove: (data, actions) => {
+            console.log('onApprove - transaction was approved, but not authorized', data, actions);
+            actions.order.get().then(details => {
+                console.log('onApprove - you can get full order details inside onApprove: ', details);
+               // this.subirDatos();
+            });
 
+        },
+        onClientAuthorization: (data) => {
+            console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+        },
+        onCancel: (data, actions) => {
+            console.log('OnCancel', data, actions);
+        },
+        onError: err => {
+            console.log('OnError', err);
+        },
+        onClick: (data, actions) => {
+            console.log('onClick', data, actions);
+        }
+    };
+}
 
 
 }

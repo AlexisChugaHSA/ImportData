@@ -1,0 +1,57 @@
+.divider-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.divider {
+    flex-grow: 1;
+    border-top: 2px solid rgba(0, 0, 0, 0.5); /* Adjust the color and opacity here */
+}
+.divider-text {
+    padding: 0 10px;
+    color: rgba(0, 0, 0, 0.5); /* Adjust the color and opacity here */
+}
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0px;
+}
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Full viewport height */
+    background-image: url('/assets/fondo-login.jpg');
+    background-size: cover; /* Ensures the image covers the entire div */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Ensures the image doesn't repeat */
+}
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.social-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.google-button {
+    background-color: #4285F4;
+}
+
+.facebook-button {
+    background-color: #3B5998;
+}

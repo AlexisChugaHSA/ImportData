@@ -1,0 +1,9 @@
+<div class="image-viewer-container" *ngIf="imageSrc">
+    <div class="image-viewer-header">
+      <button (click)="previousImage()">Anterior</button>
+      <button (click)="closeViewer()">Cerrar</button>
+      <button (click)="nextImage()">Siguiente</button>
+    </div>
+    <img [src]="imageSrc" alt="Image Viewer" class="image-viewer-img">
+  </div>
+  <br>

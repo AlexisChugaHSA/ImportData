@@ -23,6 +23,9 @@ export class DetalleProductoComponent {
   public num_productos=0;
   public login=false;
   public dialogRef!:any;
+  images: string[] = [];
+  isViewerOpen = false;
+  currentImageIndex = 0;
 
   constructor(
     private authService: AuthService,
@@ -53,7 +56,7 @@ export class DetalleProductoComponent {
         })
     }
 
-  
+
   addToCar(){
     console.log(this.producto)
     const existe = this.productos_carrito.some(item => item.id_producto === this.producto.id_producto);
@@ -73,9 +76,16 @@ export class DetalleProductoComponent {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log(this.id);
+    
     this._productoService.getProducto(this.id).subscribe(
       result=>{
         this.producto=<Producto>result
+        this.images = [
+          `/assets/img/productos/${this.producto.nombre}/${this.producto.nombre}1.png`,
+          `/assets/img/productos/${this.producto.nombre}/${this.producto.nombre}2.png`,
+          `/assets/img/productos/${this.producto.nombre}/${this.producto.nombre}3.png`,
+          `/assets/img/productos/${this.producto.nombre}/${this.producto.nombre}4.png`
+        ];
         this.obtenerTodosProductos();
       },
       error=>{
@@ -144,5 +154,15 @@ dirigirProducto(id: string){
     window.location.reload())
 );
 
+}
+openImageViewer(imageSrc: string) {
+  this.currentImageIndex = this.images.indexOf(imageSrc);
+  if (this.currentImageIndex >= 0) {
+    this.isViewerOpen = true;
+  }
+}
+
+closeImageViewer() {
+  this.isViewerOpen = false;
 }
 }

@@ -1,41 +1,29 @@
+.popup-container {
+  background-color: rgba(121, 240, 81, 0.9); /* Fondo verde con opacidad */
+  border: 2px solid #195d02; /* Borde del mismo color verde oscuro */
+  border-radius: 10px; /* Bordes redondeados */
+  text-align: center; /* Centrar el texto */
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera para el popup */
+  position: relative;
 
-  
-/*
-  .popup-container {
-    background-color: #79f051;
+}
 
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    
-  }
-  
-  .popup-title {
-    text-align: center;
-    margin: 0;
-    padding: 1em 0;
- 
-  }
-  
-  .popup-container {
-    height: 200px;
-  }*/
-  .popup-container {
-    background-color: #79f051;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 200px; /* Ajusta la altura según tus necesidades */
-  }
-  
-  .popup-title {
-    text-align: center;
-    margin: 0;
-    padding: 1em 0;
-  }
-  
+.popup-title {
+  color: #195d02; /* Color verde oscuro para el título */
+  font-size: 1.5em; /* Tamaño de fuente del título */
+  font-weight: bold; /* Fuente en negrita */
+  margin: 20px;
+  padding: 1em 0; /* Espaciado superior e inferior */
+}
+
+.popup-message, .popup-total {
+  color: #195d02; /* Color verde oscuro para el mensaje */
+  font-size: 1em; /* Tamaño de fuente del mensaje */
+  margin: 0;
+  padding: 0 1em; /* Espaciado lateral */
+}

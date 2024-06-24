@@ -27,6 +27,11 @@ export class DetalleFacturaService {
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.get(this.url+'detalle-facturas-fact/'+id,{headers})
   }
+  getFactbyPago(id:number){
+    this.access_token=this.localStorageService.get('token');
+    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
+    return this._http.get(this.url+'detalle-facturas-pago/'+id,{headers})
+  }
 
 
 }

@@ -31,6 +31,7 @@ export class FacturacionComponent {
   public usuario: Usuario = new Usuario(0, "", "", "");
   public pago!:Pago;
   public persona!: Persona;
+  public id_factura!:any;
   public empresa!:Empresa;
   public login=false;
   public dialogRef1!:any;
@@ -82,18 +83,20 @@ export class FacturacionComponent {
     });
   }
 
-  openDialog(mensaje:string, total:number): void {
-    const dialogRef = this.dialog.open(PopupPagoComponent, {
-      width: '550px',
-      data: {
-        title: 'Detalles de su pago',
-      detail: mensaje,
-      total: 'Total pagado: '+total,
+  openDialog(id_pago:number): void {
+    this._detfactService.getFactbyPago(5).subscribe(
+      result => {
+        let id:any=result;
+       // const id_factura=id.id_factura;
+        const id_factura=6;
+        const dialogRef = this.dialog.open(PopupPagoComponent, {
+          data: { id_factura }
+        });
       },
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('El mensaje emergente se cerró.');
-    });
+      error => {
+        console.log(error)
+      })
+
   }
 
   obtenerDatos(){

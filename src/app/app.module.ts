@@ -86,7 +86,8 @@ import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-p
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { FooterComponent } from './footer/footer.component';
 import { Footer2Component } from './footer2/footer2.component';
-
+import { ImageViewerComponent } from './image-viewer/image-viewer.component';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 
 @NgModule({
@@ -132,7 +133,7 @@ import { Footer2Component } from './footer2/footer2.component';
   declarations: [
     PopupCargandoComponent,
     TerminosCondicionesComponent,
-    PoliticasPrivacidadComponent
+    PoliticasPrivacidadComponent,
   ]
 })
 export class DemoMaterialModule {}
@@ -140,11 +141,13 @@ export class DemoMaterialModule {}
 @NgModule({
 
   declarations: [
+  
     AppComponent,
     DashboardComponent,
     Dashboard2Component,
     MdChartComponent,
     MdTableComponent,
+    ImageViewerComponent,
     LoginComponent,
     PerfilUsuarioComponent,
     FacturacionComponent,
@@ -197,6 +200,7 @@ export class DemoMaterialModule {}
     MatButtonModule,
     MatDialogModule,
     NgxChartsModule,
+    NgxPayPalModule,
     BrowserAnimationsModule,
     LocalStorageModule.forRoot({
       prefix: 'my-app',

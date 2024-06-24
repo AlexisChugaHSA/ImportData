@@ -1,1 +1,53 @@
-<p>popup-pago works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table text-right" style="text-align: center;">
+        <thead style="text-align: center;">
+          <tr style="text-align: center;">
+            <th style="text-align: center;" >Producto</th>
+            <th style="text-align: center;" >Periodo</th>
+            <th style="text-align: center;" >Precio Unitario</th>
+            <th style="text-align: center;" >Subtotal</th>
+          </tr>
+        </thead>
+        <tbody style="text-align: center;">
+          <tr *ngFor="let producto of productos" style="text-align: center;">
+            <td style="text-align: center;">{{producto.nombre}}</td>
+            <td style="text-align: center;">{{pago.periodo}}</td>
+            <td style="text-align: center;"> $ {{producto.precio| number: '1.2-2'}} USD</td>
+            <td style="text-align: center;">$ {{obtenerSubtotal(producto.precio)| number: '1.2-2'}} USD </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>       
+            <th></th>
+            <th class="h6 ps-0" colspan="1">Subtotal</th>
+            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()| number: '1.2-2'}} USD</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th></th>
+            <th class="h6 ps-0" colspan="1">Descuento:</th>
+            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*membresia.descuento| number: '1.2-2'}} USD</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th class="h6 ps-0" colspan="1">Iva ({{factura.iva*100}}%)</th>
+            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*factura.iva| number: '1.2-2'}} USD</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th class="h4 ps-0" colspan="1">Total</th>
+            <th colspan="1" class="text-right h4 ps-0">$ {{obtenerTotal()| number: '1.2-2'}} USD</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center">
+      <button type="button" style="background-color: #3D5463; color: white; width: 100px;" class="btn my-2 mb-2" (click)="closeDialog()">Aceptar</button>
+
+    </div>
+  </div>

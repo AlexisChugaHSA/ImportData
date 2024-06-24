@@ -52,44 +52,36 @@
       <div class="row">
         <div class="col-md-10 col-lg-10 col-sm-10 mx-auto">
           <form class="" action="index.html" method="post">
-            <div class="card my-sm-5">
+           <h2> Detalle de Factura</h2>
+            <div class="card my-sm-2">
               <div class="card-header text-center">
                 <div class="row justify-content-between">
+                  
                   <div class="col-md-4 text-start">
-                    <img class="mb-2 w-25 p-2" src="/assets/img/logo-ct-dark.png" alt="Logo">
+                    
+                    <img class="mb-2 w-25 p-2" src="/assets/icon-02.png" alt="Logo">
+
                     <h4>
                         {{empresa.nombre}}, {{ciudadE.nombre}}, {{paisE.nombre}}
                     </h4>
-                    <p class="d-block text-secondary">tel: {{empresa.telefono}}</p>
+                    <p class="text-secondary">{{empresa.identificacion}}<br>
+                      {{empresa.correo}}
+                  <br> {{empresa.telefono}}</p>
+                  <div class="col-md-6">
+                    <h4 class="text-secondary font-weight-normal mb-0">Fecha de Factura:</h4>
+                  </div>
+                  <div class="col-md-6">
+                    <h4 class="text-dark mb-0">{{factura.fecha}}</h4>
+                  </div>
                   </div>
                   <div class="col-lg-3 col-md-7 text-md-end text-start mt-5">
-                    <h3 class="d-block mt-2 mb-0">Facturado a: {{empresa.nombre}}</h3>
-                    <p class="text-secondary">{{empresa.identificacion}}<br>
-                        {{empresa.correo}}
-                    </p>
-                  </div>
-                </div>
-                <br>
-                <div class="row justify-content-md-between">
-                  <div class="col-md-4 mt-auto">
-                    <h6 class="mb-0 text-start text-secondary font-weight-normal">
-                      Num. Factura
-                    </h6>
-                    <h5 class="text-start mb-0">
-                      {{factura.id_factura}}
+                    <h5 class="mb-0 font-weight-normal">
+                      Num. Factura: {{factura.id_factura}}
                     </h5>
-                  </div>
-                  <div class="col-lg-5 col-md-7 mt-auto">
-                    <div class="row mt-md-5 mt-4 text-md-end text-start">
-                      <div class="col-md-6">
-                        <h6 class="text-secondary font-weight-normal mb-0">Fecha de Factura:</h6>
-                      </div>
-                      <div class="col-md-6">
-                        <h6 class="text-dark mb-0">{{factura.fecha}}</h6>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
+                
               </div>
               <div class="card-body">
                 <div class="row">
@@ -100,9 +92,7 @@
                           <tr style="text-align: center;">
                             <th style="text-align: center;" >Producto</th>
                             <th style="text-align: center;" >Periodo</th>
-                            <th style="text-align: center;" >Precio</th>
-                            <th style="text-align: center;" >Iva</th>
-                            <th style="text-align: center;" >Descuento</th>
+                            <th style="text-align: center;" >Precio Unitario</th>
                             <th style="text-align: center;" >Subtotal</th>
                           </tr>
                         </thead>
@@ -110,27 +100,31 @@
                           <tr *ngFor="let producto of productos" style="text-align: center;">
                             <td style="text-align: center;">{{producto.nombre}}</td>
                             <td style="text-align: center;">{{pago.periodo}}</td>
-                            <td style="text-align: center;">{{producto.precio}} USD</td>
-                            <td style="text-align: center;">{{producto.precio*factura.iva*pago.periodo}} USD</td>
-                            <td style="text-align: center;">{{membresia.descuento*100}}%</td>
-                            <td style="text-align: center;">{{obtenerSubtotal(producto.precio)}} USD </td>
+                            <td style="text-align: center;"> $ {{producto.precio| number: '1.2-2'}} USD</td>
+                            <td style="text-align: center;">$ {{obtenerSubtotal(producto.precio)| number: '1.2-2'}} USD </td>
                           </tr>
                         </tbody>
                         <tfoot>
                           <tr>       
                             <th></th>
-                            <th class="h6 ps-8" colspan="2">Subtotal</th>
-                            <th colspan="1" class="text-right h6 ps-1">{{obtenerSubtotalT()}} USD</th>
+                            <th class="h6 ps-0" colspan="1">Subtotal</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()| number: '1.2-2'}} USD</th>
+                            <th></th>
                           </tr>
                           <tr>
                             <th></th>
-                            <th class="h6 ps-8" colspan="2">Iva</th>
-                            <th colspan="1" class="text-right h6 ps-1">{{obtenerSubtotalT()*factura.iva}} USD</th>
+                            <th class="h6 ps-0" colspan="1">Descuento:</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*membresia.descuento| number: '1.2-2'}} USD</th>
                           </tr>
                           <tr>
                             <th></th>
-                            <th class="h4 ps-8" colspan="2">Total</th>
-                            <th colspan="1" class="text-right h4 ps-1">{{obtenerTotal()}} USD</th>
+                            <th class="h6 ps-0" colspan="1">Iva ({{factura.iva*100}}%)</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*factura.iva| number: '1.2-2'}} USD</th>
+                          </tr>
+                          <tr>
+                            <th></th>
+                            <th class="h4 ps-0" colspan="1">Total</th>
+                            <th colspan="1" class="text-right h4 ps-0">$ {{obtenerTotal()| number: '1.2-2'}} USD</th>
                           </tr>
                         </tfoot>
                       </table>

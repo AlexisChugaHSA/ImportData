@@ -83,31 +83,38 @@
                                                 <div class="d-flex">
 
                                                     <img class="w-10 ms-5"
-                                                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/adidas-hoodie.jpg"
-                                                        alt="hoodie">
-                                                    <h4 class="ms-5 my-3">{{producto.nombre}}</h4>
+                                                    [src]="'/assets/img/productos/' + producto.nombre + '.png'"                                                        alt="hoodie">
+                                                    <h4 class="ms-5 text-wrap">{{producto.nombre}}</h4>
                                                 </div>
                                             </td>
-                                            <td style="text-align: center;" class="text-lg">{{producto.precio}} USD</td>
-                                            <td style="text-align: center;" class="text-lg">{{membresia.tipo}}</td>
-                                            <td style="text-align: center;" class="text-lg">{{producto.precio*periodo}}
+                                            <td style="text-align: center;">
+                                                <h4 class="text-lg text-wrap">$ {{ producto.precio| number:
+                                                    '1.2-2' }} USD</h4>
+                                            </td>
+                                            <td style="text-align: center;" > <h4 class="text-lg text-wrap"> {{membresia.tipo}}</h4></td>
+                                            <td style="text-align: center;" >  <h4 class="text-lg text-wrap">$ {{producto.precio*periodo| number:
+                                                '1.2-2' }} USD</h4>
                                             </td>
 
                                         </tr>
                                         <tr style="text-align: center; ">
                                             <td colspan="4">
-                                                <h2><strong class="precio-tachado">{{total2}}</strong> USD</h2>
-                                                <h2>Subtotal: {{obtenerSubtotalT()}} USD</h2>
+                                                <h2><strong class="precio-tachado">$ {{obtenerSubtotalT() | number:
+                                                    '1.2-2'}}</strong> USD</h2>
+                                                <h2>Subtotal: $ {{obtenerSubtotalT()*(1-membresia.descuento)| number:
+                                                    '1.2-2'}} USD</h2>
                                             </td>
                                         </tr>
                                         <tr style="text-align: center; ">
                                             <td colspan="4">
-                                                <h2>Iva: {{obtenerSubtotalT()*iva}} USD</h2>
+                                                <h2>Iva ({{iva*100}}%): $ {{obtenerSubtotalT()*iva | number:
+                                                    '1.2-2'}} USD</h2>
                                             </td>
                                         </tr>
                                         <tr style="text-align: center; ">
                                             <td colspan="4">
-                                                <h2>Total a pagar: {{total}} USD</h2>
+                                                <h2>Total a pagar: $ {{total | number:
+                                                    '1.2-2'}} USD</h2>
                                             </td>
                                         </tr>
 
@@ -125,7 +132,7 @@
             </div>
         </div>
 
-        <div class="container-fluid my-2 py-0" *ngIf=" num_productos!=0">
+        <div class="container-fluid my-2 py-0" *ngIf=" num_productos!=0" style="display: none;">
             <div class="row mb-lg-0">
                 <div class="col-lg-6 card mt-4">
                     <br>
@@ -170,7 +177,7 @@
                 </div>
 
 
-                <div class="col-lg-6 mt-lg-0 mt-4" >
+                <div class="col-lg-6 mt-lg-0 mt-4"  style="display: none;">
                     <!-- Card Profile -->
 
                     <!-- Card Basic Info -->
@@ -288,6 +295,14 @@
                 </div>
             </div>
         </div>
+        <div style="  display: block;
+        justify-content: center;
+        align-items: center;
+        height: 400px; 
+        width: 300px;">
+            <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+        </div>
+        
         <app-footer></app-footer>
     </main></div></div>
 

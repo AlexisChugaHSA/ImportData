@@ -179,15 +179,15 @@ export class DetalleFacturaComponent {
     );
   }
   obtenerSubtotal(precio: number){
-    return Math.round(precio*(1-this.membresia.descuento)*this.pago.periodo*100)/100;
+    return Math.round(precio*this.pago.periodo*100)/100;
   }
   obtenerSubtotalT(){
-    return Math.round(this.productos.reduce((acumulador, producto) => acumulador + producto.precio * this.pago.periodo, 0)*(1-this.membresia.descuento)*100)/100;
+    return Math.round(this.productos.reduce((acumulador, producto) => acumulador + producto.precio * this.pago.periodo, 0)*100)/100;
   }
   obtenerIva(){
-    return Math.round(this.productos.reduce((acumulador, producto) => acumulador + producto.precio * this.pago.periodo, 0)*(1-this.membresia.descuento)*100)/100;
+    return Math.round(this.productos.reduce((acumulador, producto) => acumulador + producto.precio * this.pago.periodo, 0)*(1-this.membresia.descuento+this.factura.iva)*100)/100;
   }
   obtenerTotal() {
-    return Math.round(this.productos.reduce((acumulador, producto) => acumulador + producto.precio * this.pago.periodo, 0)*(1-this.membresia.descuento)*(1+this.factura.iva)*100)/100;
+    return Math.round(this.productos.reduce((acumulador, producto) => acumulador + producto.precio * this.pago.periodo, 0)*(1-this.membresia.descuento+this.factura.iva)*100)/100;
   }
 }

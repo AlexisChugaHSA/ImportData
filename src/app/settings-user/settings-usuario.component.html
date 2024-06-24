@@ -212,7 +212,7 @@
               </div>
               <div class="row mt-3" *ngIf="ciudadSeleccionadaE && paisSeleccionadoE">
                 <div class="col-12 col-sm-6">
-                  <label style="color: #6c757d;">Pais:</label>
+                  <label style="color: #6c757d;">País:</label>
                   <div class="input-group input-group-dynamic">
                     <ng-select class="multisteps-form__input form-control" [items]="paises"   [(ngModel)]="paisSeleccionadoE.id_pais" 
                       [searchable]="true" [virtualScroll]="true" [bindValue]="'id_pais'" 
@@ -227,7 +227,7 @@
                       [searchable]="true" [virtualScroll]="true" [bindValue]="'id_ciudad'" [ngModel]="ciudadSeleccionadaE.id_ciudad"
                       [bindLabel]="'nombre'" (change)="onCityESelectionChange($event)">
                     </ng-select>
-                  </div>
+                  </div> 
                 </div>
                 
               </div>

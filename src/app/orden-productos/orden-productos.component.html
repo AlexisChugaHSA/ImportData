@@ -97,33 +97,27 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th style="width: 30%; text-align: center;">Producto</th>
-                                                    <th style="text-align: center;">Categoría</th>
+
                                                     <th style="text-align: center;">Precio</th>
-                                                    <th style="text-align: center;">Descripción</th>
+                
                                                     <th style="text-align: center;">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody *ngFor="let producto of productos_carrito">
                                                 <tr>
                                                     <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <img class="w-25 ms-1"
-                                                                [src]="'/assets/img/productos/' + producto.nombre + '.png'"
-                                                                alt="hoodie">
-                                                            <h4 class="ms-1 text-wrap">{{producto.nombre}}</h4>
+                                                        <div class="d-flex">
+        
+                                                            <img class="w-10 ms-5"
+                                                            [src]="'/assets/img/productos/' + producto.nombre + '.png'"                                                        alt="hoodie">
+                                                            <h4 class="ms-5 text-wrap">{{producto.nombre}}</h4>
                                                         </div>
                                                     </td>
                                                     <td style="text-align: center;">
-                                                        <h4 class="text-wrap">{{
-                                                            buscarCategoria(producto.id_categoria)}}</h4>
-                                                    </td>
-                                                    <td style="text-align: center;">
-                                                        <h4 class="text-lg text-wrap">$ {{ producto.precio| number:
+                                                        <h4 class="text-lg text-wrap text-center">$ {{ producto.precio| number:
                                                             '1.2-2' }} USD</h4>
                                                     </td>
-                                                    <td style="text-align: center;">
-                                                        <h4 class="text-lg text-wrap">{{producto.descripcion}}</h4>
-                                                    </td>
+
 
                                                     <td style="text-align: center;" class="text-lg">
                                                         <a [routerLink]="['/detalle-producto', producto.id_producto]"
@@ -181,7 +175,7 @@
                                     <div class="tab-pane active" id="monthly">
                                         <div class="row">
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg">
+                                                <div class="card shadow-lg" style="height: 709.8px;">
                                                     <span
                                                         class="badge rounded-pill bg-light text-dark w-50 mt-n2 mx-auto">{{membresia1.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3">
@@ -224,7 +218,7 @@
                                                             <span class="ps-3">Acceso 24/7. </span>
                                                         </div>
                                                         <a (click)="redirigir(total1,membresia1)"
-                                                            class="btn btn-icon  d-lg-block mt-3 mb-0" style="background-color: #3D5463; color: white;">
+                                                            class="btn btn-icon  d-lg-block mb-0" style="background-color: #3D5463; color: white; margin-top: 133px;">
                                                             Pagar
                                                             <i class="fas fa-arrow-right ms-1"></i>
                                                         </a>
@@ -232,7 +226,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card  shadow-lg" style="background-color: #3D5463; color: white;">
+                                                <div class="card  shadow-lg" style="background-color: #3D5463; color: white; height: 709.8px;">
                                                     <span style="background-color: #FF764B;"
                                                         class="badge rounded-pill  w-50 mt-n2 mx-auto">{{membresia2.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3 bg-transparent">
@@ -283,8 +277,8 @@
                                                         <i class="material-icons my-auto text-white">done</i>
                                                         <span class="ps-3 text-white">Acceso 24/7.</span>
                                                     </div>
-                                                        <a href="javascript:;" (click)="redirigir(total2,membresia2)" style="background-color: #FF764B; color: white;"
-                                                            class="btn btn-icon  d-lg-block mt-3 mb-0">
+                                                        <a href="javascript:;" (click)="redirigir(total2,membresia2)" style="background-color: #FF764B; color: white; "
+                                                            class="btn btn-icon  d-lg-block mt-3  mb-0">
                                                             Pagar
                                                             <i class="fas fa-arrow-right ms-1"></i>
                                                         </a>
@@ -292,7 +286,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg">
+                                                <div class="card shadow-lg" style="height: 709.8px;">
                                                     <span
                                                         class="badge rounded-pill bg-light text-dark w-50 mt-n4 mx-auto">{{membresia3.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3">
@@ -343,7 +337,7 @@
                                                         <span class="ps-3">Acceso 24/7 </span>
                                                     </div>
                                                         <a href="javascript:;" (click)="redirigir(total3,membresia3)"
-                                                            class="btn btn-icon  d-lg-block mt-3 mb-0" style="background-color: #3D5463; color: white;">
+                                                            class="btn btn-icon  d-lg-block mb-0" style="background-color: #3D5463; color: white; margin-top: 36px;">
                                                             Pagar
                                                             <i class="fas fa-arrow-right ms-1"></i>
                                                         </a>
@@ -351,7 +345,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg">
+                                                <div class="card shadow-lg" style="height: 709.8px;">
                                                     <span style="text-align: center;"
                                                         class="badge rounded-pill bg-light text-dark w-50 mt-n2 mx-auto">{{membresia4.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3">
@@ -404,7 +398,7 @@
                                                         <span class="ps-3">Acceso 24/7. </span>
                                                     </div>
                                                         <a href="javascript:;" (click)="redirigir(total4,membresia4)"
-                                                            class="btn btn-icon  d-lg-block mt-3 mb-0" style="background-color: #3D5463; color: white;">
+                                                            class="btn btn-icon  d-lg-block mb-0" style="background-color: #3D5463; color: white; margin-top: 36px;">
                                                             Pagar
                                                             <i class="fas fa-arrow-right ms-1"></i>
                                                         </a>
@@ -416,7 +410,7 @@
                                     <div class="tab-pane" id="annual">
                                         <div class="row">
                                             <div class="col-lg-4 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg">
+                                                <div class="card shadow-lg" style="height: 709.8px;">
                                                     <span
                                                         class="badge rounded-pill bg-light text-dark w-30 mx-auto">Starter</span>
                                                     <div class="card-header text-center pt-4 pb-3">

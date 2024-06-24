@@ -1,0 +1,36 @@
+.image-viewer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .image-viewer-header {
+    position: absolute;
+    top: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  .image-viewer-header button {
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .image-viewer-img {
+    max-width: 90%;
+    max-height: 90%;
+    margin-top: 50px;
+  }
+  

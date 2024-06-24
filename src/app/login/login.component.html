@@ -39,25 +39,19 @@
 
 
 <body class="bg-gray-200">
-  <app-cabecera></app-cabecera>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  mt-4">
-    <div class="container">
-    <h2 style="color: white;"> HSA - Import Data </h2> 
-    </div>
-  </nav>
   
   <!-- End Navbar -->
   <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
+    <div class="page-header align-items-start min-vh-100" >
       <span class="mask bg-gradient-dark opacity-6"></span>
-      <div class="container my-auto">
+      <div class="container my-auto" style="padding-bottom: 60px; padding-top: 60px;">
+        <img src="/assets/hsa-03.png" alt="" style="width: 200px; height: 100px; padding: 20px;">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                <div class=" shadow-primary border-radius-lg py-1 pe-1" style="background-color: #FF764B;">
+                  <h2 class="text-white font-weight-bolder text-center mt-5 mb-0">Iniciar Sesión</h2>
                   <div class="row mt-3">
                     <div class="col-2 text-center ms-auto">
                       <a class="btn btn-link px-3" href="javascript:;">
@@ -95,16 +89,30 @@
                     </div>
                   
                   </div>
-                  <div class="form-check form-switch d-flex align-items-center mb-3">
-                    <input class="form-check-input" type="checkbox" id="rememberMe">
-                    <label class="form-check-label mb-0 ms-2" for="rememberMe">Olvide mi contraseña</label>
+                  <div >
+                    <label class="form-check-label mb-0 ms-2" for="rememberMe">¿Olvidaste tu contraseña?</label>
                   </div>
                   <div class="text-center">
-                    <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2" (click)="loginUsuario()">Iniciar sesión</button>
+                    <button type="button" style="background-color: #3D5463; color: white;" class="btn  w-100 my-4 mb-2" (click)="loginUsuario()">Iniciar sesión</button>
                   </div>
+                  <div class="divider-container">
+                    <div class="divider"></div>
+                    <div class="divider-text">ó</div>
+                    <div class="divider"></div>
+                </div>
+                <div class="button-container">
+                  <button class="social-button google-button" >
+                      <img src="assets/img/icons/google-logo.jpg" style="border-radius: 50px;" alt="Google Logo">
+                      Iniciar sesión con Google
+                  </button>
+                  <button class="social-button facebook-button">
+                      <img src="assets/img/icons/fb-logo.jpg" style="border-radius: 50px;" alt="Facebook Logo">
+                      Iniciar sesión con Facebook
+                  </button>
+              </div>
                   <p class="mt-4 text-sm text-center">
-                    No tienes una cuenta?
-                    <a [routerLink]="['/new-user']" [routerLinkActive]="['activado']" class="text-primary text-gradient font-weight-bold">Registrate</a>
+                    ¿No tienes una cuenta?
+                    <a [routerLink]="['/new-user']" [routerLinkActive]="['activado']" style="background-color: #FF764B;" class=" text-gradient font-weight-bold">Registrate</a>
                   </p>
                 </form>
               </div>
