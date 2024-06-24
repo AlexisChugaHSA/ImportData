@@ -71,7 +71,7 @@ export class DetalleFacturaComponent {
         let mensaje=result
         this.login=mensaje.login;
         if(this.login){
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         }
         else{
           this._router.navigate(['/login'])
@@ -80,7 +80,7 @@ export class DetalleFacturaComponent {
       },
       error => {
         this._router.navigate(['/login'])
-        console.log(error)
+        //console.log(error)
         this.login=false;
         
       })
@@ -100,32 +100,32 @@ export class DetalleFacturaComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        console.log(this.persona);
+        //console.log(this.persona);
         this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
           result => {
             this.empresa = <Empresa>result;
-            console.log(this.empresa);
+            //console.log(this.empresa);
             this._direccionService.getDireccion(this.empresa.direccion).subscribe(
               result => {
                 this.direccionE = <Direccion>result;
-                console.log(this.direccionE);
+                //console.log(this.direccionE);
                 this._paisService.getPais(this.direccionE.id_pais).subscribe(
                   result => {
                     this.paisE = <Pais>result;
-                    console.log(this.paisE);
+                    //console.log(this.paisE);
                   }
                 )
                 this._ciudadService.getCiudad(this.direccionE.id_ciudad).subscribe(
                   result => {
                     this.ciudadE = <Ciudad>result;
-                    console.log(this.ciudadE);
+                    //console.log(this.ciudadE);
                     this.dialogRef.close();
                   }
                 )
               })
           },
           error => {
-            console.log(error)
+            //console.log(error)
           })
       })
   }
@@ -134,7 +134,7 @@ export class DetalleFacturaComponent {
     this._facturaService.getFactura(this.id).subscribe(
       result => {
         this.factura = <Factura>result;
-        console.log(this.factura)
+        //console.log(this.factura)
       }
     )
   }
@@ -159,7 +159,7 @@ export class DetalleFacturaComponent {
       }
 
     );
-    console.log(this.productos);
+    //console.log(this.productos);
     
   }
   obtenerDescuento() {

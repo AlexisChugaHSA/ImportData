@@ -41,16 +41,16 @@ export class DetalleProductoComponent {
           let mensaje=result
           this.login=mensaje.login;
           if(this.login){
-             console.log(mensaje.login)
+             //console.log(mensaje.login)
           }
           else{
              this._router.navigate(['/login'])
           }
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         },
         error => {
           //this._router.navigate(['/login'])
-          console.log(error)
+          //console.log(error)
           this.login=false;
           
         })
@@ -58,7 +58,7 @@ export class DetalleProductoComponent {
 
 
   addToCar(){
-    console.log(this.producto)
+    //console.log(this.producto)
     const existe = this.productos_carrito.some(item => item.id_producto === this.producto.id_producto);
     if(!existe) {
     this.productos_carrito.push(this.producto);
@@ -75,7 +75,7 @@ export class DetalleProductoComponent {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log(this.id);
+    //console.log(this.id);
     
     this._productoService.getProducto(this.id).subscribe(
       result=>{
@@ -89,13 +89,13 @@ export class DetalleProductoComponent {
         this.obtenerTodosProductos();
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     const savedArray = <any[]>this.localStorageService.get('Productos-Carrito');
     if (savedArray) {
       this.productos_carrito = savedArray;
-      console.log(this.productos_carrito)
+      //console.log(this.productos_carrito)
       this.num_productos=this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
@@ -106,15 +106,15 @@ export class DetalleProductoComponent {
   obtenerTodosProductos(){
     this._productoService.getProductos().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.todosProductos=result
         this.otrosProductos = this.todosProductos.filter(item => item.id_producto !== this.producto.id_producto);
         this.dialogRef.close();
-    console.log(this.otrosProductos);
+    //console.log(this.otrosProductos);
         this.dialogRef.close();
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
 }

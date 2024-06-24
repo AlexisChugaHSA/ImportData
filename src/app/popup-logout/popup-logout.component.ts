@@ -27,18 +27,18 @@ export class PopupLogoutComponent {
   logout(){
     this.authService.logout(this.usuario.id_usuario).subscribe(
       result=>{
-          console.log(result);
+          //console.log(result);
           this.clearLocalStorage();
           this._router.navigate(['/login']);
           this.closeDialog()
         },
         error=> {
-          console.log(error)
+          //console.log(error)
         }
       )
   }
   clearLocalStorage(): void {
     localStorage.clear();
-    console.log('Local Storage borrado');
+    //console.log('Local Storage borrado');
   }
 }

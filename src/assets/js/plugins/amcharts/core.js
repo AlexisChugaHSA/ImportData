@@ -24385,7 +24385,7 @@
           var t, e = this.getPropertyValue("tooltipY");
           return A.hasValue(e) || (e = Object(E.c)(50)), A.isNumber(e) && (t = e), e instanceof E.a && (t = this.maxTopSelf + this._measuredHeightSelf * e.value - this.pixelPaddingTop - this.ey), A.isNumber(t) || (t = 0), t
         }, e.prototype.raiseCriticalError = function(t, e) {
-          this.svgContainer && (this._adapterO ? this.modal.content = this._adapterO.apply("criticalError", t).message : this.modal.content = t.message, e ? this.modal.closable = !0 : this.disabled = !0, x.a.suppressErrors || this.modal.open()), x.a.verbose && console.log(t)
+          this.svgContainer && (this._adapterO ? this.modal.content = this._adapterO.apply("criticalError", t).message : this.modal.content = t.message, e ? this.modal.closable = !0 : this.disabled = !0, x.a.suppressErrors || this.modal.open()), x.a.verbose && //console.log(t)
         }, e.prototype.processConfig = function(e) {
           e && (A.hasValue(e.tooltipColorSource) && A.isString(e.tooltipColorSource) && this.map.hasKey(e.tooltipColorSource) && (e.tooltipColorSource = this.map.getKey(e.tooltipColorSource)), A.hasValue(e.cursorOverStyle) && A.isString(e.cursorOverStyle) && (e.cursorOverStyle = this.getCursorStyle(e.cursorOverStyle)), A.hasValue(e.cursorDowntyle) && A.isString(e.cursorDowntyle) && (e.cursorDowntyle = this.getCursorStyle(e.cursorDowntyle)), A.hasValue(e.cursorOptions) && (A.hasValue(e.cursorOptions.overStyle) && A.isString(e.cursorOptions.overStyle) && (e.cursorOptions.overStyle = this.getCursorStyle(e.cursorOptions.overStyle)), A.hasValue(e.cursorOptions.downStyle) && A.isString(e.cursorOptions.downStyle) && (e.cursorOptions.downStyle = this.getCursorStyle(e.cursorOptions.downStyle)))), t.prototype.processConfig.call(this, e), this.processDelayedMap()
         }, e.prototype.getCursorStyle = function(t) {
@@ -27202,7 +27202,7 @@
         }, e.prototype.copyFrom = function(e) {
           this.bullets.copyFrom(e.bullets), this.bulletsContainer.copyFrom(e.bulletsContainer), this.calculatePercent = e.calculatePercent, this.usePercentHack = e.usePercentHack, this.simplifiedProcessing = e.simplifiedProcessing, t.prototype.copyFrom.call(this, e)
         }, e.prototype.raiseCriticalError = function(t) {
-          this._chart && this._chart.modal && (this._chart.modal.content = this._chart.adapter.apply("criticalError", t).message, this._chart.modal.closable = !1, d.a.suppressErrors || this._chart.modal.open(), this._chart.disabled = !0), d.a.verbose && console.log(t)
+          this._chart && this._chart.modal && (this._chart.modal.content = this._chart.adapter.apply("criticalError", t).message, this._chart.modal.closable = !1, d.a.suppressErrors || this._chart.modal.open(), this._chart.disabled = !0), d.a.verbose && //console.log(t)
         }, e.prototype.applyFilters = function() {
           var e = this;
           t.prototype.applyFilters.call(this), this.bulletsContainer.filters.clear(), m.each(this.filters.iterator(), function(t) {
@@ -39301,7 +39301,7 @@
                 n = e.pointerType
             } else n = "undefined" != typeof TouchEvent && e instanceof TouchEvent ? "touch" : e.type.match(/^mouse/) ? "mouse" : "???";
             var a = "";
-            a = x.hasValue(e.identifier) ? e.identifier : x.hasValue(e.pointerId) ? e.pointerId : "???", i ? console.log(t + " (" + i.uid + ")  " + e.type + "  " + n + "  " + a) : console.log(t + "  " + e.type + "  " + n + "  " + a)
+            a = x.hasValue(e.identifier) ? e.identifier : x.hasValue(e.pointerId) ? e.pointerId : "???", i ? //console.log(t + " (" + i.uid + ")  " + e.type + "  " + n + "  " + a) : //console.log(t + "  " + e.type + "  " + n + "  " + a)
           }
         }, e.prototype.areTransformed = function(t) {
           var e = this.transformedObjects.length;
@@ -39309,7 +39309,7 @@
             for (var i = x.isArray(t) ? t : [t], r = 0; r < i.length; r++) this.transformedObjects.contains(i[r]) && e--;
           return e > 0
         }, e.prototype.logTouch = function(t, e, i) {
-          console.log(t + "  " + e + "  touch  " + i.identifier)
+          //console.log(t + "  " + e + "  touch  " + i.identifier)
         }, Object.defineProperty(e, "passiveSupported", {
           get: function() {
             var t = this;

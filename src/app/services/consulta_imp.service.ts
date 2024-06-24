@@ -18,7 +18,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-top-marcas-unidades',params,{headers})
   }
@@ -26,7 +26,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-top-marcas-fob',params,{headers})
   }
@@ -34,7 +34,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-importaciones-fob-unidades',params,{headers})
   }
@@ -42,7 +42,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-share-por-marcas',params,{headers})
   }
@@ -50,7 +50,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-share-por-segmento',params,{headers})
   }
@@ -58,7 +58,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'precio-promedio-por-marcas',params,{headers})
   }
@@ -66,7 +66,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-fob-por-importador',params,{headers})
   }
@@ -74,7 +74,7 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-características-por-marca',params,{headers})
   }
@@ -82,14 +82,14 @@ export class ConsultaImpService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(consulta);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'consulta-ventas-por-importador',params,{headers})
   }
   getAnios(id:number){
     this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-    console.log(headers)
+    //console.log(headers)
     return this._http.get(this.url+'consulta-anios-fecha-despacho/'+id,{headers})
   }
   getCaracteristicas(id:number){

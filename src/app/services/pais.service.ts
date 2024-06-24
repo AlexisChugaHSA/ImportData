@@ -29,7 +29,7 @@ export class PaisService {
     
     let json=JSON.stringify(membresia);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'membresias',params,{headers})
   }

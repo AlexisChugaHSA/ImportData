@@ -125,14 +125,14 @@ export class NewUserComponent {
         this.ciudades = result;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       })
-    console.log(country);
+    //console.log(country);
     this.direccionP.id_pais = this.paisSeleccionadoP.id_pais
   }
   onCityPSelectionChange(city: Ciudad) {
     this.ciudadSeleccionadaP = city;
-    console.log(this.ciudadSeleccionadaP);
+    //console.log(this.ciudadSeleccionadaP);
     this.direccionP.id_ciudad = this.ciudadSeleccionadaP.id_ciudad
   }
   onCountryESelectionChange(country: Pais) {
@@ -142,14 +142,14 @@ export class NewUserComponent {
         this.ciudades = result;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       })
-    console.log(country);
+    //console.log(country);
     this.direccionE.id_pais = this.paisSeleccionadoE.id_pais
   }
   onCityESelectionChange(city: Ciudad) {
     this.ciudadSeleccionadaE = city;
-    console.log(this.ciudadSeleccionadaE);
+    //console.log(this.ciudadSeleccionadaE);
     this.direccionE.id_ciudad = this.ciudadSeleccionadaE.id_ciudad
   }
   onSubmit() {
@@ -159,56 +159,56 @@ export class NewUserComponent {
       result => {
         this.direccionP2 = result
         this.persona.id_direccion = this.direccionP2.id_direccion
-        console.log("Direccion de persona registrada")
+        //console.log("Direccion de persona registrada")
         //agregar direccion empresa
         this._direccionService.addDireccion(this.direccionE).subscribe(
           result => {
             this.direccionE2 = result
             this.empresa.direccion = this.direccionE2.id_direccion
-            console.log("Direccion de empresa registrada")
+            //console.log("Direccion de empresa registrada")
             //agregar empresa
             this._empresaService.addEmpresa(this.empresa).subscribe(
               result => {
                 this.empresa2 = result
                 this.persona.id_empresa = this.empresa2.id_empresa
-                console.log("Empresa registrada")
+                //console.log("Empresa registrada")
                 //agregar usuario
                 this._usuarioService.addUsuario(this.user).subscribe(
                   result => {
                     this.usuario = result
                     this.persona.id_usuario = this.usuario.id_usuario
-                    console.log("Usuario registrado")
+                    //console.log("Usuario registrado")
                     //agregar persona
-                    console.log(this.persona);
+                    //console.log(this.persona);
                     this.localStorageService.set('nombre_usuario',this.persona.nombre);
                     this._personaService.addPersona(this.persona).subscribe(
                       result => {
                           dialogRef1.close();
                           const dialogRef = this.dialog.open(PopupBienvenidaComponent);
                           dialogRef.afterClosed().subscribe(() => {
-                            console.log('El mensaje emergente se cerró.');
+                            //console.log('El mensaje emergente se cerró.');
                           });
-                        console.log("Persona registrada")
+                        //console.log("Persona registrada")
                       },
                       error => {
-                        console.log(error)
+                        //console.log(error)
                       })
                   },
                   error => {
-                    console.log(error)
+                    //console.log(error)
                   })
               },
               error => {
-                console.log(error)
+                //console.log(error)
               })
           },
           error => {
-            console.log(error)
+            //console.log(error)
           })
 
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
 
   }
@@ -234,14 +234,14 @@ export class NewUserComponent {
 
 
   ngOnInit() {
-    console.log("AddUsuario funcionando")
+    //console.log("AddUsuario funcionando")
     this._paisService.getPaises().subscribe(
       result => {
         this.paises = result;
-        //console.log(this.paises)
+        ////console.log(this.paises)
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }

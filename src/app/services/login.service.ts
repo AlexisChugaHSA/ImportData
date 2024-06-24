@@ -24,7 +24,7 @@ export class AuthService {
   loginUsuario(usuario:Usuario){
     let json=JSON.stringify(usuario);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     this.isLoggedIn=true;
     return this._http.post(this.url+'login',params,{headers})
@@ -32,7 +32,7 @@ export class AuthService {
   loginUsuarioSi(usuario:Usuario){
     let json=JSON.stringify(usuario);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     this.isLoggedIn=true;
     return this._http.post(this.url+'login/si',params,{headers})
@@ -41,7 +41,7 @@ export class AuthService {
     this.access_token=this.localStorageService.get('token');
     this.id_usuario=this.localStorageService.get('id_usuario');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    console.log(headers)
+    //console.log(headers)
     return this._http.get(this.url+'usuario-logueado/'+this.id_usuario,{headers});
     
   }
@@ -54,7 +54,7 @@ export class AuthService {
         return this.bandera;
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
       return this.bandera;
       
@@ -63,7 +63,7 @@ export class AuthService {
   logout(id: number) {
     this.access_token=this.localStorageService.get('token');
     let cabecera = new HttpHeaders({'Authorization': 'Bearer ' + this.access_token});
-    console.log('Bearer ' + this.access_token);
+    //console.log('Bearer ' + this.access_token);
     let opciones = { headers: cabecera }; // Opciones con el objeto de cabecera
     return this._http.post(this.url + 'logout/' + id, {}, opciones); // Pasar las opciones en el tercer parámetro
   }

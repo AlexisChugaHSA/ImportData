@@ -89,16 +89,16 @@ export class FormularioPagoComponent {
           let mensaje=result
           this.login=mensaje.login;
           if(this.login){
-             console.log(mensaje.login)
+             //console.log(mensaje.login)
           }
           else{
              this._router.navigate(['/login'])
           }
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         },
         error => {
           this._router.navigate(['/login'])
-          console.log(error)
+          //console.log(error)
           this.login=false;
           
         })
@@ -110,7 +110,7 @@ export class FormularioPagoComponent {
     this.detalle_factura = new DetalleFactura(0, 1, 0, 1, 0);
     this._paypalService.getToken().subscribe(
       response => {
-        console.log('Token de acceso:', response.access_token);
+        //console.log('Token de acceso:', response.access_token);
       },
       error => {
         console.error('Error al obtener el token:', error);
@@ -125,7 +125,7 @@ export class FormularioPagoComponent {
       result => {
         let iva:any=result;
         this.iva=iva.iva_valor;
-        console.log(this.iva)
+        //console.log(this.iva)
         this.get_carrito();
       },
       error => {
@@ -141,7 +141,7 @@ export class FormularioPagoComponent {
       },
     });
     dialogRef.afterClosed().subscribe(() => {
-      console.log('El mensaje emergente se cerró.');
+      //console.log('El mensaje emergente se cerró.');
     });
   }
 
@@ -176,10 +176,10 @@ export class FormularioPagoComponent {
      // this.guardarMetPago();
       this.guardarPago()
       this.openDialog();
-      console.log(this.tarjetaVencida)
+      //console.log(this.tarjetaVencida)
     } else {
       this.tarjetaVencida = true;
-      console.log(this.tarjetaVencida)
+      //console.log(this.tarjetaVencida)
     }
     this.dialogRef1.close();
 
@@ -191,7 +191,7 @@ export class FormularioPagoComponent {
     const savedArray = this.localStorageService.get('Productos-Carrito');
     if (savedArray) {
       this.productos_carrito = savedArray;
-      console.log(this.productos_carrito)
+      //console.log(this.productos_carrito)
       this.num_productos = this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
       this.get_total()
@@ -212,13 +212,13 @@ export class FormularioPagoComponent {
       };
       items.push(item);
     });
-    console.log(items)
+    //console.log(items)
     return items;
   }
   get_total() {
     var subtotal = this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
     this.membresia = this.localStorageService.get('membresia');
-    console.log(this.membresia);
+    //console.log(this.membresia);
     if (this.membresia.tipo === "Mensual") { this.periodo = 1 }
     if (this.membresia.tipo === "Trimestral") { this.periodo = 3 }
     if (this.membresia.tipo === "Semestral") { this.periodo = 6 }
@@ -239,11 +239,11 @@ export class FormularioPagoComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        console.log(this.persona)
+        //console.log(this.persona)
         this.dialogRef1.close();
       },
       error => {
-        console.log(error)
+        //console.log(error)
         this.dialogRef1.close();
       })
       
@@ -259,12 +259,12 @@ export class FormularioPagoComponent {
     this.metodo_pago.tarjeta = primerosTres + asteriscos + ultimosTres;
     this._metpagoService.addMetPago(this.metodo_pago).subscribe(
       result => {
-        console.log("Metodo de pago guardado")
+        //console.log("Metodo de pago guardado")
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
-    console.log(this.tarjeta);
+    //console.log(this.tarjeta);
   }
   guardarPago() {
     this.pago.detalle = this.productos_carrito.map(producto => producto.nombre).join(' - ');
@@ -274,11 +274,11 @@ export class FormularioPagoComponent {
     this.pago.valor = this.total;
     this.pago.procesado = 1;
     this.pago.intentos = 0;
-    console.log(this.pago);
+    //console.log(this.pago);
     this._pagoService.addPago(this.pago).subscribe(
       result => {
         this.pagoR = result;
-        console.log("Pago guardado")
+        //console.log("Pago guardado")
         this.guardarFactura();
         this.gradarProductoUsuario();
         this.localStorageService.set('Productos-Carrito','');
@@ -287,7 +287,7 @@ export class FormularioPagoComponent {
           window.location.reload()))
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
   }
 
@@ -299,20 +299,20 @@ export class FormularioPagoComponent {
     this.productos_carrito.forEach(producto => {
       this.prod_user.id_producto = parseInt(producto.id_producto);
       this.prod_user.precio = producto.precio;
-      console.log("XXXXXX" +this.prod_user);
+      //console.log("XXXXXX" +this.prod_user);
       this._productoUsuarioService.addProdUser(this.prod_user).subscribe(
         result => {
           this.prod_users.push(result)
-          console.log("producto-Usuario guardado")
+          //console.log("producto-Usuario guardado")
         },
         error => {
 
-          console.log(error)
+          //console.log(error)
         }
       )
 
     });
-    console.log(this.prod_users)
+    //console.log(this.prod_users)
   }
 
   guardarFactura() {
@@ -322,11 +322,11 @@ export class FormularioPagoComponent {
     this._facturaService.addFactura(this.factura).subscribe(
       result => {
         this.facturaR = result;
-        console.log("Factura guardada")
+        //console.log("Factura guardada")
         this.guardarDetalleFactura();
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }
@@ -338,10 +338,10 @@ export class FormularioPagoComponent {
       this.detalle_factura.precio = producto.precio;
       this._detalleFacturaService.addDetFactura(this.detalle_factura).subscribe(
         result => {
-          console.log(result);
+          //console.log(result);
         },
         error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     });
@@ -378,24 +378,24 @@ export class FormularioPagoComponent {
             layout: 'vertical'
         },
         onApprove: (data, actions) => {
-            console.log('onApprove - transaction was approved, but not authorized', data, actions);
+            //console.log('onApprove - transaction was approved, but not authorized', data, actions);
             actions.order.get().then(details => {
-                console.log('onApprove - you can get full order details inside onApprove: ', details);
+                //console.log('onApprove - you can get full order details inside onApprove: ', details);
                // this.subirDatos();
             });
 
         },
         onClientAuthorization: (data) => {
-            console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+            //console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
         },
         onCancel: (data, actions) => {
-            console.log('OnCancel', data, actions);
+            //console.log('OnCancel', data, actions);
         },
         onError: err => {
-            console.log('OnError', err);
+            //console.log('OnError', err);
         },
         onClick: (data, actions) => {
-            console.log('onClick', data, actions);
+            //console.log('onClick', data, actions);
         }
     };
 }

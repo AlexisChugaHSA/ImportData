@@ -110,7 +110,7 @@ export class DashboardPricingComponent {
     this.producto=new Producto(0,0,"","",0,0,"","","");
     this.getProductoD();
     this.id =this.route.snapshot.paramMap.get('id');
-    console.log(this.id)
+    //console.log(this.id)
     this.getDataBarrasVerticales();
     this.getDataBarrasHorizontales1();
     this.getDataBarrasHorizontales2();
@@ -140,7 +140,7 @@ export class DashboardPricingComponent {
     this._produserService.getP_U(this.usuario.id_usuario).subscribe(
       result => {
         this.prodsUser= <any[]>result;
-        console.log(this.prodsUser);
+    ////console.log(this.prodsUser);
         const existe = this.prodsUser.some(item =>item.id_producto.toString()===this.id);
       if(existe) {
         this._productoService.getProducto(this.id).subscribe(
@@ -148,7 +148,7 @@ export class DashboardPricingComponent {
             this.producto=<Producto>result;
           },
           error=>{
-            console.log(<any>error)
+            //console.log(<any>error)
           }
         )
   }
@@ -405,11 +405,11 @@ export class DashboardPricingComponent {
 
   }
   onItemSelect(item: any) {
-    console.log(item);
+    //console.log(item);
   }
   onItemSelectAnio(item: any) {
     this.consultaImp.anio.push(item);
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectAnio(item: any) {
@@ -418,11 +418,11 @@ export class DashboardPricingComponent {
       this.consultaImp.anio.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectMes(item: any) {
     this.consultaImp.mes.push(item.id_mes);
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectMes(item: any) {
@@ -431,11 +431,11 @@ export class DashboardPricingComponent {
       this.consultaImp.mes.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectCaracteristica(item: any) {
     this.consultaImp.caracteristica.push(item.caracteristica);
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCaracteristica(item: any) {
@@ -444,13 +444,13 @@ export class DashboardPricingComponent {
       this.consultaImp.caracteristica.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
 
   
   onItemSelectCategoria(item: any) {
     this.consultaImp.subcategoria.push(item.nombre_categoria_producto);
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectCategoria(item: any) {
@@ -459,12 +459,12 @@ export class DashboardPricingComponent {
       this.consultaImp.subcategoria.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectMarca(item: any) {
     this.consultaImp.nombre_marca.push(item.nombre_marca);
     this.getDatosDashboard(this.consultaImp)
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemDeSelectMarca(item: any) {
     const index = this.consultaImp.nombre_marca.indexOf(item.nombre_marca);
@@ -472,11 +472,11 @@ export class DashboardPricingComponent {
       this.consultaImp.nombre_marca.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectEmpresa(item: any) {
     this.consultaImp.nombre_empresa.push(item.nombre_empresa);
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectEmpresa(item: any) {
@@ -485,11 +485,11 @@ export class DashboardPricingComponent {
       this.consultaImp.nombre_empresa.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
   onItemSelectModelo(item: any) {
     this.consultaImp.modelo_homologado.push(item.modelo_homologado);
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
     this.getDatosDashboard(this.consultaImp)
   }
   onItemDeSelectModelo(item: any) {
@@ -498,27 +498,27 @@ export class DashboardPricingComponent {
       this.consultaImp.modelo_homologado.splice(index, 1);
       this.getDatosDashboard(this.consultaImp)
     }
-    console.log(this.consultaImp);
+    //console.log(this.consultaImp);
   }
 
 
   onSelectAll(items: any) {
-    console.log(items);
+    //console.log(items);
   }
   onSelectAllCaracteristica(items: any) {
-    console.log(items);
+    //console.log(items);
   }
   onSelectAllCategoria(items: any) {
-    console.log(items);
+    //console.log(items);
   }
   onSelectAllMarca(items: any) {
-    console.log(items);
+    //console.log(items);
   }
   onSelectAllEmpresa(items: any) {
-    console.log(items);
+    //console.log(items);
   }
   onSelectAllModelo(items: any) {
-    console.log(items);
+    //console.log(items);
   }
 
 
@@ -528,11 +528,11 @@ export class DashboardPricingComponent {
   getDatosDashboard(consulta:ConsultaImp){
     this._consultaImpService.getDatosMarcaXUnidades(consulta).subscribe(
       result=>{
-        console.log(result);
+        //console.log(result);
         this.consulta_resultado=result; 
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -540,22 +540,22 @@ export class DashboardPricingComponent {
   getMarcas(){
     this._marcasImpService.getMarcas().subscribe(
       result=>{
-        console.log(result);
+        //console.log(result);
         this.marcas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
   getCategorias(){
     this._categoriaImpService.getSubCategoriasImp().subscribe(
       result=>{
-        console.log(result);
+        //console.log(result);
         this.categorias_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }*/
@@ -563,11 +563,11 @@ export class DashboardPricingComponent {
   getEmpresas(){
     this._empresaImpService.getEmpresasImp().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.empresas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -575,11 +575,11 @@ export class DashboardPricingComponent {
   getTiendas(){
     this._tiendaImpService.getTiendas().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.tiendas_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -587,11 +587,11 @@ export class DashboardPricingComponent {
   getProductos(){
     this._productoImpService.getProductos().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.productos_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -599,11 +599,11 @@ export class DashboardPricingComponent {
   getPrecios(){
     this._precioImpService.getPrecios().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.precios_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -611,11 +611,11 @@ export class DashboardPricingComponent {
   getHomologaciones(){
     this._homologacionImpService.getHomologaciones().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.homologaciones_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -623,11 +623,11 @@ export class DashboardPricingComponent {
   getImportadores(){
     this._importadorImpService.getImportadores().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.importadores_imp=result;
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
@@ -636,7 +636,7 @@ export class DashboardPricingComponent {
     const aniosDespachoSet = new Set<number>();
     this._importacionImpService.getImportaciones().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.importaciones_imp=result;
         this.importaciones_imp.forEach(item => {
           const fechaDespacho = new Date(item.fecha_despacho);
@@ -644,10 +644,10 @@ export class DashboardPricingComponent {
           aniosDespachoSet.add(anioDespacho);
       });
       this.anios= Array.from(aniosDespachoSet).sort((a, b) => a - b);
-      console.log(this.anios)
+      //console.log(this.anios)
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }

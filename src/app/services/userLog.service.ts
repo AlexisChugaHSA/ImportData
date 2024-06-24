@@ -23,7 +23,7 @@ export class UserLogService {
                 this.user_login = result
             })
 
-        console.log(this.user_login)
+        //console.log(this.user_login)
     }*/
     getUser() {
         return this.user_login;

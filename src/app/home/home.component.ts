@@ -40,16 +40,16 @@ export class HomeComponent {
           let mensaje=result
           this.login=mensaje.login;
           if(this.login){
-             console.log(mensaje.login)
+             //console.log(mensaje.login)
           }
           else{
              this._router.navigate(['/login'])
           }
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         },
         error => {
           this._router.navigate(['/login'])
-          console.log(error)
+          //console.log(error)
           this.login=false;
           
         })
@@ -98,7 +98,7 @@ export class HomeComponent {
     const savedArray = this.localStorageService.get('Productos-Carrito');
     if (savedArray) {
       this.productos_carrito = savedArray;
-      console.log(this.productos_carrito)
+      //console.log(this.productos_carrito)
       this.num_productos=this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
@@ -107,7 +107,7 @@ export class HomeComponent {
     this._produserService.getP_U(this.usuario.id_usuario).subscribe(
       result => {
         this.prodsUser = result;
-        console.log(this.prodsUser);
+        //console.log(this.prodsUser);
         const productosTemp:any=[];
         for (const prod of this.prodsUser) {
           this._productoService.getProducto(prod.id_producto).subscribe(
@@ -125,13 +125,13 @@ export class HomeComponent {
               }
             },
             error => {
-              console.log(error);
+              //console.log(error);
             }
           );
         }
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     );
     
@@ -140,12 +140,12 @@ export class HomeComponent {
   obtenerTodosProductos(){
     this._productoService.getProductos().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.todosProductos=result
         this.dialogRef.close();
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
 }
@@ -155,10 +155,10 @@ export class HomeComponent {
     });
   }
   obtenerFechaDesde(id:number){
-    console.log("ZZZZZ "+id)
-    console.log(this.prodsUser)
+    //console.log("ZZZZZ "+id)
+    //console.log(this.prodsUser)
     const productoEncontrado = this.prodsUser.find(item => item.id_producto === id);
-    console.log(productoEncontrado)
+    //console.log(productoEncontrado)
     return productoEncontrado.fecha;
   }
   

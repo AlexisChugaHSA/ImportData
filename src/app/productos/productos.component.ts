@@ -39,10 +39,10 @@ export class ProductosComponent {
         result => {
           let mensaje=result
           this.login=mensaje.login;
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         },
         error => {
-          console.log(error)
+          //console.log(error)
           this.login=false;
         })
     this.usuario = new Usuario(0, "", "", "");
@@ -54,12 +54,12 @@ export class ProductosComponent {
         result=>{
           this.cat=result
           this.categoria=this.cat.nombre
-          console.log(this.categoria)
+          //console.log(this.categoria)
           return this.categoria
 
         },
         error=>{
-          console.log(<any>error)
+          //console.log(<any>error)
         }
       )
     }*/
@@ -67,21 +67,21 @@ export class ProductosComponent {
   ngOnInit(){
     const dialogRef1 = this.dialog.open(PopupCargandoComponent);
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
-    console.log("usuario" +this.usuario.id_usuario)
+    //console.log("usuario" +this.usuario.id_usuario)
     this._productoService.getProductos().subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.productos=result
         dialogRef1.close();
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     const savedArray = this.localStorageService.get('Productos-Carrito');
     if (savedArray) {
       this.productos_carrito = savedArray;
-      console.log(this.productos_carrito)
+      //console.log(this.productos_carrito)
       this.num_productos=this.productos_carrito.length;
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }

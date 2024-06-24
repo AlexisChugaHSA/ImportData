@@ -10,7 +10,7 @@ class NewUserJS{
     document.getElementById("form2").style.display = "block";
   }
   mostrarTitulo(){
-    console.log("Hola si funciona")
+    //console.log("Hola si funciona")
   }
 }
 export default NewUserJS;

@@ -39,7 +39,7 @@ export class LoginComponent {
         let mensaje=result
         this.login=mensaje.login;
         if(this.login){
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
           dialogRef.close();
           this._router.navigate(['/home'])
          
@@ -49,12 +49,12 @@ export class LoginComponent {
           this._router.navigate(['/login'])
           
         }
-        console.log(mensaje.login)
+        //console.log(mensaje.login)
       },
       error => {
         dialogRef.close();
         this._router.navigate(['/login'])
-        console.log(error)
+        //console.log(error)
         this.login=false;
         
       })
@@ -67,13 +67,13 @@ export class LoginComponent {
     const dialogRef = this.dialog.open(PopupCargandoComponent);
     this._authService.loginUsuarioSi(this.user).subscribe(
       result =>{
-        console.log(result);
+        //console.log(result);
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
-        console.log(this.login.mensaje);
+        //console.log(this.login.mensaje);
 
-        console.log(this.login.token);
+        //console.log(this.login.token);
         if(this.login.mensaje==="OKSI"){
          // this._authguard.bandera=true;
           this._router.navigate(['/home']);
@@ -92,7 +92,7 @@ export class LoginComponent {
         }
       },
       error=>{
-        console.log(error)
+        //console.log(error)
       }  ) 
   }
   loginUsuario(){
@@ -103,9 +103,9 @@ export class LoginComponent {
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
-        console.log(this.login.token);
-        //console.log(this.localStorageService.get('id_usuario'))
-        console.log(this.login.mensaje);
+        //console.log(this.login.token);
+        ////console.log(this.localStorageService.get('id_usuario'))
+        //console.log(this.login.mensaje);
         if(this.login.mensaje==="OK" ){
           this._router.navigate(['/home']);
           dialogRef.close()
@@ -123,7 +123,7 @@ export class LoginComponent {
         }
       },
       error=>{
-        console.log(error)
+        //console.log(error)
       }  ) 
   }
 }

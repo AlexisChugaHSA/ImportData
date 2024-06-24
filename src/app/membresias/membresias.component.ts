@@ -23,35 +23,35 @@ export class MembresiasComponent {
   get_membresias(){
     this._membresiaService.getMembresia(1).subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.membresia1=result
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._membresiaService.getMembresia(2).subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.membresia2=result
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
     this._membresiaService.getMembresia(3).subscribe(
       result=>{
-        console.log(result)
+        //console.log(result)
         this.membresia3=result
       },
       error=>{
-        console.log(<any>error)
+        //console.log(<any>error)
       }
     )
   }
 
   ngOnInit(){
-    console.log("Membresias funcionando")
+    //console.log("Membresias funcionando")
     this.get_membresias();
   }
 }

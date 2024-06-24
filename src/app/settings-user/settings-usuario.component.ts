@@ -68,11 +68,11 @@ export class PerfilUsuarioComponent {
           let mensaje=result
           this.login=mensaje.login;
 
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         },
         error => {
           this._router.navigate(['/login'])
-          console.log(error)
+          //console.log(error)
           this.login=false;
           
         })
@@ -84,15 +84,15 @@ export class PerfilUsuarioComponent {
   }
   ngOnInit() {
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
-    console.log("Perfil Usuario esta funcionando")
+    //console.log("Perfil Usuario esta funcionando")
     //Cargar paises
     this._paisService.getPaises().subscribe(
       result => {
         this.paises = <Pais[]>result;
-        console.log(this.paises);
+        //console.log(this.paises);
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
 
@@ -101,27 +101,27 @@ export class PerfilUsuarioComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        console.log(this.persona)
+        //console.log(this.persona)
         //consultar empresa
         this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
           result => {
             this.empresa = <Empresa>result;
-            console.log(this.empresa)
+            //console.log(this.empresa)
             //consultar direccion de empresa
             this._direccionService.getDireccion(this.empresa.direccion).subscribe(
               result => {
                 this.direccionE = <Direccion>result;
-                console.log(this.direccionE);
+                //console.log(this.direccionE);
                 this._paisService.getPais(this.direccionE.id_pais).subscribe(
                   result => {
                     this.paisSeleccionadoE = <Pais>result;
-                    console.log(this.paisSeleccionadoE);
+                    //console.log(this.paisSeleccionadoE);
                   }
                 )
                 this._ciudadService.getCiudad(this.direccionE.id_ciudad).subscribe(
                   result => {
                     this.ciudadSeleccionadaE = <Ciudad>result;
-                    console.log(this.ciudadSeleccionadaE);
+                    //console.log(this.ciudadSeleccionadaE);
                   }
                 )
                 this._ciudadService.getCiudadesP(this.direccionE.id_pais).subscribe(
@@ -131,24 +131,24 @@ export class PerfilUsuarioComponent {
               })
           },
           error => {
-            console.log(error)
+            //console.log(error)
           }
         )
         //Consultar direccion de persona
         this._direccionService.getDireccion(this.persona.id_direccion).subscribe(
           result => {
             this.direccionP = <Direccion>result;
-            console.log(this.direccionP);
+            //console.log(this.direccionP);
             this._paisService.getPais(this.direccionP.id_pais).subscribe(
               result => {
                 this.paisSeleccionadoP = <Pais>result;
-                console.log(this.paisSeleccionadoP);
+                //console.log(this.paisSeleccionadoP);
               }
             )
             this._ciudadService.getCiudad(this.direccionP.id_ciudad).subscribe(
               result => {
                 this.ciudadSeleccionadaP = <Ciudad>result;
-                console.log(this.ciudadSeleccionadaP);
+                //console.log(this.ciudadSeleccionadaP);
               }
             )
             this._ciudadService.getCiudadesP(this.direccionP.id_pais).subscribe(
@@ -159,7 +159,7 @@ export class PerfilUsuarioComponent {
           })
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
   }
 
@@ -187,12 +187,12 @@ export class PerfilUsuarioComponent {
       result => {
         this.ciudadesP = result;
       })
-    console.log(country);
+    //console.log(country);
     this.direccionP.id_pais = this.paisSeleccionadoP.id_pais
   }
   onCityPSelectionChange(city: Ciudad) {
     this.ciudadSeleccionadaP = city;
-    console.log(this.ciudadSeleccionadaP);
+    //console.log(this.ciudadSeleccionadaP);
     this.direccionP.id_ciudad = this.ciudadSeleccionadaP.id_ciudad
   }
   onCountryESelectionChange(country: Pais) {
@@ -202,14 +202,14 @@ export class PerfilUsuarioComponent {
         this.ciudadesE = result;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       })
-    console.log(country);
+    //console.log(country);
     this.direccionE.id_pais = this.paisSeleccionadoE.id_pais
   }
   onCityESelectionChange(city: Ciudad) {
     this.ciudadSeleccionadaE = city;
-    console.log(this.ciudadSeleccionadaE);
+    //console.log(this.ciudadSeleccionadaE);
     this.direccionE.id_ciudad = this.ciudadSeleccionadaE.id_ciudad
   }
   mostrarAlertCS() {
@@ -239,16 +239,16 @@ export class PerfilUsuarioComponent {
       result => {
         this.direccionP = <Direccion>result
         this.persona.id_direccion = this.direccionP.id_direccion
-        console.log("Direccion de persona actualizada")
+        //console.log("Direccion de persona actualizada")
         this._personaService.editPersona(this.persona.id_persona, this.persona).subscribe(
           result => {
-            console.log(result);
+            //console.log(result);
           })
           
         
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
       setTimeout(() => {
         const alertP= document.querySelector('#alertP');
@@ -265,16 +265,16 @@ export class PerfilUsuarioComponent {
         result => {
           this.direccionE = <Direccion>result
           this.empresa.direccion = this.direccionE.id_direccion
-          console.log("Direccion de empresa actualizada")
-          console.log(this.empresa)
+          //console.log("Direccion de empresa actualizada")
+          //console.log(this.empresa)
           this._empresaService.editEmpresa(this.empresa.id_empresa, this.empresa).subscribe(
             result => {
-              console.log(result);
+              //console.log(result);
             }
           )
         },
         error => {
-          console.log(error)
+          //console.log(error)
         })
         setTimeout(() => {
           const alertE= document.querySelector('#alertE');
@@ -291,12 +291,12 @@ export class PerfilUsuarioComponent {
           this._usuarioService.comprobarPassword(this.usuario).subscribe(
             result=>{
               this.mensaje=result;
-              console.log(result)
+              //console.log(result)
               if (this.mensaje.mensaje==='OK'){
                 this.usuario.password=this.newPassword;
                 this._usuarioService.editUsuario(this.usuario.id_usuario,this.usuario).subscribe(
                   result=>{
-                    console.log(result)
+                    //console.log(result)
                     setTimeout(() => {
                       this.renderer.setStyle(alertC, 'display', 'block');
                       setTimeout(() => {
@@ -320,17 +320,17 @@ export class PerfilUsuarioComponent {
     logout(){
       this.authService.logout(this.usuario.id_usuario).subscribe(
         result=>{
-            console.log(result);
+            //console.log(result);
             this.clearLocalStorage();
             this._router.navigate(['/login']);
           },
           error=> {
-            console.log(error)
+            //console.log(error)
           }
         )
     }
     clearLocalStorage(): void {
       localStorage.clear();
-      console.log('Local Storage borrado');
+      //console.log('Local Storage borrado');
     }
   }

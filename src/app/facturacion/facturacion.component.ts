@@ -53,16 +53,16 @@ export class FacturacionComponent {
           let mensaje=result
           this.login=mensaje.login;
           if(this.login){
-             console.log(mensaje.login)
+             //console.log(mensaje.login)
           }
           else{
              this._router.navigate(['/login'])
           }
-          console.log(mensaje.login)
+          //console.log(mensaje.login)
         },
         error => {
           this._router.navigate(['/login'])
-          console.log(error)
+          //console.log(error)
           this.login=false;
           
         })
@@ -79,7 +79,7 @@ export class FacturacionComponent {
       this.cancelarPago(id);
     });
     dialogRef.afterClosed().subscribe(() => {
-      console.log('El mensaje emergente se cerró.');
+      //console.log('El mensaje emergente se cerró.');
     });
   }
 
@@ -94,7 +94,7 @@ export class FacturacionComponent {
         });
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
 
   }
@@ -103,17 +103,17 @@ export class FacturacionComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        console.log(this.persona);
+        //console.log(this.persona);
         this.obtenerFacturas();
         this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
           result => {
             this.empresa = <Empresa>result;
-            console.log(this.empresa);
+            //console.log(this.empresa);
             this.obtenerPagos();
           })
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
 
   }
@@ -122,10 +122,10 @@ export class FacturacionComponent {
       result => {
         this.facturas=result;
         this.facturas=this.facturas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-        console.log(this.facturas)
+        //console.log(this.facturas)
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
   }
 
@@ -134,21 +134,21 @@ export class FacturacionComponent {
       result => {
         this.pagos=result;
         this.pagos=this.pagos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-        console.log(this.pagos);
+        //console.log(this.pagos);
         this.dialogRef1.close();
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
   }
   cancelarPago(id:number){
     this._pagoService.putCancelPago(id).subscribe(
       result => {
         this.obtenerPagos();
-        console.log(result);
+        //console.log(result);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       })
   }
 

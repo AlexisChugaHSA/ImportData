@@ -38,7 +38,7 @@ export class PagoService {
   }
   putCancelPago(id:number){
     this.access_token=this.localStorageService.get('token');
-    console.log(this.access_token)
+    //console.log(this.access_token)
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     let opciones = { headers: headers };
     return this._http.put(this.url+'cancelar-pago/'+id,{},opciones);

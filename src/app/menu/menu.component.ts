@@ -42,16 +42,16 @@ export class MenuComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        console.log(this.persona)
+        //console.log(this.persona)
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
 
     this._produserService.getP_U(this.usuario.id_usuario).subscribe(
       result => {
         this.prodsUser= result;
-        console.log(this.prodsUser)
+        //console.log(this.prodsUser)
         for (const prod of this.prodsUser) {
           this._productoService.getProducto(prod.id_producto).subscribe(
             result=>{
@@ -62,14 +62,14 @@ export class MenuComponent {
         }
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
 
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(PopupLogoutComponent);
     dialogRef.afterClosed().subscribe(() => {
-      console.log('El mensaje emergente se cerró.');
+      //console.log('El mensaje emergente se cerró.');
     });
   }
   closeDialog():void{

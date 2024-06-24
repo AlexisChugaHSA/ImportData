@@ -23,7 +23,7 @@ export class PersonaService {
     this.access_token=this.localStorageService.get('token');
     let json=JSON.stringify(persona);
     let params=json;
-    console.log(params)
+    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'persona',params,{headers})
   }
@@ -36,7 +36,7 @@ export class PersonaService {
   getPersonaByUser(id:number){
     this.access_token=this.localStorageService.get('token');
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    console.log(headers)
+    //console.log(headers)
     return this._http.get(this.url+'persona-by-user/'+id,{headers})
   }
 

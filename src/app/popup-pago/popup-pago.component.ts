@@ -76,7 +76,7 @@ export class PopupPagoComponent {
     
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.id = this.data.id_factura; 
-    console.log(this.id)
+    //console.log(this.id)
     this.obtenerFactura();
     this.obtenerProductos();
     
@@ -87,7 +87,7 @@ export class PopupPagoComponent {
     this._facturaService.getFactura(this.id).subscribe(
       result => {
         this.factura = <Factura>result;
-        console.log(this.factura)
+        //console.log(this.factura)
       }
     )
   }
@@ -98,7 +98,7 @@ export class PopupPagoComponent {
         this._pagoService.getPago(this.detfacts[1].id_pago).subscribe(
           result => {
             this.pago = <Pago>result;
-            console.log(this.pago)
+            //console.log(this.pago)
             this.obtenerDescuento();
           }
         )
@@ -113,7 +113,7 @@ export class PopupPagoComponent {
       }
 
     );
-    console.log(this.productos);
+    //console.log(this.productos);
     
   }
   obtenerDescuento() {

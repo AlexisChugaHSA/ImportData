@@ -20,11 +20,11 @@ export class AuthGuard {
       result => {
         let mensaje=result
         this.bandera=mensaje.login;
-        console.log(mensaje.login)
+        //console.log(mensaje.login)
         return this.bandera;
       },
       error => {
-        console.log(error)
+        //console.log(error)
         return this.bandera=false;
         
       })
@@ -43,7 +43,7 @@ export class AuthGuard implements Resolve<boolean> {
         return this.bandera;
       },
       error => {
-        console.log(error)
+        //console.log(error)
       })
       return this.bandera;
   }*/
