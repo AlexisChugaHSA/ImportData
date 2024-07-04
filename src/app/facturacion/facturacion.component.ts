@@ -25,6 +25,7 @@ import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.compone
   styleUrls: ['./facturacion.component.css']
 })
 export class FacturacionComponent {
+  public sidenavVisible=false;
   public facturas: any = [];
   public pagos: any = [];
   public det_facturas: any = [];
@@ -82,7 +83,12 @@ export class FacturacionComponent {
       //console.log('El mensaje emergente se cerró.');
     });
   }
-
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
+  }
   openDialog(id_pago:number): void {
     this._detfactService.getFactbyPago(5).subscribe(
       result => {

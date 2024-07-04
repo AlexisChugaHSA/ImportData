@@ -34,6 +34,7 @@ import { PayPalService } from '../services/paypal.service';
   styleUrls: ['./formulario-pago.component.css']
 })
 export class FormularioPagoComponent {
+  public sidenavVisible = false;
   //public clientIdPayPal='AYLqvj3pfMRED1JHhtL2p1TvTMT_m_jvqTF_VvwtZ-nE8aCfzVdRDLxNs_eR9scSx9ZzKtnlButvv3nw';
   public clientIdPayPal='ARtjJFZcqm22276sVRvg6KzZX65Kjexm6Pm4J39MoQPzu6L5ynz1KqGhPRFRIJMpOkWa7lMKVCJSUj3y'
   //public secretPayPal='EFHeU2Aj6D3tAteJ-yXpEbM6sIVyOdZnCY9HL2jkFXig4xHFWqTUMtoPWLC9vao2VZwRw0l3OIjprmdp';
@@ -125,12 +126,20 @@ export class FormularioPagoComponent {
       result => {
         let iva:any=result;
         this.iva=iva.iva_valor;
+        this.factura.iva=iva.iva_valor;
+        this.factura.iva_0=iva.iva_valor;
         //console.log(this.iva)
         this.get_carrito();
       },
       error => {
       })
       this.initConfig();
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
 
   openDialog(): void {
@@ -171,18 +180,17 @@ export class FormularioPagoComponent {
   }
   subirDatos() {
     this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
-    if (this.validateFecha()) {
+    //if (this.validateFecha()) {
       this.tarjetaVencida = false;
-     // this.guardarMetPago();
+      //this.guardarMetPago();
       this.guardarPago()
       this.openDialog();
       //console.log(this.tarjetaVencida)
-    } else {
-      this.tarjetaVencida = true;
+    //} else {
+      //this.tarjetaVencida = true;
       //console.log(this.tarjetaVencida)
-    }
+    //}
     this.dialogRef1.close();
-
   }
 
 
@@ -248,18 +256,19 @@ export class FormularioPagoComponent {
       })
       
   }
-  guardarMetPago() {
+  guardarMetPago(data:any) {
     // Obtener los primeros y últimos tres dígitos
-    let primerosTres = this.tarjeta.numero.slice(0, 3);
-    let ultimosTres = this.tarjeta.numero.slice(-3);
+    //let primerosTres = this.tarjeta.numero.slice(0, 3);
+    //let ultimosTres = this.tarjeta.numero.slice(-3);
     // Generar una cadena de asteriscos del mismo tamaño que los dígitos intermedios
-    let asteriscos = '*'.repeat(this.tarjeta.numero.length - 6); // Restamos 6 para excluir los primeros y últimos tres dígitos
+    //let asteriscos = '*'.repeat(this.tarjeta.numero.length - 6); // Restamos 6 para excluir los primeros y últimos tres dígitos
     // Construir el resultado final
-    this.metodo_pago.nombre = this.tarjeta.nombre;
-    this.metodo_pago.tarjeta = primerosTres + asteriscos + ultimosTres;
+    this.metodo_pago.nombre = data.payer.name?.given_name+" "+data.payer.name?.surname;
+    //this.metodo_pago.tarjeta = primerosTres + asteriscos + ultimosTres;
+    this.metodo_pago.tarjeta=data.id;
     this._metpagoService.addMetPago(this.metodo_pago).subscribe(
       result => {
-        //console.log("Metodo de pago guardado")
+        console.log("Metodo de pago guardado")
       },
       error => {
         //console.log(error)
@@ -278,13 +287,14 @@ export class FormularioPagoComponent {
     this._pagoService.addPago(this.pago).subscribe(
       result => {
         this.pagoR = result;
-        //console.log("Pago guardado")
+        console.log("Pago guardado")
         this.guardarFactura();
         this.gradarProductoUsuario();
         this.localStorageService.set('Productos-Carrito','');
+        /*
         this._router.navigate(['/menu']).then(() =>
           this._router.navigate(['/mis-productos']).then(() =>     
-          window.location.reload()))
+          window.location.reload()))*/
       },
       error => {
         //console.log(error)
@@ -317,12 +327,12 @@ export class FormularioPagoComponent {
 
   guardarFactura() {
     this.factura.id_empresa = this.persona.id_empresa;
-    this.factura.total = this.total * (1 + this.factura.iva);
-    this.factura.subtotal = this.total;
+    this.factura.total = this.total;
+    this.factura.subtotal = this.obtenerSubtotalT()*(1-this.membresia.descuento);
     this._facturaService.addFactura(this.factura).subscribe(
       result => {
         this.facturaR = result;
-        //console.log("Factura guardada")
+        console.log("Factura guardada")
         this.guardarDetalleFactura();
       },
       error => {
@@ -335,10 +345,11 @@ export class FormularioPagoComponent {
     this.detalle_factura.id_pago = this.pagoR.id_pago;
     this.productos_carrito.forEach(producto => {
       this.detalle_factura.id_producto = parseInt(producto.id_producto);
-      this.detalle_factura.precio = producto.precio;
+      this.detalle_factura.precio = this.total;
       this._detalleFacturaService.addDetFactura(this.detalle_factura).subscribe(
         result => {
-          //console.log(result);
+          console.log(result);
+          console.log("Detalle factura guardada");
         },
         error => {
           //console.log(error)
@@ -378,24 +389,25 @@ export class FormularioPagoComponent {
             layout: 'vertical'
         },
         onApprove: (data, actions) => {
-            //console.log('onApprove - transaction was approved, but not authorized', data, actions);
+            console.log('onApprove - transaction was approved, but not authorized', data, actions);
             actions.order.get().then(details => {
-                //console.log('onApprove - you can get full order details inside onApprove: ', details);
-               // this.subirDatos();
+                console.log('onApprove - you can get full order details inside onApprove: ', details);
+               this.subirDatos();
             });
 
         },
         onClientAuthorization: (data) => {
-            //console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+            console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+            this.guardarMetPago(data)
         },
         onCancel: (data, actions) => {
-            //console.log('OnCancel', data, actions);
+            console.log('OnCancel', data, actions);
         },
         onError: err => {
-            //console.log('OnError', err);
+            console.log('OnError', err);
         },
         onClick: (data, actions) => {
-            //console.log('onClick', data, actions);
+            console.log('onClick', data, actions);
         }
     };
 }

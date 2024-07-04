@@ -38,15 +38,13 @@
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.1" rel="stylesheet" />
 </head>
 
-<body class="g-sidenav-show  bg-gray-200">
-  <app-cabecera></app-cabecera>
-  <div class="row" *ngIf="login">
-    <div class="" style="width: 19%; display: block;">
-      <aside>
-        <app-menu></app-menu>
-      </aside>
-    </div>
-    <div style="width: 80%; display: block;">
+<body *ngIf="login" class="g-sidenav-show  bg-gray-200">
+  <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
+    <i class="material-icons">menu</i>
+  </button>
+  <app-menu
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
+    id="sidenav-main"></app-menu>
       <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <nav
@@ -238,11 +236,10 @@ It's a separate element, as animating opacity is faster than rgba(). -->
             </div>
           </div>
         </div>
-        <app-footer></app-footer>
+       
 
       </main>
-    </div>
-  </div>
+
 
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>

@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  public sidenavVisible = false;
   public productos_carrito:any;
   public prodsUser: any = [];
   public todosProductos: any = [];
@@ -61,6 +62,12 @@ export class HomeComponent {
     this.getCarrito();
     this.obtenerDatos();
 
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
   getDescripcion(nombre: string): string {
     switch (nombre) {

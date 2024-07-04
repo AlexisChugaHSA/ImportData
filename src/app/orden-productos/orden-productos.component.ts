@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./orden-productos.component.css']
 })
 export class OrdenProductosComponent {
+  public sidenavVisible=false;
   public productos_carrito: any = [];
   public num_productos=0;
   public membresia1!: Membresia;
@@ -91,6 +92,12 @@ export class OrdenProductosComponent {
     )
 
 
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
   buscarCategoria(idBuscado:string):string {
     const objetoEncontrado = this.categorias.find(objeto => objeto.id_categoria === idBuscado);

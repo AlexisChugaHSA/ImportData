@@ -44,75 +44,78 @@
 
 
 </head>
-<aside style="position: unset;"
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
-    id="sidenav-main">
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-            aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0">
-            <img src="/assets/icon-02.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">HSA</span>
-            <button style="background: transparent; border: none; margin-left: 90px;" (click)="openDialog()">
-            <i class="material-icons cursor-pointer text-white" style="font-size: 25px">
-                logout
-            </i></button>
-        </a>
-
-    </div>
-    <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto h-auto max-height-vh-100 h-100" id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-            <li class="nav-item mb-2 mt-0">
-                <a class="nav-link text-white" aria-controls="ProfileNav" role="button"
-                    [routerLink]="['/perfil-usuario']" aria-expanded="false">
-                    <i class="material-icons cursor-pointer" style="font-size: 15px">person</i>
-                    <span class="nav-link-text ms-2 ps-0">{{persona.nombre}} {{persona.apellido}}</span>
-                </a>
-
-            </li>
-            <hr class="horizontal light mt-0">
-            <li class="nav-item mb-2 mt-0">
-                <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/home']"
-                    aria-expanded="false">
-                    <i class="material-icons cursor-pointer" style="font-size: 15px">
-                        shopping_cart
-                    </i>
-                    <span class="nav-link-text ms-2 ps-0">Ecommerce</span>
-                </a>
-
-            </li>
-            <hr class="horizontal light mt-0">
-            <li class="nav-item mb-2 mt-0">
-                <a class="nav-link text-white" aria-controls="ProfileNav" role="button" aria-expanded="false" href="/mis-productos">
-                    <i class="material-icons cursor-pointer" style="font-size: 15px">
-                    leaderboard
-                    </i>
-                    <span class="nav-link-text ms-2 ps-0">Mis productos</span>
-                </a>
-                <ul *ngFor="let prod of productos"> <!-- Lista anidada para los subitems -->
-                    <li ><a  class="nav-link text-white" aria-controls="ProfileNav" role="button" (click)="dirigirDashboardImp(prod.id_producto)"
-                        aria-expanded="false" style="font-size: 13px;    padding: 8px;">
-                        <i class="material-icons" style="font-size: 5px;padding: 0px; ">
-                            circle
+        <aside class="navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
+            <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
+                <i class="material-icons">menu</i>
+            </button>
+            <div class="sidenav-header">
+                <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-xl-none" aria-hidden="true" id="iconSidenav" (click)="toggleSidenav($event)"></i>
+                <a class="navbar-brand m-0">
+                    <img src="/assets/icon-02.png" class="navbar-brand-img h-100" alt="main_logo">
+                    <span class="ms-1 font-weight-bold text-white">HSA</span>
+                    <button style="background: transparent; border: none; margin-left: 90px;" (click)="openDialog()">
+                        <i class="material-icons cursor-pointer text-white" style="font-size: 25px">
+                            logout
                         </i>
-                        {{prod.nombre}}</a></li>
-                </ul>
-
-            </li>
-            <hr class="horizontal light mt-0">
-
-            <li class="nav-item mb-2 mt-0">
-                <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/facturacion']"
-                    aria-expanded="false">
-                    <i class="material-icons cursor-pointer" style="font-size: 15px">
-                    auto_stories
-                </i>
-                    <span class="nav-link-text ms-2 ps-0">Facturacion y Pagos</span>
+                    </button>
                 </a>
+            </div>
+            <hr class="horizontal light mt-0 mb-2">
+            <div class="collapse navbar-collapse w-auto h-auto max-height-vh-100 h-100" id="sidenav-collapse-main">
+                <ul class="navbar-nav">
+                    <li class="nav-item mb-2 mt-0">
+                        <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/perfil-usuario']" aria-expanded="false">
+                            <i class="material-icons cursor-pointer" style="font-size: 15px">person</i>
+                            <span class="nav-link-text ms-2 ps-0">{{persona.nombre}} {{persona.apellido}}</span>
+                        </a>
+                    </li>
+                    <hr class="horizontal light mt-0">
+                    <li class="nav-item mb-2 mt-0">
+                        <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/home']" aria-expanded="false">
+                            <i class="material-icons cursor-pointer" style="font-size: 15px">
+                                shopping_cart
+                            </i>
+                            <span class="nav-link-text ms-2 ps-0">Ecommerce</span>
+                        </a>
+                    </li>
+                    <hr class="horizontal light mt-0">
+                    <li class="nav-item mb-2 mt-0">
+                        <a class="nav-link text-white" aria-controls="ProfileNav" role="button" aria-expanded="false" href="/mis-productos">
+                            <i class="material-icons cursor-pointer" style="font-size: 15px">
+                                leaderboard
+                            </i>
+                            <span class="nav-link-text ms-2 ps-0">Mis productos</span>
+                        </a>
+                        <ul *ngFor="let prod of productos">
+                            <li><a class="nav-link text-white" aria-controls="ProfileNav" role="button" (click)="dirigirDashboardImp(prod.id_producto)" aria-expanded="false" style="font-size: 13px; padding: 8px;">
+                                <i class="material-icons" style="font-size: 5px; padding: 0px;">
+                                    circle
+                                </i>
+                                {{prod.nombre}}</a></li>
+                        </ul>
+                    </li>
+                    <hr class="horizontal light mt-0">
+                    <li class="nav-item mb-2 mt-0">
+                        <a class="nav-link text-white" aria-controls="ProfileNav" role="button" [routerLink]="['/facturacion']" aria-expanded="false">
+                            <i class="material-icons cursor-pointer" style="font-size: 15px">
+                                auto_stories
+                            </i>
+                            <span class="nav-link-text ms-2 ps-0">Facturacion y Pagos</span>
+                        </a>
+                    </li>
+                    <hr class="horizontal light mt-0">
+                    <li class="nav-item mb-2 mt-0">
+                        <a class="nav-link text-white" aria-controls="ProfileNav" role="button" href="https://hsa.company/contactanos/" aria-expanded="false">
+                            <i class="material-icons cursor-pointer" style="font-size: 15px">
+                                email
+                            </i>
+                            <span class="nav-link-text ms-2 ps-0">Contáctanos</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
 
-            </li>
 
-        </ul>
-    </div>
-</aside>
+
+

@@ -39,14 +39,12 @@
 </head>
 
 <body *ngIf="login" class="g-sidenav-show  bg-gray-200">
-    <app-cabecera></app-cabecera>
-    <div class="row" *ngIf="login">
-        <div class="" style="width: 19%; display: block;">
-            <aside>
-                <app-menu></app-menu>
-            </aside>
-        </div>
-        <div style="width: 80%; display: block;">
+    <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
+        <i class="material-icons">menu</i>
+      </button>
+      <app-menu
+        class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
+        id="sidenav-main"></app-menu>
             <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
                 <!-- Navbar -->
                 <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
@@ -88,7 +86,6 @@
                                         <div>
                                             <h2 class="mb-0">Sus Productos</h2>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="card-body px-0 pb-0">
@@ -103,13 +100,12 @@
                                                     <th style="text-align: center;">Acciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody *ngFor="let producto of productos_carrito">
-                                                <tr>
+                                            <tbody >
+                                                <tr *ngFor="let producto of productos_carrito">
                                                     <td>
                                                         <div class="d-flex">
-        
-                                                            <img class="w-10 ms-5"
-                                                            [src]="'/assets/img/productos/' + producto.nombre + '.png'"                                                        alt="hoodie">
+                                                            <img class="w-10 ms-5" style="max-height: 40px;"
+                                                            [src]="'/assets/img/productos/' + producto.nombre + '.png'"   alt="hoodie"                                                     alt="hoodie">
                                                             <h4 class="ms-5 text-wrap">{{producto.nombre}}</h4>
                                                         </div>
                                                     </td>
@@ -175,7 +171,7 @@
                                     <div class="tab-pane active" id="monthly">
                                         <div class="row">
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg" style="height: 709.8px;">
+                                                <div class="card shadow-lg" style="min-height: 709.8px;">
                                                     <span
                                                         class="badge rounded-pill bg-light text-dark w-50 mt-n2 mx-auto">{{membresia1.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3">
@@ -213,6 +209,11 @@
                                                             <span class="ps-3">Opción ideal para probar el servicio. </span>
                                                         </div>
                                                         <div
+                                                        class="d-flex justify-content-lg-start justify-content-center p-2">
+                                                        <i class="material-icons my-auto">done</i>
+                                                        <span class="ps-3">Hasta 5 años de datos históricos.</span>
+                                                    </div>
+                                                        <div
                                                             class="d-flex justify-content-lg-start justify-content-center p-2">
                                                             <i class="material-icons my-auto">done</i>
                                                             <span class="ps-3">Acceso 24/7. </span>
@@ -226,7 +227,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card  shadow-lg" style="background-color: #3D5463; color: white; height: 709.8px;">
+                                                <div class="card  shadow-lg" style="background-color: #3D5463; color: white; min-height: 709.8px;">
                                                     <span style="background-color: #FF764B;"
                                                         class="badge rounded-pill  w-50 mt-n2 mx-auto">{{membresia2.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3 bg-transparent">
@@ -274,11 +275,16 @@
                                                         </div>
                                                         <div
                                                         class="d-flex justify-content-lg-start justify-content-center p-2">
+                                                        <i class="material-icons my-auto">done</i>
+                                                        <span class="ps-3">Hasta 5 años de datos históricos.</span>
+                                                    </div>
+                                                        <div
+                                                        class="d-flex justify-content-lg-start justify-content-center p-2">
                                                         <i class="material-icons my-auto text-white">done</i>
                                                         <span class="ps-3 text-white">Acceso 24/7.</span>
                                                     </div>
-                                                        <a href="javascript:;" (click)="redirigir(total2,membresia2)" style="background-color: #FF764B; color: white; "
-                                                            class="btn btn-icon  d-lg-block mt-3  mb-0">
+                                                        <a href="javascript:;" (click)="redirigir(total2,membresia2)" style="background-color: #FF764B; color: white; margin-top: 44px;"
+                                                            class="btn btn-icon  d-lg-block   mb-0">
                                                             Pagar
                                                             <i class="fas fa-arrow-right ms-1"></i>
                                                         </a>
@@ -286,7 +292,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg" style="height: 709.8px;">
+                                                <div class="card shadow-lg" style="min-height: 709.8px;">
                                                     <span
                                                         class="badge rounded-pill bg-light text-dark w-50 mt-n4 mx-auto">{{membresia3.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3">
@@ -334,6 +340,11 @@
                                                         <div
                                                         class="d-flex justify-content-lg-start justify-content-center p-2">
                                                         <i class="material-icons my-auto">done</i>
+                                                        <span class="ps-3">Hasta 5 años de datos históricos.</span>
+                                                    </div>
+                                                        <div
+                                                        class="d-flex justify-content-lg-start justify-content-center p-2">
+                                                        <i class="material-icons my-auto">done</i>
                                                         <span class="ps-3">Acceso 24/7 </span>
                                                     </div>
                                                         <a href="javascript:;" (click)="redirigir(total3,membresia3)"
@@ -345,7 +356,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg" style="height: 709.8px;">
+                                                <div class="card shadow-lg" style="min-height: 709.8px;">
                                                     <span style="text-align: center;"
                                                         class="badge rounded-pill bg-light text-dark w-50 mt-n2 mx-auto">{{membresia4.tipo}}</span>
                                                     <div class="card-header text-center pt-4 pb-3">
@@ -392,6 +403,12 @@
                                                             <i class="material-icons my-auto">done</i>
                                                             <span class="ps-3">Acceso constante a datos actualizados. </span>
                                                         </div>
+                                                    
+                                                    <div
+                                                        class="d-flex justify-content-lg-start justify-content-center p-2">
+                                                        <i class="material-icons my-auto">done</i>
+                                                        <span class="ps-3">Hasta 5 años de datos históricos.</span>
+                                                    </div>
                                                         <div
                                                         class="d-flex justify-content-lg-start justify-content-center p-2">
                                                         <i class="material-icons my-auto">done</i>
@@ -407,157 +424,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="annual">
-                                        <div class="row">
-                                            <div class="col-lg-4 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg" style="height: 709.8px;">
-                                                    <span
-                                                        class="badge rounded-pill bg-light text-dark w-30 mx-auto">Starter</span>
-                                                    <div class="card-header text-center pt-4 pb-3">
-                                                        <h1 class="font-weight-bold mt-2">
-                                                            <small class="text-lg align-top me-1">$</small>119<small
-                                                                class="text-lg">/mes</small>
-                                                        </h1>
-                                                    </div>
-                                                    <div class="card-body text-lg-start text-center pt-0">
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">2 team members</span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">20GB Cloud storage </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Integration help </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Sketch Files </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">API Access </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Complete documentation </span>
-                                                        </div>
-                                                        <a href="javascript:;"
-                                                            class="btn btn-icon  d-lg-block mt-3 mb-0" style="background-color: #3D5463; color: white;">
-                                                            Pagar
-                                                            <i class="fas fa-arrow-right ms-1"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 mb-lg-0 mb-4">
-                                                <div class="card bg-gradient-dark shadow-lg">
-                                                    <span
-                                                        class="badge rounded-pill bg-primary w-30 mx-auto">Premium</span>
-                                                    <div class="card-header text-center pt-4 pb-3 bg-transparent">
-                                                        <h1 class="font-weight-bold mt-2 text-white">
-                                                            <small class="text-lg align-top me-1">$</small>159<small
-                                                                class="text-lg">/mes</small>
-                                                        </h1>
-                                                    </div>
-                                                    <div class="card-body text-lg-start text-center pt-0">
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto text-white">done</i>
-                                                            <span class="ps-3 text-white">10 team members</span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto text-white">done</i>
-                                                            <span class="ps-3 text-white">40GB Cloud storage </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto text-white">done</i>
-                                                            <span class="ps-3 text-white">Integration help </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto text-white">done</i>
-                                                            <span class="ps-3 text-white">Sketch Files </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto text-white">done</i>
-                                                            <span class="ps-3 text-white">API Access </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto text-white">done</i>
-                                                            <span class="ps-3 text-white">Complete documentation </span>
-                                                        </div>
-                                                        <a href="javascript:;"
-                                                            class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
-                                                            Pagar
-                                                            <i class="fas fa-arrow-right ms-1"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 mb-lg-0 mb-4">
-                                                <div class="card shadow-lg">
-                                                    <span
-                                                        class="badge rounded-pill bg-light text-dark w-30 mx-auto">Enterprise</span>
-                                                    <div class="card-header text-center pt-4 pb-3">
-                                                        <h1 class="font-weight-bold mt-2">
-                                                            <small class="text-lg align-top me-1">$</small>399<small
-                                                                class="text-lg">/mes</small>
-                                                        </h1>
-                                                    </div>
-                                                    <div class="card-body text-lg-start text-center pt-0">
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Unlimited team members</span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">100GB Cloud storage </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Integration help </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Sketch Files </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">API Access </span>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex justify-content-lg-start justify-content-center p-2">
-                                                            <i class="material-icons my-auto">done</i>
-                                                            <span class="ps-3">Complete documentation </span>
-                                                        </div>
-                                                        <a href="javascript:;"
-                                                            class="btn btn-icon bg-gradient-dark d-lg-block mt-3 mb-0">
-                                                            Pagar
-                                                            <i class="fas fa-arrow-right ms-1"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <br>
                             </div>
@@ -567,10 +434,9 @@
                         </div>
                     </div>
                 </div>
-                <app-footer></app-footer>
+               
             </main>
-        </div>
-    </div>
+
 
     <!--   Core JS Files   -->
     <script src="/assets/js/core/popper.min.js"></script>

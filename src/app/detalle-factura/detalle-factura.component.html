@@ -38,14 +38,12 @@
 </head>
 
 <body *ngIf="login" class="g-sidenav-show bg-gray-200">
-  <app-cabecera></app-cabecera>
-  <div class="row" *ngIf="login">
-    <div class="" style="width: 19%; display: block;">
-      <aside >
-        <app-menu></app-menu>
-      </aside>
-    </div>
-    <div style="width: 80%; display: block;">
+  <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
+    <i class="material-icons">menu</i>
+  </button>
+  <app-menu
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
+    id="sidenav-main"></app-menu>
   <main class="main-content max-height-vh-100 h-100">
 
     <div class="container-fluid my-3 py-3" *ngIf="empresa.nombre">
@@ -113,12 +111,12 @@
                           </tr>
                           <tr>
                             <th></th>
-                            <th class="h6 ps-0" colspan="1">Descuento:</th>
+                            <th class="h6 ps-0" colspan="1">Descuento({{membresia.descuento*100}}%):</th>
                             <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*membresia.descuento| number: '1.2-2'}} USD</th>
                           </tr>
                           <tr>
                             <th></th>
-                            <th class="h6 ps-0" colspan="1">Iva ({{factura.iva*100}}%)</th>
+                            <th class="h6 ps-0" colspan="1">IVA ({{factura.iva*100}}%)</th>
                             <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*factura.iva| number: '1.2-2'}} USD</th>
                           </tr>
                           <tr>
@@ -138,8 +136,8 @@
       </div>
      
     </div>
-    <app-footer></app-footer>
-  </main></div></div>
+   
+  </main>
 
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>

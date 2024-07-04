@@ -49,6 +49,7 @@ Chart.defaults.scale.grid.color='rgba(214, 69, 80,0.4)';
 })
 export class DashboardProductoComponent implements OnInit,  AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
+  public sidenavVisible = false;
   public barras_verticales!: Chart;
   public barras_horizontales1!: Chart;
   public barras_horizontales2!: Chart;
@@ -224,8 +225,8 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
           arrayAnios.push(max_año - i);
     }
     this.consultaImp.anio=arrayAnios;
-    this.consultaImp.mes=this.meses.map(mes => mes.id_mes);
     this.getDatosDashboard(this.consultaImp);
+    this.consultaImp.mes=this.meses.map(mes => mes.id_mes);
     this.getAnios();
     this.getCaracterísticas()
     this.getCategorias(this.id);
@@ -242,6 +243,12 @@ export class DashboardProductoComponent implements OnInit,  AfterViewInit {
     //this.getImportaciones();
     //this.getProductos();
     //this.getPrecios();
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
   BtnBuscar(){
     this.ngOnDestroy();

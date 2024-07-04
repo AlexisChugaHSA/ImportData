@@ -28,6 +28,7 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./dashboard-pricing.component.css']
 })
 export class DashboardPricingComponent {
+  public sidenavVisible = false;
   public barras_verticales!: Chart;
   public barras_horizontales1!: Chart;
   public barras_horizontales2!: Chart;
@@ -125,6 +126,12 @@ export class DashboardPricingComponent {
     this.getImportadores();
     this.getPrecios();
    // this.getMarcas();
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
   dirigirDashboardImp(){
     this._router.navigate(['/home']).then(() =>

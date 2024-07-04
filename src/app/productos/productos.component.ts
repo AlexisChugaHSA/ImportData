@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent {
+  public sidenavVisible = false;
   public productos!:any;
   public cat!:any;
   public categoria="categoria";
@@ -86,6 +87,12 @@ export class ProductosComponent {
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
 
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
   getDescripcion(nombre: string): string {
     switch (nombre) {

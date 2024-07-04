@@ -26,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./settings-usuario.component.css']
 })
 export class PerfilUsuarioComponent {
+  public sidenavVisible = false;
   public rpassword: string = "";
   public newPassword: string = "";
   public bandera: boolean = false;
@@ -161,6 +162,12 @@ export class PerfilUsuarioComponent {
       error => {
         //console.log(error)
       })
+  }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
   }
 
 /*

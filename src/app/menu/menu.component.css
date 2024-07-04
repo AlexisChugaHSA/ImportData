@@ -39,4 +39,39 @@
     padding: 10px 20px;
     color: #000;
   }
-  
+  /* Estilos para el botón de menú */
+.btn-toggle-sidenav {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 24px;
+  z-index: 2000; /* Asegúrate de que el z-index sea mayor que el del menú */
+}
+
+/* Mostrar el botón de menú en dispositivos móviles */
+@media (max-width: 768px) {
+  .btn-toggle-sidenav {
+      display: block;
+  }
+
+  .sidenav {
+      transition: transform 0.3s ease;
+      transform: translateX(-100%);
+  }
+
+  .sidenav-visible .sidenav {
+      transform: translateX(0);
+  }
+}
+
+/* Asegurar que el botón se mueva con el scroll */
+.btn-toggle-sidenav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+}

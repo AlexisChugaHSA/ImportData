@@ -9,6 +9,7 @@ import  { ProductoUsuarioService } from '../services/producto_usuario.service';
 import { ProductoService } from '../services/producto.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupLogoutComponent } from '../popup-logout/popup-logout.component';
+import { CollapseService } from '../services/collapse.service';
 
 @Component({
   selector: 'app-menu',
@@ -20,8 +21,9 @@ export class MenuComponent {
   public persona: Persona=new Persona(0,0,0,0,"","","","");
   public prodsUser: any = [];
   public productos: any = [];
- 
+  sidenavVisible = false;
   constructor(
+    public collapseService: CollapseService,
     private _route:ActivatedRoute,
     private _router: Router,
     private dialog: MatDialog,
@@ -38,6 +40,21 @@ export class MenuComponent {
     this.obtenerDatos();
 
   }
+
+
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
+  }
+
+  documentClick(event: Event) {
+    const sidenav :any = document.getElementById('sidenav-main');
+    if (this.sidenavVisible && !sidenav.contains(event.target as Node)) {
+      this.sidenavVisible = false;
+      sidenav.style.transform = 'translateX(-100%)';
+    }}
   obtenerDatos(){
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {

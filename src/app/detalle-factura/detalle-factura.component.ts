@@ -30,14 +30,15 @@ import { LocalStorageService } from 'angular-2-local-storage';
   styleUrls: ['./detalle-factura.component.css']
 })
 export class DetalleFacturaComponent {
+  public sidenavVisible = false;
   public persona!: Persona;
-  public empresa!: Empresa;
+  public empresa= new Empresa(0, 1, "", 0, "", "", "");
   public usuario: Usuario= new Usuario(0, "", "", "");
-  public direccionE!: Direccion;
+  public direccionE=new Direccion(0,0,0);
   public paisE!: Pais;
   public ciudadE!: Ciudad;
   public id!: any;
-  public factura!: Factura;
+  public factura= new Factura(0,0,0,0,"",0,0);
   public detfacts!: any;
   public productos: any = [];
   public pago!: Pago;
@@ -95,6 +96,12 @@ export class DetalleFacturaComponent {
     this.obtenerProductos();
     
   }
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
+  }
 
   obtenerDatosEmpresa() {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
@@ -142,7 +149,8 @@ export class DetalleFacturaComponent {
     this._detfactService.getDetFactByIdFact(this.id).subscribe(
       result => {
         this.detfacts = result;
-        this._pagoService.getPago(this.detfacts[1].id_pago).subscribe(
+        console.log(this.detfacts)
+        this._pagoService.getPago(this.detfacts[0].id_pago).subscribe(
           result => {
             this.pago = <Pago>result;
             this.obtenerDescuento();

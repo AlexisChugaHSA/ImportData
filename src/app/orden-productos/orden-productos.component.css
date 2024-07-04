@@ -16,3 +16,68 @@ td {
   overflow-wrap: break-word;
   word-break: break-word;
 }
+.table-responsive {
+  overflow-x: auto; /* Permite el scroll horizontal */
+}
+
+.table {
+  width: 100%; /* Asegura que la tabla tome el 100% del contenedor */
+  min-width: 600px; /* Ajusta según tus necesidades para permitir el scroll horizontal en dispositivos pequeños */
+}
+
+.table td, .table th {
+  white-space: nowrap; /* Previene que el texto se desborde y se envuelva */
+}
+
+.product-img {
+  max-width: 40px; /* Ajusta según sea necesario */
+  max-height: 40px; /* Ajusta según sea necesario */
+  margin-right: 10px; /* Espacio entre la imagen y el nombre del producto */
+}
+
+.product-name {
+  white-space: nowrap; /* Previene que el nombre del producto se envuelva */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+  overflow: hidden; /* Oculta el texto desbordante */
+}
+
+@media (max-width: 600px) {
+  .table {
+      font-size: 0.875rem; /* Reduce el tamaño de la fuente para dispositivos pequeños */
+  }
+}
+.btn-toggle-sidenav {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 24px;
+  z-index: 2000; /* Asegúrate de que el z-index sea mayor que el del menú */
+}
+
+/* Mostrar el botón de menú en dispositivos móviles */
+@media (max-width: 1281px) {
+  .btn-toggle-sidenav {
+      display: block;
+  }
+
+  .sidenav {
+      transition: transform 0.3s ease;
+      transform: translateX(-100%);
+  }
+
+  .sidenav-visible .sidenav {
+      transform: translateX(0);
+  }
+}
+
+/* Asegurar que el botón se mueva con el scroll */
+.btn-toggle-sidenav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+}

@@ -15,6 +15,7 @@ import { ContentObserver } from '@angular/cdk/observers';
   styleUrls: ['./detalle-producto.component.css']
 })
 export class DetalleProductoComponent {
+  public sidenavVisible=false;
   public id!:any;
   public otrosProductos: any = [];
   public producto!:Producto;
@@ -102,7 +103,12 @@ export class DetalleProductoComponent {
     
   }
 
-
+  toggleSidenav(event: Event) {
+    event.stopPropagation();
+    this.sidenavVisible = !this.sidenavVisible;
+    const sidenav:any = document.getElementById('sidenav-main');
+    sidenav.style.transform = this.sidenavVisible ? 'translateX(0)' : 'translateX(-100%)';
+  }
   obtenerTodosProductos(){
     this._productoService.getProductos().subscribe(
       result=>{
