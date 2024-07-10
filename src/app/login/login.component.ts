@@ -46,14 +46,14 @@ export class LoginComponent {
         }
         else{
           dialogRef.close();
-          this._router.navigate(['/login'])
+         // this._router.navigate(['/login'])
           
         }
         //console.log(mensaje.login)
       },
       error => {
         dialogRef.close();
-        this._router.navigate(['/login'])
+        //this._router.navigate(['/login'])
         //console.log(error)
         this.login=false;
         

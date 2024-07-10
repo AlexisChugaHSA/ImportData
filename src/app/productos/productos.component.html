@@ -39,37 +39,40 @@
 </head>
 
 <nav *ngIf="!login"
-  class="navbar navbar-main navbar-expand-lg position-sticky mt-0 top-0 px-0 mx-0 shadow-none border-radius-xl z-index-sticky"
-  id="navbarBlur" data-scroll="true">
+  class="navbar navbar-main navbar-expand-lg mt-0 top-0 px-0 mx-0 shadow-none border-radius-xl z-index-sticky"
+  id="navbarBlur">
   <div class="container-fluid py-0 px-3">
-
     <img src="/assets/hsa-02.png" alt="" style="width: 200px; height: 100px; padding: 20px;">
-
-    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+    <div class="collapse navbar-collapse custom-navbar" id="navbar-class">
       <div class="ms-md-auto pe-md-3 d-flex align-items-center">
       </div>
-      <ul *ngIf="!login" class="navbar-nav  justify-content-end">
-        <li class="nav-item dropdown pe-2">
-          <a [routerLink]="['/login']" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton"
-            data-bs-toggle="dropdown" aria-expanded="true">
-            <button type="button" style="background-color: #3D5463; color: white;" class="btn w-100 my-4 mb-2">Iniciar
-              sesión</button>
+      <div class="navbar-nav custom-navbar-nav d-flex justify-content-end" style="width: 40%;">
+        <li class="nav-item dropdown custom-nav-item">
+          <a [routerLink]="['/dashboard-producto/9']" class="nav-link custom-nav-link text-body p-0 position-relative" id="dropdownMenuButton" aria-expanded="true">
+            <button style="background-color: #FF764B; margin-right: 5px;" type="button" class="btn custom-btn my-4 mb-2 ">Producto Demo</button>
           </a>
-
         </li>
-      </ul>
+        <li class="nav-item dropdown custom-nav-item">
+          <a [routerLink]="['/login']" class="nav-link custom-nav-link text-body p-0 position-relative" id="dropdownMenuButton" aria-expanded="true">
+            <button type="button" class="btn custom-btn my-4 mb-2">Iniciar sesión</button>
+          </a>
+        </li>
+      </div>
     </div>
   </div>
 </nav>
 
+
+
+
 <body class="g-sidenav-show  bg-gray-200">
-  <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
+  <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)" *ngIf="login">
     <i class="material-icons">menu</i>
   </button>
-  <app-menu
+  <app-menu *ngIf="login"
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
     id="sidenav-main"></app-menu>
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <main *ngIf="login" class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
     <nav
       class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
@@ -142,28 +145,28 @@
   </main>
   <div class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" *ngIf="!login">
     <!-- Navbar -->
-    <nav
-      class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
+    <!-- End Navbar -->
+
+    <div class="container-fluid py-4" *ngIf="!login" >
+
+      
+      <nav
+      class="navbar navbar-main navbar-expand-lg  mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
       id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-          <h2 class="font-weight-bolder mb-0">Productos</h2>
+          <h2 class="font-weight-bolder mb-0">Nuestros Productos</h2>
         </nav>
-
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
           </div>
         </div>
       </div>
     </nav>
-    <!-- End Navbar -->
-
-    <div class="container-fluid py-4" *ngIf="!login">
       <div class="row">
         <div class="col-lg-12 position-relative z-index-2">
           <div class="row mt-5">
             <div class="col-lg-4 col-md-6" *ngFor="let producto of productos">
-
               <div class="card" data-animation="true">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <a class="d-block blur-shadow-image">
@@ -184,7 +187,7 @@
                 <div style="justify-content: center; align-items: center; text-align: center;">
                   <p style="text-align: center;" class="font-weight-normal my-auto">$ {{ producto.precio| number:
                     '1.2-2' }} USD</p>
-                  <button style="margin-left: 175px;  background-color: #3D5463; color: white; text-align: center;"
+                  <button style="  background-color: #3D5463; color: white; text-align: center;"
                     class="btn  btn-sm  mt-4 mb-4" [routerLink]="['/detalle-producto', producto.id_producto]">Ver
                     Detalles</button>
                 </div>

@@ -160,6 +160,7 @@ export class HomeComponent {
     this.otrosProductos=this.todosProductos.filter(itemA => {
       return !this.productos.some(itemB => itemB.id_producto === itemA.id_producto);
     });
+    console.log(this.otrosProductos)
   }
   obtenerFechaDesde(id:number){
     //console.log("ZZZZZ "+id)

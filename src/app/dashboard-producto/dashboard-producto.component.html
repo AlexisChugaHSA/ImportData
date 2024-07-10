@@ -40,10 +40,10 @@
 
 <body *ngIf="login" class="g-sidenav-show  bg-gray-200">
   
-   <button class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
+   <button *ngIf="!login_aux" class="btn-toggle-sidenav" (click)="toggleSidenav($event)">
     <i class="material-icons">menu</i>
   </button>
-  <app-menu
+  <app-menu *ngIf="!login_aux"
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
     id="sidenav-main"></app-menu>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg "
@@ -208,7 +208,7 @@
                                 style=" background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Importaciones FOB - UNIDADES</div>
                             <div class="card z-index-2  " style="background-color: white; align-items: center;">
-                                <img style="height: 50%; width: 50%; padding-top: 150px;" *ngIf="!bandera_IFU"
+                                <img style="height: 70%; width: 70%; padding-top: 150px;" *ngIf="!bandera_IFU"
                                     src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasVerticales">{{ barras_verticales }}</canvas>
                             </div>
@@ -220,7 +220,7 @@
                                 Top Marcas - Unidades
                             </div>
                             <div class="card z-index-2  " style="max-height: 300px;">
-                                <img style=" margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_TMU"
+                                <img style=" margin-left: 60px; height: 70%; width: 70%;" *ngIf="!bandera_TMU"
                                     src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasHorizontales1">{{ barras_horizontales1 }}</canvas>
                             </div>
@@ -232,7 +232,7 @@
                                 style="background-color: #3D5463; color: white; text-align: center; font-weight: bolder;">
                                 Top Marcas - FOB</div>
                             <div class="card z-index-2 " style="max-height: 300px;">
-                                <img style="margin-left: 90px; height: 70%; width: 70%;" *ngIf="!bandera_TMF"
+                                <img style="margin-left: 60px; height: 70%; width: 70%;" *ngIf="!bandera_TMF"
                                     src="/assets/img/gift_carga_dashboard.gif" alt="Cargando..." />
                                 <canvas id="chartBarrasHorizontales2">{{ barras_horizontales2 }}</canvas>
                             </div>

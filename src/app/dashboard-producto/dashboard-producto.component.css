@@ -30,6 +30,32 @@
   z-index: 2000; /* Asegúrate de que el z-index sea mayor que el del menú */
 }
 
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Use full height of the container */
+  background-color: white;
+  flex-direction: column; /* Align items vertically */
+}
+
+.loading-image {
+  height: 70%;
+  width: 70%;
+  margin: 20px 0; /* Add some margin to separate from the canvas */
+}
+
+@media (max-width: 768px) {
+  .loading-image {
+      height: 50%; /* Adjust image size for smaller screens */
+      width: 50%;
+  }
+}
+
+
+
+
+
 /* Mostrar el botón de menú en dispositivos móviles */
 @media (max-width: 1281px) {
   .btn-toggle-sidenav {
