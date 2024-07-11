@@ -128,7 +128,6 @@ export class HomeComponent {
               if (productosTemp.length === this.prodsUser.length) {
                 this.productos = productosTemp;
                 this.obtenerTodosProductos();
-                this.obtenerOtrosProductos();
               }
             },
             error => {
@@ -148,7 +147,8 @@ export class HomeComponent {
     this._productoService.getProductos().subscribe(
       result=>{
         //console.log(result)
-        this.todosProductos=result
+        this.todosProductos=result;
+        this.obtenerOtrosProductos();
         this.dialogRef.close();
       },
       error=>{
@@ -157,6 +157,7 @@ export class HomeComponent {
     )
 }
   obtenerOtrosProductos(){
+    console.log(this.todosProductos)
     this.otrosProductos=this.todosProductos.filter(itemA => {
       return !this.productos.some(itemB => itemB.id_producto === itemA.id_producto);
     });

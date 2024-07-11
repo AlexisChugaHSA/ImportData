@@ -82,7 +82,7 @@
                     <div class="row mt-5">
                         <div class="col-lg-4 col-md-6" *ngFor="let producto of productos">
 
-                            <div class="card" data-animation="true">
+                            <div class="card" data-animation="true" style="height: 605px;">
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                     <a class="d-block blur-shadow-image">
                                         <img [src]="producto.imagen" alt="img-blur-shadow"
@@ -123,7 +123,7 @@
                     <div class="row mt-5">
                         <div class="col-lg-4 col-md-6" *ngFor="let producto of otrosProductos">
 
-                            <div class="card" data-animation="true">
+                            <div class="card" data-animation="true" >
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                     <a class="d-block blur-shadow-image">
                                         <img [src]="producto.imagen" alt="img-blur-shadow"
@@ -143,7 +143,8 @@
                                     </p>
                                     <div style="justify-content: center; align-items: center;">
                                         <p style="text-align: center;" class="font-weight-normal my-auto">
-                                            {{producto.precio}}</p>
+                                            $ {{ producto.precio| number:
+                                                '1.2-2' }} USD</p>
                                         <button style="background-color: #3D5463; color: white;" class="btn  mt-4 mb-4"
                                             [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>
                                     </div>

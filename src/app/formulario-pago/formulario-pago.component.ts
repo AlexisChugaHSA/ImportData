@@ -291,10 +291,10 @@ export class FormularioPagoComponent {
         this.guardarFactura();
         this.gradarProductoUsuario();
         this.localStorageService.set('Productos-Carrito','');
-        /*
+        
         this._router.navigate(['/menu']).then(() =>
           this._router.navigate(['/mis-productos']).then(() =>     
-          window.location.reload()))*/
+          window.location.reload()))
       },
       error => {
         //console.log(error)

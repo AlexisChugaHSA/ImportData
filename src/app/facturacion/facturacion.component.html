@@ -72,7 +72,8 @@
                   <tr *ngFor="let factura of facturas">
 
                     <td style="text-align: center;" class="text-lg">{{factura.fecha}}</td>
-                    <td style="text-align: center;" class="text-lg">{{factura.total}} USD</td>
+                    <td style="text-align: center;" class="text-lg">$ {{ factura.total| number:
+                      '1.2-2' }} USD</td>
                     <td style="text-align: center;" class="text-lg">
                       <a [routerLink]="['/detalle-factura', factura.id_factura]"
                       data-bs-toggle="tooltip" data-bs-original-title="Preview product">
