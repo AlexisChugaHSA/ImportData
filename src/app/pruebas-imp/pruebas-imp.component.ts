@@ -1,5 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
+import { UsuarioService } from '../services/usuario.service';
+import { EmailService } from '../services/email.service';
+import { PersonaService } from '../services/persona.service';
+import { Usuario } from '../models/usuario';
+import { Persona } from '../models/persona';
 
 
 @Component({
@@ -15,60 +20,32 @@ import { Component } from '@angular/core';
   ]
 })
 export class PruebasImpComponent {
-  dataSource: Level1Element[] = [
-    {
-      name: 'Level 1 - Row 1',
-      children: [
-        {
-          name: 'Level 2 - Row 1',
-          children: [
-            {
-              name: 'Level 3 - Row 1',
-              children: [
-                { name: 'Level 4 - Row 1' },
-                { name: 'Level 4 - Row 2' }
-              ]
+  public usuario!: Usuario;
+  public persona!: Persona;
+ constructor(private _usuarioService: UsuarioService,
+  private _emailService: EmailService,
+  private _personaService: PersonaService
+ ){
+  this.usuario = new Usuario(45, "", "","")
+ }
+ obtenerCorreo(){
+      this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
+        result => {
+          this.persona = <Persona>result;
             },
-            { name: 'Level 3 - Row 2' }
-          ]
+            error => {
+              //console.log(error)
+            }
+          )
+ }
+ enviarCorreoBienvenida(){
+  this._emailService.enviarEmailBienvenida(this.persona.correo).subscribe(
+    result => {
+      console.log(result)
         },
-        { name: 'Level 2 - Row 2' }
-      ]
-    },
-    {
-      name: 'Level 1 - Row 2',
-      children: [
-        { name: 'Level 2 - Row 3' },
-        {
-          name: 'Level 2 - Row 4',
-          children: [
-            { name: 'Level 3 - Row 3' },
-            { name: 'Level 3 - Row 4' }
-          ]
+        error => {
+          //console.log(error)
         }
-      ]
-    }
-  ];
-
-  columnsToDisplay = ['name'];
-  expandedElement: Level1Element | Level2Element | Level3Element | Level4Element | null = null;
-}
-
-interface Level1Element {
-  name: string;
-  children?: Level2Element[];
-}
-
-interface Level2Element {
-  name: string;
-  children?: Level3Element[];
-}
-
-interface Level3Element {
-  name: string;
-  children?: Level4Element[];
-}
-
-interface Level4Element {
-  name: string;
+      )
+ }
 }
