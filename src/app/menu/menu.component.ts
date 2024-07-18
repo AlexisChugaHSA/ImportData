@@ -59,16 +59,13 @@ export class MenuComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        //console.log(this.persona)
       },
       error => {
-        //console.log(error)
       })
 
     this._produserService.getP_U(this.usuario.id_usuario).subscribe(
       result => {
         this.prodsUser= result;
-        //console.log(this.prodsUser)
         for (const prod of this.prodsUser) {
           this._productoService.getProducto(prod.id_producto).subscribe(
             result=>{
@@ -76,7 +73,7 @@ export class MenuComponent {
               this.productos.sort((a, b) => a.nombre.localeCompare(b.nombre));
             }
           )
-        }
+        } console.log(this.productos);
       },
       error => {
         //console.log(error)

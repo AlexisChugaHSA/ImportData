@@ -160,7 +160,7 @@ export class DashboardProductoComponent implements OnInit, AfterViewInit {
         else {
           if (this.route.snapshot.paramMap.get('id') == '9') {
             this.user.usuario = "alexis2";
-            this.user.password = "123456";
+            this.user.password = "wWkidPWL";
             this.authService.loginUsuarioSi(this.user).subscribe(
               result => {
                 this.login2 = result;
@@ -179,7 +179,7 @@ export class DashboardProductoComponent implements OnInit, AfterViewInit {
       error => {
         if (this.route.snapshot.paramMap.get('id') == '9') {
           this.user.usuario = "alexis2";
-          this.user.password = "123456";
+          this.user.password = "wWkidPWL";
           this.authService.loginUsuarioSi(this.user).subscribe(
             result => {
               this.login2 = result;

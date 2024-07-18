@@ -25,14 +25,14 @@ export class EmailService {
     let params= { id_usuario: id, correo_usuario:correo };
     console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-    return this._http.post(this.url+'correo-restaurar-contrasenia',params,{headers})
+    return this._http.post(this.url+'correo-restaurar-contrasenia/'+id,params,{headers})
   }
-  enviarEmailCaducaProducto(correo:string, producto:Producto){
+  enviarEmailCaducaProducto(correo:string, productos:Producto[]){
     this.access_token=this.localStorageService.get('token');
-    let params= { correo_usuario:correo , producto: producto };
+    let params= { correo_usuario:correo , productos: productos };
     console.log(params)
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'producto-por-caducar',{headers})
+    return this._http.post(this.url+'producto-por-caducar',{headers})
   }
 
 
