@@ -135,9 +135,7 @@ import { PopupContraseniaTemporalComponent } from './popup-contrasenia-temporal/
   declarations: [
     PopupCargandoComponent,
     TerminosCondicionesComponent,
-    PoliticasPrivacidadComponent,
-    PopupRecuperarPasswordComponent,
-    PopupContraseniaTemporalComponent,
+    PoliticasPrivacidadComponent
   ]
 })
 export class DemoMaterialModule {}
@@ -176,7 +174,9 @@ export class DemoMaterialModule {}
     DashboardPricingComponent,
     FooterComponent,
     Footer2Component,
-    CabeceraComponent
+    CabeceraComponent,
+    PopupRecuperarPasswordComponent,
+    PopupContraseniaTemporalComponent,
   ],
   imports: [
     BrowserModule,

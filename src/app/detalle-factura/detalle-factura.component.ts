@@ -88,7 +88,6 @@ export class DetalleFacturaComponent {
 
   }
   ngOnInit() {
-    
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.id = this.route.snapshot.paramMap.get('id');
     this.obtenerDatosEmpresa();

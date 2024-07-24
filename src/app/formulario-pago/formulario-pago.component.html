@@ -96,8 +96,8 @@
 
                                         </tr>
                                         <tr style="text-align: center; ">
-                                            <td colspan="4">
-                                                <h2><strong class="precio-tachado">$ {{obtenerSubtotalT() | number:
+                                            <td colspan="4" >
+                                                <h2 *ngIf="periodo != 1"><strong class="precio-tachado" >$ {{obtenerSubtotalT() | number:
                                                         '1.2-2'}}</strong> USD</h2>
                                                 <h2>Subtotal: $ {{obtenerSubtotalT()*(1-membresia.descuento)| number:
                                                     '1.2-2'}} USD</h2>
@@ -281,9 +281,9 @@
                                     </div>
                                 </div>
 
-
+                                <!--
                                 <button (click)="subirDatos()"
-                                    class="btn bg-gradient-dark btn-lg float-end mt-6 mb-4">Pagar</button>
+                                    class="btn bg-gradient-dark btn-lg float-end mt-6 mb-4">Pagar</button>-->
 
                             </div>
                         </form>

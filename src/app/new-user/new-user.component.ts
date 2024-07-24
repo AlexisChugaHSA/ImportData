@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupBienvenidaComponent } from '../popup-bienvenida/popup-bienvenida.component';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { EmailService } from '../services/email.service';
 
 @Component({
   selector: 'app-new-user',
@@ -61,7 +62,8 @@ export class NewUserComponent {
     private _route: ActivatedRoute,
     private _router: Router,
     private renderer: Renderer2,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _emailService:EmailService
   ) {
     this.user = new Usuario(0, "", "", "");
     this.persona = new Persona(0, 0, 0, 0, "", "", "", "");
@@ -185,6 +187,7 @@ export class NewUserComponent {
                       result => {
                           dialogRef1.close();
                           const dialogRef = this.dialog.open(PopupBienvenidaComponent);
+                          this.enviarCorreoBienvenida();
                           dialogRef.afterClosed().subscribe(() => {
                             //console.log('El mensaje emergente se cerró.');
                           });
@@ -223,6 +226,16 @@ export class NewUserComponent {
       this.bra_terminos=false;
     }
   }
+  enviarCorreoBienvenida(){
+    this._emailService.enviarEmailBienvenida(this.user.usuario).subscribe(
+      result => {
+        console.log(result)
+          },
+          error => {
+            console.log(error)
+          }
+        )
+   }
 
   compararCon() {
     if (this.user.password === this.rpassword) {

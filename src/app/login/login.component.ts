@@ -10,6 +10,8 @@ import { AuthGuard } from '../services/auth.guard';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
+import { PopupRecuperarPasswordComponent } from '../popup-recuperar-password/popup-recuperar-password.component';
+import { PopupContraseniaTemporalComponent } from '../popup-contrasenia-temporal/popup-contrasenia-temporal.component';
 
 @Component({
   selector: 'app-login',
@@ -61,7 +63,9 @@ export class LoginComponent {
     this.user=new Usuario(0,"","","");
     
   }
-
+  olvidemiContrasenia(){
+    const dialogRef2= this.dialog.open(PopupRecuperarPasswordComponent);
+  }
 
   ocultarMensajeCon(){
     const dialogRef = this.dialog.open(PopupCargandoComponent);

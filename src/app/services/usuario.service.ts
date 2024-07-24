@@ -56,5 +56,9 @@ export class UsuarioService {
   return this._http.delete(this.url+'usuario/'+id,{headers});
   }
 
+  comprobarUsuario(usuario:string){
+    return this._http.get(this.url+'comprobar-usuario/'+usuario)
+  }
+
 
 }

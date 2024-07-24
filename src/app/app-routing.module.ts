@@ -26,6 +26,8 @@ import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-co
 import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { FooterComponent } from './footer/footer.component';
+import { PopupRecuperarPasswordComponent } from './popup-recuperar-password/popup-recuperar-password.component';
+import { PopupContraseniaTemporalComponent } from './popup-contrasenia-temporal/popup-contrasenia-temporal.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -53,7 +55,9 @@ const routes: Routes = [
   {path: 'pruebas-imp',component:PruebasImpComponent},
   {path: 'bienvenida',component:PopupBienvenidaComponent},
   {path: 'terminos-condiciones', component: TerminosCondicionesComponent},
-  {path: 'politicas-privacidad', component: PoliticasPrivacidadComponent}
+  {path: 'politicas-privacidad', component: PoliticasPrivacidadComponent},
+  {path: 'popup-recuperarc',component: PopupRecuperarPasswordComponent},
+  {path: 'popup-ctemporal',component: PopupContraseniaTemporalComponent}
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-popup',
@@ -10,7 +11,8 @@ export class PopupComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<PopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _router: Router,
   ) {}
 
   closeDialog(): void {
@@ -18,7 +20,10 @@ export class PopupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
+    setTimeout(() => {    
+      this._router.navigate(['/menu']).then(() =>
+        this._router.navigate(['/mis-productos']).then(() =>     
+        window.location.reload()))
       this.closeDialog();
     }, 3000);
   }

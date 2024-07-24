@@ -24,7 +24,7 @@ export class PopupLogoutComponent {
   closeDialog(): void {
     this.dialogRef.close();
   }
-  recuperarContrasenia(){
+  logout(){
     this.authService.logout(this.usuario.id_usuario).subscribe(
       result=>{
           this.clearLocalStorage();

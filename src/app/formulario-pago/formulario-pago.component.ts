@@ -133,7 +133,7 @@ export class FormularioPagoComponent {
       },
       error => {
       })
-      this.initConfig();
+      
   }
   toggleSidenav(event: Event) {
     event.stopPropagation();
@@ -178,19 +178,16 @@ export class FormularioPagoComponent {
     }
 
   }
-  subirDatos() {
-    this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
+  subirDatos(data:any) {
+
     //if (this.validateFecha()) {
       this.tarjetaVencida = false;
-      //this.guardarMetPago();
-      this.guardarPago()
-      this.openDialog();
+      this.guardarMetPago(data);
       //console.log(this.tarjetaVencida)
     //} else {
       //this.tarjetaVencida = true;
       //console.log(this.tarjetaVencida)
     //}
-    this.dialogRef1.close();
   }
 
 
@@ -216,7 +213,7 @@ export class FormularioPagoComponent {
       item={
         name:it.nombre,
         quantity:this.periodo,
-        unit_amount:{value:it.precio*(1-this.membresia.descuento+parseFloat(this.iva)) ,currency_code:'USD'}
+        unit_amount:{value: Math.round(it.precio*(1-this.membresia.descuento+parseFloat(this.iva))*100)/100 ,currency_code:'USD'}
       };
       items.push(item);
     });
@@ -232,6 +229,7 @@ export class FormularioPagoComponent {
     if (this.membresia.tipo === "Semestral") { this.periodo = 6 }
     if (this.membresia.tipo === "Anual") { this.periodo = 12 }
     this.total = Math.round( this.obtenerSubtotalT()*(1-this.membresia.descuento+parseFloat(this.iva))*100)/100;
+    this.initConfig();
   }
   soloNumeros(event: KeyboardEvent): void {
     const keyCode = event.keyCode || event.which;
@@ -269,6 +267,7 @@ export class FormularioPagoComponent {
     this._metpagoService.addMetPago(this.metodo_pago).subscribe(
       result => {
         console.log("Metodo de pago guardado")
+        this.guardarPago()
       },
       error => {
         //console.log(error)
@@ -289,12 +288,7 @@ export class FormularioPagoComponent {
         this.pagoR = result;
         console.log("Pago guardado")
         this.guardarFactura();
-        this.gradarProductoUsuario();
         this.localStorageService.set('Productos-Carrito','');
-        
-        this._router.navigate(['/menu']).then(() =>
-          this._router.navigate(['/mis-productos']).then(() =>     
-          window.location.reload()))
       },
       error => {
         //console.log(error)
@@ -313,7 +307,9 @@ export class FormularioPagoComponent {
       this._productoUsuarioService.addProdUser(this.prod_user).subscribe(
         result => {
           this.prod_users.push(result)
-          //console.log("producto-Usuario guardado")
+          console.log("producto-Usuario guardado")
+          this.dialogRef1.close();
+          this.openDialog();
         },
         error => {
 
@@ -350,6 +346,8 @@ export class FormularioPagoComponent {
         result => {
           console.log(result);
           console.log("Detalle factura guardada");
+          this.gradarProductoUsuario();
+          
         },
         error => {
           //console.log(error)
@@ -360,6 +358,9 @@ export class FormularioPagoComponent {
   }
   obtenerSubtotalT(){
     return Math.round(this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio * this.periodo, 0)*100)/100;
+  }
+  obtenerTotal(){
+    return this.total = Math.round( this.obtenerSubtotalT()*(1-this.membresia.descuento+parseFloat(this.iva))*100)/100;
   }
   private initConfig(): void {
     this.payPalConfig = {
@@ -375,6 +376,7 @@ export class FormularioPagoComponent {
                         item_total: {
                             currency_code: 'USD',
                             value: this.total.toString()
+                            
                         }
                     }
                 },
@@ -389,16 +391,17 @@ export class FormularioPagoComponent {
             layout: 'vertical'
         },
         onApprove: (data, actions) => {
+          this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
             console.log('onApprove - transaction was approved, but not authorized', data, actions);
             actions.order.get().then(details => {
                 console.log('onApprove - you can get full order details inside onApprove: ', details);
-               this.subirDatos();
+               
             });
 
         },
         onClientAuthorization: (data) => {
             console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-            this.guardarMetPago(data)
+            this.subirDatos(data);
         },
         onCancel: (data, actions) => {
             console.log('OnCancel', data, actions);

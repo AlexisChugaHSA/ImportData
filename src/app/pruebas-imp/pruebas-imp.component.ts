@@ -59,7 +59,7 @@ export class PruebasImpComponent  {
       console.log(result)
         },
         error => {
-          //console.log(error)
+          console.log(error)
         }
       )
  }
