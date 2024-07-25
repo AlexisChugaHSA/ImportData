@@ -267,6 +267,7 @@ export class PerfilUsuarioComponent {
     }
 
     guardarEmpresa(){
+      const dialogRef = this.dialog.open(PopupCargandoComponent)
       //agregar direccion persona
       this._direccionService.addDireccion(this.direccionE).subscribe(
         result => {
@@ -283,6 +284,7 @@ export class PerfilUsuarioComponent {
         error => {
           //console.log(error)
         })
+        dialogRef.close()
         setTimeout(() => {
           const alertE= document.querySelector('#alertE');
           this.renderer.setStyle(alertE, 'display', 'block');
@@ -293,6 +295,7 @@ export class PerfilUsuarioComponent {
     }
     
     guardarPassword(){
+      const dialogRef = this.dialog.open(PopupCargandoComponent)
       const alertC= document.querySelector('#alertC');
         if (this.newPassword === this.rpassword) {
           this._usuarioService.comprobarPassword(this.usuario).subscribe(
@@ -304,6 +307,7 @@ export class PerfilUsuarioComponent {
                 this._usuarioService.editUsuario(this.usuario.id_usuario,this.usuario).subscribe(
                   result=>{
                     //console.log(result)
+                    dialogRef.close()
                     setTimeout(() => {
                       this.renderer.setStyle(alertC, 'display', 'block');
                       setTimeout(() => {
@@ -315,6 +319,7 @@ export class PerfilUsuarioComponent {
               else{
                 this.mensajeAlert="La contraseña actual no es la correcta"
                 this.bandera=true;
+                dialogRef.close()
               }
               
             })
@@ -322,6 +327,7 @@ export class PerfilUsuarioComponent {
         }else {
           this.mensajeAlert="Las contraseñas no coinciden"
           this.bandera=true;
+          dialogRef.close()
         }
     }
     logout(){

@@ -90,6 +90,8 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { PopupRecuperarPasswordComponent } from './popup-recuperar-password/popup-recuperar-password.component';
 import { PopupContraseniaTemporalComponent } from './popup-contrasenia-temporal/popup-contrasenia-temporal.component';
+import { PopupErrorNewUsuarioComponent } from './popup-error-new-usuario/popup-error-new-usuario.component';
+import { PopupErrorPagoComponent } from './popup-error-pago/popup-error-pago.component';
 
 
 @NgModule({
@@ -136,6 +138,7 @@ import { PopupContraseniaTemporalComponent } from './popup-contrasenia-temporal/
     PopupCargandoComponent,
     TerminosCondicionesComponent,
     PoliticasPrivacidadComponent
+
   ]
 })
 export class DemoMaterialModule {}
@@ -176,7 +179,9 @@ export class DemoMaterialModule {}
     Footer2Component,
     CabeceraComponent,
     PopupRecuperarPasswordComponent,
-    PopupContraseniaTemporalComponent,
+    PopupContraseniaTemporalComponent,    
+    PopupErrorNewUsuarioComponent,
+    PopupErrorPagoComponent
   ],
   imports: [
     BrowserModule,

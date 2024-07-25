@@ -7,6 +7,9 @@ import { Usuario } from '../models/usuario';
 import { Persona } from '../models/persona';
 import { ProductoUsuarioService } from '../services/producto_usuario.service';
 import { ProductoService } from '../services/producto.service';
+import { PopupErrorNewUsuarioComponent } from '../popup-error-new-usuario/popup-error-new-usuario.component';
+import { PopupErrorPagoComponent } from '../popup-error-pago/popup-error-pago.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -31,12 +34,13 @@ export class PruebasImpComponent  {
   private _emailService: EmailService,
   private _personaService: PersonaService,
   private _produserService: ProductoUsuarioService,
-  private _productoService:ProductoService
+  private _productoService:ProductoService,
+  private dialog: MatDialog
  ){
   this.usuario = new Usuario(45, "", "","")
  }
  ngOnInit(){
-  this.obtenerCorreo();
+  const dialogRef = this.dialog.open(PopupErrorPagoComponent);
  }
 
  obtenerCorreo(){

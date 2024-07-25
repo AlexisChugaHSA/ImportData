@@ -242,16 +242,13 @@
             </div>
             <div class="card-body pt-0">
               <div class="input-group input-group-outline">
-                <label class="form-label">Contraseña actual</label>
-                <input type="password" class="form-control" [(ngModel)]="usuario.password">
+                <input type="password" class="form-control" placeholder="Contraseña actual" [(ngModel)]="usuario.password">
               </div>
               <div class="input-group input-group-outline my-4">
-                <label class="form-label">Nueva contraseña</label>
-                <input type="password" class="form-control" [(ngModel)]="newPassword">
+                <input type="password" class="form-control" placeholder="Nueva contraseña" [(ngModel)]="newPassword">
               </div>
               <div class="input-group input-group-outline">
-                <label class="form-label">Confirmar nueva contraseña</label>
-                <input type="password" class="form-control"  [(ngModel)]="rpassword">
+                <input type="password" class="form-control" placeholder="Confirmar nueva contraseña" [(ngModel)]="rpassword">
               </div>
 
               <div *ngIf="bandera">

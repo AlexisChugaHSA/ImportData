@@ -27,6 +27,7 @@ import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.compone
 import { IvaService } from '../services/iva.service';
 import {IPayPalConfig,ICreateOrderRequest } from 'ngx-paypal';
 import { PayPalService } from '../services/paypal.service';
+import { PopupErrorPagoComponent } from '../popup-error-pago/popup-error-pago.component';
 
 @Component({
   selector: 'app-formulario-pago',
@@ -109,14 +110,6 @@ export class FormularioPagoComponent {
     this.prod_user = new ProductoUsuario(0, 0, 0, 0,0, 0,0);
     this.factura = new Factura(0,0,0,0,"",0,0);
     this.detalle_factura = new DetalleFactura(0, 1, 0, 1, 0);
-    this._paypalService.getToken().subscribe(
-      response => {
-        //console.log('Token de acceso:', response.access_token);
-      },
-      error => {
-        console.error('Error al obtener el token:', error);
-      }
-    );
 
   }
 
@@ -270,6 +263,7 @@ export class FormularioPagoComponent {
         this.guardarPago()
       },
       error => {
+        const dialogRef = this.dialog.open(PopupErrorPagoComponent);
         //console.log(error)
       })
     //console.log(this.tarjeta);
@@ -291,6 +285,7 @@ export class FormularioPagoComponent {
         this.localStorageService.set('Productos-Carrito','');
       },
       error => {
+        const dialogRef = this.dialog.open(PopupErrorPagoComponent);
         //console.log(error)
       })
   }
@@ -332,6 +327,7 @@ export class FormularioPagoComponent {
         this.guardarDetalleFactura();
       },
       error => {
+        const dialogRef = this.dialog.open(PopupErrorPagoComponent);
         //console.log(error)
       }
     )
@@ -350,6 +346,7 @@ export class FormularioPagoComponent {
           
         },
         error => {
+          const dialogRef = this.dialog.open(PopupErrorPagoComponent);
           //console.log(error)
         }
       )
@@ -407,6 +404,7 @@ export class FormularioPagoComponent {
             console.log('OnCancel', data, actions);
         },
         onError: err => {
+            const dialogRef = this.dialog.open(PopupErrorPagoComponent);
             console.log('OnError', err);
         },
         onClick: (data, actions) => {

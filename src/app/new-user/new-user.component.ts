@@ -20,6 +20,7 @@ import { PopupBienvenidaComponent } from '../popup-bienvenida/popup-bienvenida.c
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { EmailService } from '../services/email.service';
+import { PopupErrorNewUsuarioComponent } from '../popup-error-new-usuario/popup-error-new-usuario.component';
 
 @Component({
   selector: 'app-new-user',
@@ -48,6 +49,9 @@ export class NewUserComponent {
   public empresa2!: any;
   public login=false;
   public bra_terminos=false;
+  public resultUser!:any;
+  public correoUsado:boolean=false;
+  public mensajeAlert="Ya existe un usuario registrado con este correo.";
 
 
   constructor(
@@ -194,26 +198,50 @@ export class NewUserComponent {
                         //console.log("Persona registrada")
                       },
                       error => {
+                        const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
                         //console.log(error)
                       })
                   },
                   error => {
+                    const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
                     //console.log(error)
                   })
               },
               error => {
+                const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
                 //console.log(error)
               })
           },
           error => {
+            const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
             //console.log(error)
           })
 
       },
       error => {
+        const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
         //console.log(error)
       })
 
+  }
+  comprobarUsuario(){
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
+    this._usuarioService.comprobarUsuario(this.persona.correo).subscribe(
+      result =>{
+        this.resultUser=result;
+        console.log(this.resultUser)
+        if(this.resultUser.Mensaje="SI" && this.resultUser.id_usuario){
+          this.correoUsado=true;
+          dialogRef.close()
+        }
+        else{
+          dialogRef.close()
+        }
+      },
+      error=>{
+        console.log(error)
+        dialogRef.close()
+      }  )   
   }
   checkConditions() {
     const checkBox1 = document.getElementById('customCheck1') as HTMLInputElement;
