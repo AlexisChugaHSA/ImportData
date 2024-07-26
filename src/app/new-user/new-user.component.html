@@ -156,7 +156,7 @@
                             <div class="button-row d-flex mt-4">
                               <button style="background-color: #3D5463; color: white;"
                                 class="btn ms-auto mb-0 js-btn-next" (click)="nextForm1()" title="Next"
-                                [disabled]="!ciudadSeleccionadaP && correoUsado">Siguiente</button>
+                                [disabled]="!persona.telefono || !ciudadSeleccionadaP || correoUsado || !persona.nombre || !persona.apellido">Siguiente</button>
                             </div>
                           </div>
                         </div>
@@ -262,7 +262,8 @@
                                 type="button" title="Prev" (click)="prevForm2()">Atrás</button>
                               <button style="background-color: #3D5463; color: white;"
                                 class="btn ms-auto mb-0 js-btn-next" (click)="nextForm2()" title="Next"
-                                [disabled]="!ciudadSeleccionadaE">Siguiente</button>
+                                [disabled]="!ciudadSeleccionadaE||!empresa.correo||!empresa.telefono||!empresa.identificacion||!empresa.nombre||!empresa.identificacion">
+                                Siguiente</button>
 
                             </div>
                           </div>

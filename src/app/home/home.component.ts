@@ -157,17 +157,12 @@ export class HomeComponent {
     )
 }
   obtenerOtrosProductos(){
-    console.log(this.todosProductos)
     this.otrosProductos=this.todosProductos.filter(itemA => {
       return !this.productos.some(itemB => itemB.id_producto === itemA.id_producto);
     });
-    console.log(this.otrosProductos)
   }
   obtenerFechaDesde(id:number){
-    //console.log("ZZZZZ "+id)
-    //console.log(this.prodsUser)
     const productoEncontrado = this.prodsUser.find(item => item.id_producto === id);
-    //console.log(productoEncontrado)
     return productoEncontrado.fecha;
   }
   

@@ -33,7 +33,7 @@ export class FacturacionComponent {
   public pago!:Pago;
   public persona!: Persona;
   public id_factura!:any;
-  public empresa!:Empresa;
+  public empresa=new Empresa(0,0,"",0,"","","");
   public login=false;
   public dialogRef1!:any;
 

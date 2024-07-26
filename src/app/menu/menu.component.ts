@@ -73,7 +73,7 @@ export class MenuComponent {
               this.productos.sort((a, b) => a.nombre.localeCompare(b.nombre));
             }
           )
-        } console.log(this.productos);
+        }
       },
       error => {
         //console.log(error)

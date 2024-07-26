@@ -135,6 +135,7 @@ export class NewUserComponent {
       })
     //console.log(country);
     this.direccionP.id_pais = this.paisSeleccionadoP.id_pais
+
   }
   onCityPSelectionChange(city: Ciudad) {
     this.ciudadSeleccionadaP = city;
@@ -235,10 +236,12 @@ export class NewUserComponent {
           dialogRef.close()
         }
         else{
+          this.correoUsado=false;
           dialogRef.close()
         }
       },
       error=>{
+        this.correoUsado=false;
         console.log(error)
         dialogRef.close()
       }  )   

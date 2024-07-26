@@ -32,18 +32,18 @@ import { LocalStorageService } from 'angular-2-local-storage';
 export class DetalleFacturaComponent {
   public sidenavVisible = false;
   public persona!: Persona;
-  public empresa= new Empresa(0, 1, "", 0, "", "", "");
+  public empresa=new Empresa(0,0,"",0,"","","");
   public usuario: Usuario= new Usuario(0, "", "", "");
   public direccionE=new Direccion(0,0,0);
-  public paisE!: Pais;
-  public ciudadE!: Ciudad;
+  public paisE=new Pais(0,"","");
+  public ciudadE= new Ciudad(0,0,"","");
   public id!: any;
   public factura= new Factura(0,0,0,0,"",0,0);
   public detfacts!: any;
   public productos: any = [];
-  public pago!: Pago;
+  public pago=new Pago(0,0,0,0,0,"",0,0,"",0,"");
   public membresias: any = [];
-  public membresia!: Membresia;
+  public membresia=new Membresia("",0,0);
   public periodo = "";
   public total = 0;
   public login=false;
@@ -148,7 +148,6 @@ export class DetalleFacturaComponent {
     this._detfactService.getDetFactByIdFact(this.id).subscribe(
       result => {
         this.detfacts = result;
-        console.log(this.detfacts)
         this._pagoService.getPago(this.detfacts[0].id_pago).subscribe(
           result => {
             this.pago = <Pago>result;
