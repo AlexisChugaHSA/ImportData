@@ -42,9 +42,11 @@ export class HomeComponent {
           this.login=mensaje.login;
           if(this.login){
              //console.log(mensaje.login)
+             this.dialogRef.close();
           }
           else{
              this._router.navigate(['/login'])
+             this.dialogRef.close();
           }
           //console.log(mensaje.login)
         },
@@ -52,16 +54,18 @@ export class HomeComponent {
           this._router.navigate(['/login'])
           //console.log(error)
           this.login=false;
+          this.dialogRef.close();
           
         })
     this.usuario = new Usuario(0, "", "", "");
+    this.dialogRef.close();
   }
   ngOnInit() {
 
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.getCarrito();
     this.obtenerDatos();
-
+    this.dialogRef.close();
   }
   toggleSidenav(event: Event) {
     event.stopPropagation();
@@ -116,6 +120,7 @@ export class HomeComponent {
         this.prodsUser = result;
         //console.log(this.prodsUser);
         const productosTemp:any=[];
+        this.dialogRef.close();
         for (const prod of this.prodsUser) {
           this._productoService.getProducto(prod.id_producto).subscribe(
             (result) => {
@@ -124,6 +129,7 @@ export class HomeComponent {
               producto2.fecha=prod.fecha;
               producto2.fecha_hasta=prod.fecha_hasta;
               productosTemp.push(producto2);
+
               // Solo actualizar 'this.productos' una vez que todos los productos se han agregado
               if (productosTemp.length === this.prodsUser.length) {
                 this.productos = productosTemp;
@@ -132,12 +138,14 @@ export class HomeComponent {
             },
             error => {
               //console.log(error);
+              this.dialogRef.close();
             }
           );
         }
       },
       error => {
         //console.log(error);
+        this.dialogRef.close();
       }
     );
     

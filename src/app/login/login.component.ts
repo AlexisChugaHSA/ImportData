@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { PopupRecuperarPasswordComponent } from '../popup-recuperar-password/popup-recuperar-password.component';
 import { PopupContraseniaTemporalComponent } from '../popup-contrasenia-temporal/popup-contrasenia-temporal.component';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent {
     private _userLogService:UserLogService,
     private _authguard:AuthGuard,
     private _route:ActivatedRoute,
+    private _firebaseService:FirebaseService,
     private _router: Router,
     private localStorageService: LocalStorageService
   ){
@@ -65,6 +67,14 @@ export class LoginComponent {
   }
   olvidemiContrasenia(){
     const dialogRef2= this.dialog.open(PopupRecuperarPasswordComponent);
+  }
+  loginGoogle(){
+    this._firebaseService.loginWithGoogle()
+    .then(response=>{
+      console.log(response);
+      
+    })
+    .catch(error => console.log(error))
   }
 
   ocultarMensajeCon(){
