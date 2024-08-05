@@ -3,6 +3,7 @@ import { HttpClient,HttpResponse, HttpRequest, HttpHeaders } from '@angular/comm
 import { LogProductoUsuario} from '../models/log_producto_usuario';
 import { GLOBAL } from './global.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { throwError } from 'rxjs';
 
 @Injectable({providedIn:'root'})
 export class LogProductoUsuarioService {
@@ -14,13 +15,20 @@ export class LogProductoUsuarioService {
   }
 
 
-  addLogProdUser(log_pro_user:LogProductoUsuario){
-    this.access_token=this.localStorageService.get('token');
-    let json=JSON.stringify(log_pro_user);
-    let params=json;
-    //console.log(params)
-    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-    return this._http.post(this.url+'lpu',params,{headers})
+  addLogProdUser(log_pro_user: LogProductoUsuario) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let json = JSON.stringify(log_pro_user);
+      let params = json;
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      return this._http.post(this.url + 'lpu', params, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
+  
 
 }

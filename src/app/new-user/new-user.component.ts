@@ -166,25 +166,25 @@ export class NewUserComponent {
       result => {
         this.direccionP2 = result
         this.persona.id_direccion = this.direccionP2.id_direccion
-        //console.log("Direccion de persona registrada")
+        console.log("Direccion de persona registrada")
         //agregar direccion empresa
         this._direccionService.addDireccion(this.direccionE).subscribe(
           result => {
             this.direccionE2 = result
             this.empresa.direccion = this.direccionE2.id_direccion
-            //console.log("Direccion de empresa registrada")
+            console.log("Direccion de empresa registrada")
             //agregar empresa
             this._empresaService.addEmpresa(this.empresa).subscribe(
               result => {
                 this.empresa2 = result
                 this.persona.id_empresa = this.empresa2.id_empresa
-                //console.log("Empresa registrada")
+                console.log("Empresa registrada")
                 //agregar usuario
                 this._usuarioService.addUsuario(this.user).subscribe(
                   result => {
                     this.usuario = result
                     this.persona.id_usuario = this.usuario.id_usuario
-                    //console.log("Usuario registrado")
+                    console.log("Usuario registrado")
                     //agregar persona
                     //console.log(this.persona);
                     this.localStorageService.set('nombre_usuario',this.persona.nombre);
@@ -196,7 +196,7 @@ export class NewUserComponent {
                           dialogRef.afterClosed().subscribe(() => {
                             //console.log('El mensaje emergente se cerró.');
                           });
-                        //console.log("Persona registrada")
+                        console.log("Persona registrada")
                       },
                       error => {
                         const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpResponse, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { GLOBAL } from './global.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { throwError } from 'rxjs';
 
 
 @Injectable({providedIn:'root'})
@@ -12,11 +13,16 @@ export class SubCategoriaImpService {
     this.url=GLOBAL.url
     this.access_token=this.localStorageService.get('token')
   }
-  getSubCategoriasImp(id:number){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'subcategorias-imp/'+id,{headers});
+  getSubCategoriasImp(id: number) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.access_token });
+      return this._http.get(this.url + 'subcategorias-imp/' + id, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
+  
 /*
   getSubCategoriaImp(id:number){
     return this._http.get(this.url+'subcategorias-imp/'+id)

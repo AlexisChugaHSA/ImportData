@@ -3,6 +3,7 @@ import { HttpClient,HttpResponse, HttpRequest, HttpHeaders } from '@angular/comm
 import { Membresia } from '../models/membresia';
 import { GLOBAL } from './global.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { throwError } from 'rxjs';
 
 @Injectable({providedIn:'root'})
 export class MembresiaService {
@@ -12,35 +13,43 @@ export class MembresiaService {
     this.url=GLOBAL.url;
     this.access_token=this.localStorageService.get('token');
   }
-  getMembresias(){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'membresias',{headers})
+  getMembresias() {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      return this._http.get(this.url + 'membresias', { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
+  
+  addMembresia(membresia: Membresia) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let json = JSON.stringify(membresia);
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      return this._http.post(this.url + 'membresias', json, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
+  }
+  
+  getMembresia(id: number) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      return this._http.get(this.url + 'membresia/' + id, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
+  }
+  
 
-  addMembresia(membresia:Membresia){
-    this.access_token=this.localStorageService.get('token');
-    let json=JSON.stringify(membresia);
-    let params=json;
-    //console.log(params)
-    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-    return this._http.post(this.url+'membresias',params,{headers})
-  }
-
-  getMembresia(id:number){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'membresia/'+id,{headers})
-  }
-/*
-  editPersona(id:string, persona:Persona){
-   let json=JSON.stringify(persona);
-   let params=json;
-   let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
-   return this._http.put(this.url+'persona/'+id,params,{headers})
-  }
-
-  deletePersona(id:string){
-  return this._http.delete(this.url+'persona/'+id);
-  }*/
 }

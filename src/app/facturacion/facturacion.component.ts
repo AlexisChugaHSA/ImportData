@@ -7,6 +7,7 @@ import { Usuario } from '../models/usuario';
 import { Persona } from '../models/persona';
 import { Pago } from '../models/pago';
 import { UsuarioService } from '../services/usuario.service';
+import { firstValueFrom } from 'rxjs';
 import { PersonaService } from '../services/persona.service';
 import { DetalleFacturaService } from '../services/detalle_factura.service';
 import { EmpresaService } from '../services/empresa.service';
@@ -38,7 +39,7 @@ export class FacturacionComponent {
   public dialogRef1!:any;
 
   constructor(
-    private authService:AuthService,
+    private authService: AuthService,
     private _router: Router,
     private route: ActivatedRoute,
     private _pagoService: PagoService,
@@ -47,28 +48,27 @@ export class FacturacionComponent {
     private localStorageService: LocalStorageService,
     private _empresaService: EmpresaService,
     private _detfactService: DetalleFacturaService,
-    private _facturaService: FacturaService){
-      this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
-      this.authService.getIsLoggedIn().subscribe(
-        result => {
-          let mensaje=result
-          this.login=mensaje.login;
-          if(this.login){
-             //console.log(mensaje.login)
-          }
-          else{
-             this._router.navigate(['/login'])
-          }
-          //console.log(mensaje.login)
-        },
-        error => {
-          this._router.navigate(['/login'])
-          //console.log(error)
-          this.login=false;
-          
-        })
-
+    private _facturaService: FacturaService
+  ) {
+    this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
+    this.checkLoginStatus();
   }
+  
+  private async checkLoginStatus() {
+    try {
+      const result = await firstValueFrom(this.authService.getIsLoggedIn());
+      let mensaje:any = result;
+      this.login = mensaje.login;
+      if (!this.login) {
+        this._router.navigate(['/login']);
+      }
+    } catch (error) {
+      this._router.navigate(['/login']);
+      this.login = false;
+      console.error('Error checking login status:', error);
+    }
+  }
+  
   ngOnInit() {
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     this.obtenerDatos();
@@ -122,7 +122,7 @@ export class FacturacionComponent {
         //console.log(error)
       })
 
-  }
+  }/*
   obtenerFacturas(){
     this._facturaService.getFacturasByIdEmp(this.persona.id_empresa).subscribe(
       result => {
@@ -133,20 +133,30 @@ export class FacturacionComponent {
       error => {
         //console.log(error)
       })
-  }
+  }*/
+      async obtenerFacturas() {
+        try {
+          const result = await firstValueFrom(this._facturaService.getFacturasByIdEmp(this.persona.id_empresa));
+          this.facturas = result;
+          this.facturas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+          console.log(this.facturas);
+        } catch (error) {
+          console.error('Error fetching facturas:', error);
+        }
+      }
 
-  obtenerPagos(){
-    this._pagoService.getPagobyEmp(this.empresa.id_empresa).subscribe(
-      result => {
-        this.pagos=result;
-        this.pagos=this.pagos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-        //console.log(this.pagos);
-        this.dialogRef1.close();
-      },
-      error => {
-        //console.log(error)
-      })
-  }
+      async obtenerPagos() {
+        try {
+          const result = await firstValueFrom(this._pagoService.getPagobyEmp(this.empresa.id_empresa));
+          this.pagos = result;
+          this.pagos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+          console.log(this.pagos);
+          this.dialogRef1.close();
+        } catch (error) {
+          console.error('Error fetching pagos:', error);
+        }
+      }
+      
   cancelarPago(id:number){
     this._pagoService.putCancelPago(id).subscribe(
       result => {

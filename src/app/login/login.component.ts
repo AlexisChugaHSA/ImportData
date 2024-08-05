@@ -75,6 +75,7 @@ export class LoginComponent {
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
+        console.log(this.localStorageService.get('token'));
         //console.log(this.login.mensaje);
 
         //console.log(this.login.token);
@@ -107,7 +108,7 @@ export class LoginComponent {
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
-        //console.log(this.login.token);
+        console.log(this.localStorageService.get('token'));
         ////console.log(this.localStorageService.get('id_usuario'))
         //console.log(this.login.mensaje);
         if(this.login.mensaje==="OK" ){

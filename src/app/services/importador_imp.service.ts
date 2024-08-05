@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpResponse, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { GLOBAL } from './global.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { throwError } from 'rxjs';
 
 
 @Injectable({providedIn:'root'})
@@ -12,16 +13,25 @@ export class ImportadorImpService {
     this.url=GLOBAL.url;
     this.access_token=this.localStorageService.get('token');
   }
-  getImportadores(){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'importador-imp',{headers})
+  getImportadores() {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.access_token });
+      return this._http.get(this.url + 'importador-imp', { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
-
-  getImportador(id:number){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'importador-imp/'+id,{headers})
+  
+  getImportador(id: number) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.access_token });
+      return this._http.get(this.url + 'importador-imp/' + id, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
+  
 
 }

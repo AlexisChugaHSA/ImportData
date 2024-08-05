@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpResponse, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { GLOBAL } from './global.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { throwError } from 'rxjs';
 
 @Injectable({providedIn:'root'})
 export class MarcasImpService {
@@ -11,16 +12,28 @@ export class MarcasImpService {
     this.url=GLOBAL.url;
     this.access_token=this.localStorageService.get('token');
   }
-  getMarcas(id:number){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'marcas-imp/'+id,{headers})
+  getMarcas(id: number) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      return this._http.get(this.url + 'marcas-imp/' + id, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
-
-  getTienda(id:number){
-    this.access_token=this.localStorageService.get('token');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    return this._http.get(this.url+'marcas-imp/'+id,{headers})
+  
+  getTienda(id: number) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      return this._http.get(this.url + 'marcas-imp/' + id, { headers });
+    } else {
+      return throwError('Token no disponible');
+    }
   }
-
+  
 }

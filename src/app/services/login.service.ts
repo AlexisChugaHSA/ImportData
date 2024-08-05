@@ -3,6 +3,7 @@ import { HttpClient,HttpResponse, HttpRequest, HttpHeaders } from '@angular/comm
 import { Usuario } from '../models/usuario';
 import { GLOBAL } from './global.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { throwError } from 'rxjs';
 
 
 @Injectable({
@@ -24,7 +25,6 @@ export class AuthService {
   loginUsuario(usuario:Usuario){
     let json=JSON.stringify(usuario);
     let params=json;
-    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     this.isLoggedIn=true;
     return this._http.post(this.url+'login',params,{headers})
@@ -32,44 +32,37 @@ export class AuthService {
   loginUsuarioSi(usuario:Usuario){
     let json=JSON.stringify(usuario);
     let params=json;
-    //console.log(params)
     let headers =new HttpHeaders({'Content-Type':'application/json'});
     this.isLoggedIn=true;
     return this._http.post(this.url+'login/si',params,{headers})
   }
-  getIsLoggedIn():any{
-    this.access_token=this.localStorageService.get('token');
-    this.id_usuario=this.localStorageService.get('id_usuario');
-    let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
-    //console.log(headers)
-    return this._http.get(this.url+'usuario-logueado/'+this.id_usuario,{headers});
-    
+  getIsLoggedIn(): any {
+    this.access_token = this.localStorageService.get('token');
+    this.id_usuario = this.localStorageService.get('id_usuario');
+    if (this.access_token && this.id_usuario) {
+      let headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      console.log(headers)
+      return this._http.get(this.url + 'usuario-logueado/' + this.id_usuario, { headers });
+    } else {
+      return throwError('Token o ID de usuario no disponible');
+    }
   }
-  /*
-  isLogin(): boolean {
-    this.getIsLoggedIn().subscribe(
-      result => {
-        let mensaje=result
-        this.bandera=mensaje.login;
-        return this.bandera;
-      },
-      error => {
-        //console.log(error)
-      })
-      return this.bandera;
-      
-  }*/
-
-  logout(id: number) {
-    this.access_token=this.localStorageService.get('token');
-    let cabecera = new HttpHeaders({'Authorization': 'Bearer ' + this.access_token});
-    //console.log('Bearer ' + this.access_token);
-    let opciones = { headers: cabecera }; // Opciones con el objeto de cabecera
-    return this._http.post(this.url + 'logout/' + id, {}, opciones); // Pasar las opciones en el tercer parámetro
-  }
-
   
-
+  logout(id: number) {
+    this.access_token = this.localStorageService.get('token');
+    if (this.access_token) {
+      let cabecera = new HttpHeaders({
+        'Authorization': 'Bearer ' + this.access_token
+      });
+      let opciones = { headers: cabecera };
+      return this._http.post(this.url + 'logout/' + id, {}, opciones);
+    } else {
+      return throwError('Token no disponible');
+    }
+  }
+  
 
   setLoggedIn(value: boolean) {
     this.isLoggedIn = value;
