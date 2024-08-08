@@ -43,7 +43,6 @@ export class AuthService {
       let headers = new HttpHeaders({
         'Authorization': 'Bearer ' + this.access_token
       });
-      console.log(headers)
       return this._http.get(this.url + 'usuario-logueado/' + this.id_usuario, { headers });
     } else {
       return throwError('Token o ID de usuario no disponible');

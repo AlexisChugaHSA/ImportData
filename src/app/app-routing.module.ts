@@ -30,7 +30,7 @@ import { PopupRecuperarPasswordComponent } from './popup-recuperar-password/popu
 import { PopupContraseniaTemporalComponent } from './popup-contrasenia-temporal/popup-contrasenia-temporal.component';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
+  {path: '', component: ProductosComponent},
   {path: 'cabecera', component: CabeceraComponent},
   {path: 'footer', component: FooterComponent},
   {path: 'dashboard', component: DashboardComponent},

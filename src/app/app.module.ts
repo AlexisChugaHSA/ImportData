@@ -92,9 +92,14 @@ import { PopupRecuperarPasswordComponent } from './popup-recuperar-password/popu
 import { PopupContraseniaTemporalComponent } from './popup-contrasenia-temporal/popup-contrasenia-temporal.component';
 import { PopupErrorNewUsuarioComponent } from './popup-error-new-usuario/popup-error-new-usuario.component';
 import { PopupErrorPagoComponent } from './popup-error-pago/popup-error-pago.component';
-import {initializeApp,provideFirebaseApp} from '@angular/fire/app'
-import {provideAuth,getAuth} from '@angular/fire/auth'
 import { environment } from './enviroments/enviroment';
+import { firebaseConfig } from './enviroments/firebase-config';
+import { initializeApp} from 'firebase/app'
+//import { getAuth } from 'firebase/auth';
+
+//import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+//import { provideAuth, getAuth } from '@angular/fire/auth';
+initializeApp(firebaseConfig);
 
 @NgModule({
   exports: [
@@ -213,8 +218,8 @@ export class DemoMaterialModule {}
     NgxChartsModule,
     NgxPayPalModule,
     BrowserAnimationsModule,
-    provideFirebaseApp(()=>initializeApp(environment.firebaseConfig)),
-    provideAuth(()=>getAuth()),
+    //provideFirebaseApp(()=>initializeApp(environment.firebaseConfig)),
+    //provideAuth(()=>getAuth()),
     LocalStorageModule.forRoot({
       prefix: 'my-app',
       storageType: 'localStorage'

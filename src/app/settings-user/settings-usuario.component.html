@@ -60,7 +60,7 @@
                   <span class="text-sm">Mi Perfil</span>
                 </a>
               </li>
-              <li class="nav-item pt-2">
+              <li class="nav-item pt-2" *ngIf="persona.id_empresa!=0">
                 <a class="nav-link text-dark d-flex" data-scroll="" (click)="scrollTo('empresa')">
                   <i class="material-icons text-lg me-2">receipt_long</i>
                   <span class="text-sm">Mi Empresa</span>
@@ -174,7 +174,7 @@
             </div>
           </div>
 
-          <div class="card mt-4" id="empresa">
+          <div class="card mt-4" id="empresa" *ngIf="persona.id_empresa!=0">
             <div class="card-header">
               <h4>Información de tu empresa o datos de facturación</h4>
             </div>

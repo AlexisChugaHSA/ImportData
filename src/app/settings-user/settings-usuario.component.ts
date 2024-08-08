@@ -85,44 +85,38 @@ export class PerfilUsuarioComponent {
   }
   ngOnInit() {
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
-    //console.log("Perfil Usuario esta funcionando")
     //Cargar paises
     this._paisService.getPaises().subscribe(
       result => {
         this.paises = <Pais[]>result;
-        //console.log(this.paises);
       },
       error => {
-        //console.log(error)
+        console.log(error)
       }
     )
 
 
-    //consultar persona
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        //console.log(this.persona)
-        //consultar empresa
+        if(this.persona.id_empresa==0){
+          this.dialogRef.close();
+        }
+        else{
         this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
           result => {
             this.empresa = <Empresa>result;
-            //console.log(this.empresa)
-            //consultar direccion de empresa
             this._direccionService.getDireccion(this.empresa.direccion).subscribe(
               result => {
                 this.direccionE = <Direccion>result;
-                //console.log(this.direccionE);
                 this._paisService.getPais(this.direccionE.id_pais).subscribe(
                   result => {
                     this.paisSeleccionadoE = <Pais>result;
-                    //console.log(this.paisSeleccionadoE);
                   }
                 )
                 this._ciudadService.getCiudad(this.direccionE.id_ciudad).subscribe(
                   result => {
                     this.ciudadSeleccionadaE = <Ciudad>result;
-                    //console.log(this.ciudadSeleccionadaE);
                   }
                 )
                 this._ciudadService.getCiudadesP(this.direccionE.id_pais).subscribe(
@@ -132,24 +126,23 @@ export class PerfilUsuarioComponent {
               })
           },
           error => {
-            //console.log(error)
+            console.log(error)
           }
-        )
+        )}
         //Consultar direccion de persona
+        if(this.persona.id_direccion==0){this.dialogRef.close();}
+        else{
         this._direccionService.getDireccion(this.persona.id_direccion).subscribe(
           result => {
             this.direccionP = <Direccion>result;
-            //console.log(this.direccionP);
             this._paisService.getPais(this.direccionP.id_pais).subscribe(
               result => {
                 this.paisSeleccionadoP = <Pais>result;
-                //console.log(this.paisSeleccionadoP);
               }
             )
             this._ciudadService.getCiudad(this.direccionP.id_ciudad).subscribe(
               result => {
                 this.ciudadSeleccionadaP = <Ciudad>result;
-                //console.log(this.ciudadSeleccionadaP);
               }
             )
             this._ciudadService.getCiudadesP(this.direccionP.id_pais).subscribe(
@@ -157,10 +150,10 @@ export class PerfilUsuarioComponent {
                 this.ciudadesP = result;
                 this.dialogRef.close();
               })
-          })
+          })}
       },
       error => {
-        //console.log(error)
+        console.log(error)
       })
   }
   toggleSidenav(event: Event) {

@@ -13,6 +13,11 @@ import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.compone
 import { PopupRecuperarPasswordComponent } from '../popup-recuperar-password/popup-recuperar-password.component';
 import { PopupContraseniaTemporalComponent } from '../popup-contrasenia-temporal/popup-contrasenia-temporal.component';
 import { FirebaseService } from '../services/firebase.service';
+import { Persona } from '../models/persona';
+import { PersonaService } from '../services/persona.service';
+import { EmailService } from '../services/email.service';
+import { PopupBienvenidaComponent } from '../popup-bienvenida/popup-bienvenida.component';
+import { PopupErrorNewUsuarioComponent } from '../popup-error-new-usuario/popup-error-new-usuario.component';
 
 @Component({
   selector: 'app-login',
@@ -21,18 +26,22 @@ import { FirebaseService } from '../services/firebase.service';
 })
 export class LoginComponent {
   public user!:Usuario;
+  public usuarioG=new Usuario(0,"","","");
   public login:any="";
   public bandera=false;
   public mensajeAlert="";
   public tokenUsado=false;
+  public personaG=new Persona(0,0,0,0,"","","","");
   public mensajeNoEncontrado="EL usuario o la contraseña ingresados son incorrectos";
   public mensajeTokenUsado="Este usuario ha iniciado sesion en otra maquina. Desea ingresar en esta maquina?"
   constructor(
     private dialog: MatDialog,
     private _authService:AuthService,
-    private _userLogService:UserLogService,
+    private _personaService: PersonaService,
+    private _userService: UsuarioService,
     private _authguard:AuthGuard,
     private _route:ActivatedRoute,
+    private _emailService:EmailService,
     private _firebaseService:FirebaseService,
     private _router: Router,
     private localStorageService: LocalStorageService
@@ -71,29 +80,42 @@ export class LoginComponent {
   loginGoogle(){
     this._firebaseService.loginWithGoogle()
     .then(response=>{
-      console.log(response);
+      const data:any=response;
+      const dialogRef = this.dialog.open(PopupCargandoComponent);
+      this._userService.comprobarUsuario(data._tokenResponse.email).subscribe(
+        result =>{
+          const user:any=result;
+          if(user.Mensaje="SI" && user.id_usuario){
+            this.usuarioG.id_usuario=user.id_usuario
+            this.usuarioG.usuario=data._tokenResponse.email;
+            this.usuarioG.password="nsywraO76m";
+            dialogRef.close()
+            this.loginGoogleSi(this.usuarioG);
+            
+          }
+          else{dialogRef.close();this.guardarDatosusuario(data)}
+        },
+        error=>{
+          console.log(error)
+          dialogRef.close();
+          this.guardarDatosusuario(data);
+          
+        }  )  
       
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log(error) )
   }
-
-  ocultarMensajeCon(){
+  loginGoogleSi(user:Usuario){
     const dialogRef = this.dialog.open(PopupCargandoComponent);
-    this._authService.loginUsuarioSi(this.user).subscribe(
+    this._authService.loginUsuarioSi(user).subscribe(
       result =>{
-        //console.log(result);
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
         console.log(this.localStorageService.get('token'));
-        //console.log(this.login.mensaje);
-
-        //console.log(this.login.token);
         if(this.login.mensaje==="OKSI"){
-         // this._authguard.bandera=true;
           this._router.navigate(['/home']);
           dialogRef.close();
-          //this._userLogService.setUser(this.user);
           }
         else if(this.login.mensaje==="TK"){
           this.mensajeAlert=this.mensajeTokenUsado;
@@ -104,23 +126,122 @@ export class LoginComponent {
         else{
           this.mensajeAlert=this.mensajeNoEncontrado
           this.bandera=true;
+          dialogRef.close()
+        }
+      },
+      error=>{
+        dialogRef.close()
+        //console.log(error)
+      }  ) 
+  }
+  guardarDatosPersona(data:any){
+    const dialogRef=this.dialog.open(PopupCargandoComponent);
+    this.personaG.nombre=data._tokenResponse.firstName;
+    this.personaG.apellido=data._tokenResponse.lastName;
+    this.personaG.correo=data._tokenResponse.email;
+    if(data.user.phoneNumber){
+      this.personaG.telefono=data.user.phoneNumber;
+    }else{
+      this.personaG.telefono="0";
+    }
+    this._personaService.addPersona(this.personaG).subscribe(
+      result => {
+        this.enviarCorreoBienvenida();
+        console.log("Persona registrada");
+        this._authService.loginUsuario(this.usuarioG).subscribe(
+          result =>{
+            this.login=result;
+            this.localStorageService.set('id_usuario',this.login.id_usuario);
+            this.localStorageService.set('token',this.login.token);
+            if(this.login.mensaje==="OK" ){
+              this._router.navigate(['/home']);
+              dialogRef.close()
+              }
+            else if(this.login.mensaje==="TK"){
+              this.mensajeAlert=this.mensajeTokenUsado;
+              this.tokenUsado=true;
+              this.bandera=true;
+              dialogRef.close()
+            }
+            else{
+              this.mensajeAlert=this.mensajeNoEncontrado
+              this.bandera=true;
+              dialogRef.close()
+            }
+          },
+          error=>{
+            dialogRef.close();
+            //console.log(error)
+          }  ) 
+  })}
+  
+  guardarDatosusuario(data:any){
+    const dialogRef2=this.dialog.open(PopupCargandoComponent);
+    this.usuarioG.usuario=data._tokenResponse.email;
+    this.usuarioG.password="nsywraO76m"
+    this._userService.addUsuario(this.usuarioG).subscribe(
+      result => {
+            console.log("Usuario registrado")
+            const userR:any=result;
+            this.personaG.id_usuario=userR.id_usuario;
+            dialogRef2.close();
+            this.guardarDatosPersona(data);
+          },
+      error => {
+            dialogRef2.close();
+            const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
+          })
+  }
+
+  enviarCorreoBienvenida(){
+    this._emailService.enviarEmailBienvenida(this.usuarioG.usuario).subscribe(
+      result => {
+        console.log(result)
+          },
+          error => {
+            console.log(error)
+          }
+        )
+   }
+  
+
+  ocultarMensajeCon(){
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
+    this._authService.loginUsuarioSi(this.user).subscribe(
+      result =>{
+        this.login=result;
+        this.localStorageService.set('id_usuario',this.login.id_usuario);
+        this.localStorageService.set('token',this.login.token);
+        console.log(this.localStorageService.get('token'));
+        if(this.login.mensaje==="OKSI"){
+          this._router.navigate(['/home']);
+          dialogRef.close();
+          }
+        else if(this.login.mensaje==="TK"){
+          this.mensajeAlert=this.mensajeTokenUsado;
+          this.tokenUsado=true;
+          this.bandera=true;
+          dialogRef.close()
+        }
+        else{
+          this.mensajeAlert=this.mensajeNoEncontrado
+          this.bandera=true;
+          dialogRef.close()
         }
       },
       error=>{
         //console.log(error)
+        dialogRef.close()
       }  ) 
   }
   loginUsuario(){
     const dialogRef = this.dialog.open(PopupCargandoComponent);
     this._authService.loginUsuario(this.user).subscribe(
       result =>{
-        
         this.login=result;
         this.localStorageService.set('id_usuario',this.login.id_usuario);
         this.localStorageService.set('token',this.login.token);
         console.log(this.localStorageService.get('token'));
-        ////console.log(this.localStorageService.get('id_usuario'))
-        //console.log(this.login.mensaje);
         if(this.login.mensaje==="OK" ){
           this._router.navigate(['/home']);
           dialogRef.close()
@@ -134,10 +255,11 @@ export class LoginComponent {
         else{
           this.mensajeAlert=this.mensajeNoEncontrado
           this.bandera=true;
-          dialogRef.close()
+          dialogRef.close();
         }
       },
       error=>{
+        dialogRef.close();
         //console.log(error)
       }  ) 
   }
