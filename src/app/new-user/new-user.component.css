@@ -15,3 +15,102 @@
     z-index: 9999;
     /* Otros estilos para la tarjeta */
   }
+  .btn-toggle-sidenav {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 24px;
+    z-index: 2000; /* Asegúrate de que el z-index sea mayor que el del menú */
+  }
+  
+  /* Mostrar el botón de menú en dispositivos móviles */
+  @media (max-width: 1281px) {
+    .btn-toggle-sidenav {
+        display: block;
+    }
+  
+    .sidenav {
+        transition: transform 0.3s ease;
+        transform: translateX(-100%);
+    }
+  
+    .sidenav-visible .sidenav {
+        transform: translateX(0);
+    }
+  }
+  
+  /* Asegurar que el botón se mueva con el scroll */
+  .btn-toggle-sidenav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10px;
+  }
+  
+  .custom-navbar {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  .custom-navbar-nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .custom-nav-item {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  .custom-nav-link {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  .custom-btn {
+    background-color: #3D5463;
+    color: white;
+    max-width: 200px; /* Adjust max width if needed */
+    width: 100%;
+  }
+  
+  @media (max-width: 992px) {
+    #navbar-class{
+      display: flex;
+      width: 100%;
+    }
+
+
+    .custom-navbar {
+      flex-direction: row;
+      width: 100%;
+    }
+  
+    .custom-navbar-nav {
+      flex-direction: row;
+      width: 100% !important;
+    }
+  
+    .custom-nav-item {
+      flex-direction: row;
+    }
+  
+    .custom-nav-link {
+      flex-direction: row;
+    }
+  
+    .custom-btn {
+      max-width: 200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  

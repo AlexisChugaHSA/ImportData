@@ -8,6 +8,7 @@ import { AuthService } from '../services/login.service';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ContentObserver } from '@angular/cdk/observers';
+import { MembresiaService } from '../services/membresia.service';
 
 @Component({
   selector: 'app-detalle-producto',
@@ -27,6 +28,7 @@ export class DetalleProductoComponent {
   images: string[] = [];
   isViewerOpen = false;
   currentImageIndex = 0;
+  public max_descuento!:any;
 
   constructor(
     private authService: AuthService,
@@ -35,6 +37,7 @@ export class DetalleProductoComponent {
     private route: ActivatedRoute,
     private _productoService:ProductoService,
     private dialog: MatDialog,
+    private _membresiaService: MembresiaService,
     private localStorageService: LocalStorageService) {
       this.dialogRef = this.dialog.open(PopupCargandoComponent);
       this.authService.getIsLoggedIn().subscribe(
@@ -45,15 +48,13 @@ export class DetalleProductoComponent {
              //console.log(mensaje.login)
           }
           else{
-             this._router.navigate(['/login'])
+            this.login=false; 
+             //this._router.navigate(['/login'])
           }
           //console.log(mensaje.login)
         },
         error => {
-          //this._router.navigate(['/login'])
-          //console.log(error)
-          this.login=false;
-          
+          this.login=false; 
         })
     }
 
@@ -77,7 +78,7 @@ export class DetalleProductoComponent {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     //console.log(this.id);
-    
+    this.getDescuentoMax();
     this._productoService.getProducto(this.id).subscribe(
       result=>{
         this.producto=<Producto>result
@@ -101,6 +102,17 @@ export class DetalleProductoComponent {
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
     
+  }
+  getDescuentoMax(){
+    this._membresiaService.getMembresias().subscribe(
+      result=>{
+        let membresias:any=result
+        this.max_descuento = Math.max(...membresias.map(m => m.descuento));
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
   }
 
   toggleSidenav(event: Event) {

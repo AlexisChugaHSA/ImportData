@@ -11,7 +11,12 @@
     text-decoration: line-through;
     color: red; /* Opcional: puedes cambiar el color a 'white' para una raya blanca */
   }
-
+  .custom-btn {
+    background-color: #3D5463;
+    color: white;
+    max-width: 200px; /* Adjust max width if needed */
+    width: 100%;
+  }
   
   .btn-toggle-sidenav {
     display: none;

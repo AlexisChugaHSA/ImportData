@@ -163,9 +163,10 @@ export class OrdenProductosComponent {
       });
 
       this.total1 = this.total;
-      this.total2 = Math.round((1 - this.membresia2.descuento) * this.total);
-      this.total3 = Math.round((1 - this.membresia3.descuento) * this.total);
-      this.total4 = Math.round((1 - this.membresia4.descuento) * this.total);
+      this.total2 = Math.round((1 - this.membresia2.descuento) * this.total * 100) / 100;
+      this.total3 = Math.round((1 - this.membresia3.descuento) * this.total * 100) / 100;
+      this.total4 = Math.round((1 - this.membresia4.descuento) * this.total * 100) / 100;
+      
       //console.log(this.total4)
     }
     else {

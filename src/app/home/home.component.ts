@@ -8,6 +8,7 @@ import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MembresiaService } from '../services/membresia.service';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent {
   public usuario!: Usuario;
   public login=false;
   public dialogRef!:any;
+  public max_descuento!:any;
 
   constructor(
     private authService: AuthService,
@@ -33,6 +35,7 @@ export class HomeComponent {
     private _router: Router,
     private localStorageService: LocalStorageService,
     private _produserService: ProductoUsuarioService,
+    private _membresiaService: MembresiaService,
     private dialog: MatDialog
   ){
       this.dialogRef = this.dialog.open(PopupCargandoComponent);
@@ -62,11 +65,24 @@ export class HomeComponent {
   }
   ngOnInit() {
 
-    this.usuario.id_usuario=this.localStorageService.get('id_usuario')
+    this.usuario.id_usuario=this.localStorageService.get('id_usuario');
+    this.getDescuentoMax();
     this.getCarrito();
     this.obtenerDatos();
     this.dialogRef.close();
   }
+  getDescuentoMax(){
+    this._membresiaService.getMembresias().subscribe(
+      result=>{
+        let membresias:any=result
+        this.max_descuento = Math.max(...membresias.map(m => m.descuento));
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
+  }
+
   toggleSidenav(event: Event) {
     event.stopPropagation();
     this.sidenavVisible = !this.sidenavVisible;

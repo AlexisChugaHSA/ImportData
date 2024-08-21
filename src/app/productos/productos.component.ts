@@ -11,6 +11,7 @@ import { AuthGuard } from '../services/auth.guard' ;
 import { AuthService } from '../services/login.service';
 import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MembresiaService } from '../services/membresia.service';
 
 @Component({
   selector: 'app-productos',
@@ -27,6 +28,7 @@ export class ProductosComponent {
   public productos_carrito:any;
   public num_productos=0;
   public login=false;
+  public max_descuento!:any;
   
   constructor(
     private authService: AuthService,
@@ -34,7 +36,8 @@ export class ProductosComponent {
     private _route:ActivatedRoute,
     private _router: Router,
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _membresiaService: MembresiaService
   ){
       this.authService.getIsLoggedIn().subscribe(
         result => {
@@ -69,6 +72,7 @@ export class ProductosComponent {
     const dialogRef1 = this.dialog.open(PopupCargandoComponent);
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
     //console.log("usuario" +this.usuario.id_usuario)
+    this.getDescuentoMax();
     this._productoService.getProductos().subscribe(
       result=>{
         //console.log(result)
@@ -79,6 +83,7 @@ export class ProductosComponent {
         //console.log(<any>error)
       }
     )
+    
     const savedArray = this.localStorageService.get('Productos-Carrito');
     if (savedArray) {
       this.productos_carrito = savedArray;
@@ -87,6 +92,17 @@ export class ProductosComponent {
       this.localStorageService.set('Productos-Carrito', this.productos_carrito);
     }
 
+  }
+  getDescuentoMax(){
+    this._membresiaService.getMembresias().subscribe(
+      result=>{
+        let membresias:any=result
+        this.max_descuento = Math.max(...membresias.map(m => m.descuento));
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
   }
   toggleSidenav(event: Event) {
     event.stopPropagation();

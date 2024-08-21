@@ -48,6 +48,7 @@ export class PerfilUsuarioComponent {
   public mensajeAlert:string = "";
   public login:boolean=false;
   public dialogRef!:any;
+  public empresa2=new Empresa(0,40,"",0,"","","");
 
   constructor(
     private authService: AuthService,
@@ -234,8 +235,12 @@ export class PerfilUsuarioComponent {
     }
   }*/
   guardarPersona() {
+    this._personaService.editPersona(this.persona.id_persona, this.persona).subscribe(
+      result => {
+        //console.log(result);
+      },/*
     //agregar direccion persona
-    this._direccionService.addDireccion(this.direccionP).subscribe(
+        this._direccionService.addDireccion(this.direccionP).subscribe(
       result => {
         this.direccionP = <Direccion>result
         this.persona.id_direccion = this.direccionP.id_direccion
@@ -246,7 +251,7 @@ export class PerfilUsuarioComponent {
           })
           
         
-      },
+      },*/
       error => {
         //console.log(error)
       })
@@ -259,8 +264,44 @@ export class PerfilUsuarioComponent {
       }, 0); 
     }
 
+    guardarNuevaEmpresa(){
+      const dialogRef = this.dialog.open(PopupCargandoComponent)
+      console.log(this.empresa2)
+      this._empresaService.addEmpresa(this.empresa2).subscribe(
+        result => {
+          let empresa3:any = result
+          this.persona.id_empresa = empresa3.id_empresa
+          console.log("Empresa registrada")
+          this._personaService.editPersona(this.persona.id_persona, this.persona).subscribe(
+            result => {
+              //console.log(result);
+              dialogRef.close();
+              setTimeout(() => {
+                const alertE= document.querySelector('#alertE2');
+                this.renderer.setStyle(alertE, 'display', 'block');
+                setTimeout(() => {
+                  this.renderer.setStyle(alertE, 'display', 'none');
+                }, 3000);
+              }, 0);
+            },
+            error => {
+              dialogRef.close();
+              console.log(error)
+            })
+    },        error => {
+      dialogRef.close();
+      console.log(error)
+    })}
+
+  
+
     guardarEmpresa(){
       const dialogRef = this.dialog.open(PopupCargandoComponent)
+      this._empresaService.editEmpresa(this.empresa.id_empresa, this.empresa).subscribe(
+        result => {
+          //console.log(result);
+        }
+      )/*
       //agregar direccion persona
       this._direccionService.addDireccion(this.direccionE).subscribe(
         result => {
@@ -276,7 +317,7 @@ export class PerfilUsuarioComponent {
         },
         error => {
           //console.log(error)
-        })
+        })*/
         dialogRef.close()
         setTimeout(() => {
           const alertE= document.querySelector('#alertE');

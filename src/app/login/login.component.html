@@ -37,7 +37,31 @@
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.1" rel="stylesheet" />
 </head>
 
-
+<nav 
+  class="navbar navbar-main navbar-expand-lg mt-0 top-0 px-0 mx-0 shadow-none border-radius-xl z-index-sticky"
+  id="navbarBlur">
+  <div class="container-fluid py-0 px-3">
+        <a [routerLink]="['/home']">
+      <img src="/assets/hsa-02.png" alt="" style="width: 200px; height: 100px; padding: 20px;">
+    </a>
+    <div class="collapse navbar-collapse custom-navbar" id="navbar-class">
+      <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+      </div>
+      <div class="navbar-nav custom-navbar-nav d-flex justify-content-end" style="width: 40%;">
+        <li class="nav-item dropdown custom-nav-item">
+          <a [routerLink]="['/dashboard-producto/9']" class="nav-link custom-nav-link text-body p-0 position-relative" id="dropdownMenuButton" aria-expanded="true">
+            <button style="background-color: #FF764B; margin-right: 5px;" type="button" class="btn custom-btn my-4 mb-2 ">Producto Demo</button>
+          </a>
+        </li>
+        <li class="nav-item dropdown custom-nav-item">
+          <a [routerLink]="['/login']" class="nav-link custom-nav-link text-body p-0 position-relative" id="dropdownMenuButton" aria-expanded="true">
+            <button type="button" class="btn custom-btn my-4 mb-2">Iniciar sesión</button>
+          </a>
+        </li>
+      </div>
+    </div>
+  </div>
+</nav>
 <body class="bg-gray-200">
   
   <!-- End Navbar -->

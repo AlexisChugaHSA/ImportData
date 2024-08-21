@@ -14,15 +14,7 @@ export class MembresiaService {
     this.access_token=this.localStorageService.get('token');
   }
   getMembresias() {
-    this.access_token = this.localStorageService.get('token');
-    if (this.access_token) {
-      let headers = new HttpHeaders({
-        'Authorization': 'Bearer ' + this.access_token
-      });
-      return this._http.get(this.url + 'membresias', { headers });
-    } else {
-      return throwError('Token no disponible');
-    }
+      return this._http.get(this.url + 'membresias');
   }
   
   addMembresia(membresia: Membresia) {

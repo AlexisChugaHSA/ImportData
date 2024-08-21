@@ -22,13 +22,7 @@ export class ProductoService {
   }
   
   getCatProd(id: number) {
-    this.access_token = this.localStorageService.get('token');
-    if (this.access_token) {
-      let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.access_token });
-      return this._http.get(this.url + 'categoria/' + id, { headers });
-    } else {
-      return throwError('Token no disponible');
-    }
+      return this._http.get(this.url + 'categoria/' + id);
   }
   
 

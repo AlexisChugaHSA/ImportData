@@ -93,9 +93,9 @@
                                     </div>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h4 class="font-weight-normal mt-3">
+                                    <h2 class="font-weight-normal mt-3">
                                         <a href="javascript:;">{{producto.nombre}}</a>
-                                    </h4>
+                                    </h2>
                                     <p style="text-align: justify;">
                                         {{ getDescripcion(producto.nombre) }}     
                                     </p>
@@ -117,7 +117,7 @@
         <nav style="text-align: center;" aria-label="breadcrumb">
             <h2 class="font-weight-bolder mb-0"> Otros Productos</h2>
         </nav>
-        <div class="container-fluid py-4">
+        <div class="container-fluid py-4" *ngIf="max_descuento">
             <div class="row">
                 <div class="col-lg-12 position-relative z-index-2">
                     <div class="row mt-5">
@@ -135,15 +135,16 @@
                                 </div>
                                 <div class="card-body text-center">
                            
-                                    <h5 class="font-weight-normal mt-3">
+                                    <h2 class="font-weight-normal mt-3">
                                         <a href="javascript:;">{{producto.nombre}}</a>
-                                    </h5>
+                                    </h2>
                                     <p>
                                         {{ getDescripcion(producto.nombre) }}
                                     </p>
                                     <div style="justify-content: center; align-items: center;">
-                                        <p style="text-align: center;" class="font-weight-normal my-auto">
-                                            $ {{ producto.precio| number:
+                                        <p style="text-align: center; font-size: larger;" class="font-weight-normal my-auto">Desde: </p>
+                                        <p style="text-align: center; font-size: larger;" class="font-weight-normal my-auto">
+                                            $ {{ (producto.precio*(1-max_descuento))| number:
                                                 '1.2-2' }} USD</p>
                                         <button style="background-color: #3D5463; color: white;" class="btn  mt-4 mb-4"
                                             [routerLink]="['/detalle-producto', producto.id_producto]">Ver Detalles</button>

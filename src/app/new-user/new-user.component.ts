@@ -21,6 +21,7 @@ import { PopupCargandoComponent } from '../popup-cargando/popup-cargando.compone
 import { LocalStorageService } from 'angular-2-local-storage';
 import { EmailService } from '../services/email.service';
 import { PopupErrorNewUsuarioComponent } from '../popup-error-new-usuario/popup-error-new-usuario.component';
+import { id } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-new-user',
@@ -31,7 +32,7 @@ export class NewUserComponent {
   public user!: Usuario;
   public rpassword: string = "";
   public bandera: boolean = false;
-  public persona!: Persona;
+  public persona= new Persona(0,0,0,0,"","","","");
   public pais!: Pais;
   public ciudad!: Ciudad;
   public paises!: any;
@@ -76,6 +77,9 @@ export class NewUserComponent {
     this.empresa = new Empresa(0, 1, "", 0, "", "", "")
   }
 
+  irALogin(){
+    this._router.navigate(['/login']);
+  }
   nextForm1() {
     const form1 = document.querySelector('#form1');
     const form2 = document.querySelector('#form2');
@@ -89,9 +93,9 @@ export class NewUserComponent {
   }
 
   nextForm2() {
-    const form2 = document.querySelector('#form2');
+    const form2 = document.querySelector('#form1');
     const form3 = document.querySelector('#form3');
-    const btn2 = document.querySelector('#btn2');
+    const btn2 = document.querySelector('#btn1');
     const btn3 = document.querySelector('#btn3');
     this.renderer.setStyle(form2, 'display', 'none');
     this.renderer.setStyle(form3, 'display', 'block');
@@ -101,9 +105,9 @@ export class NewUserComponent {
 
   prevForm2() {
     const form1 = document.querySelector('#form1');
-    const form2 = document.querySelector('#form2');
+    const form2 = document.querySelector('#form3');
     const btn1 = document.querySelector('#btn1');
-    const btn2 = document.querySelector('#btn2');
+    const btn2 = document.querySelector('#btn3');
     this.renderer.setStyle(form1, 'display', 'block');
     this.renderer.setStyle(form2, 'display', 'none');
     this.renderer.setStyle(btn1, 'display', 'block');
@@ -162,6 +166,33 @@ export class NewUserComponent {
   onSubmit() {
     //agregar direccion persona
     const dialogRef1 = this.dialog.open(PopupCargandoComponent);
+                    //agregar usuario
+                    this._usuarioService.addUsuario(this.user).subscribe(
+                      result => {
+                        this.usuario = result
+                        this.persona.id_usuario = this.usuario.id_usuario
+                        console.log("Usuario registrado")
+                        //agregar persona
+                        //console.log(this.persona);
+                        this.localStorageService.set('nombre_usuario',this.persona.nombre);
+                        this._personaService.addPersona(this.persona).subscribe(
+                          result => {
+                              dialogRef1.close();
+                              const dialogRef = this.dialog.open(PopupBienvenidaComponent);
+                              this.enviarCorreoBienvenida();
+                              dialogRef.afterClosed().subscribe(() => {
+                              });
+                            console.log("Persona registrada")
+                          },
+                          error => {
+                            const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
+                            //console.log(error)
+                          })},
+                          error => {
+                            const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
+                            //console.log(error)
+                          })}
+    /*
     this._direccionService.addDireccion(this.direccionP).subscribe(
       result => {
         this.direccionP2 = result
@@ -222,9 +253,9 @@ export class NewUserComponent {
       error => {
         const dialogRef = this.dialog.open(PopupErrorNewUsuarioComponent);
         //console.log(error)
-      })
+      })*/
 
-  }
+  
   comprobarUsuario(){
     const dialogRef = this.dialog.open(PopupCargandoComponent);
     this._usuarioService.comprobarUsuario(this.persona.correo).subscribe(

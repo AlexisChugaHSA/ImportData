@@ -33,4 +33,35 @@
     position: sticky;
     top: 10px;
   }
-  
+
+    
+    .custom-navbar {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+    
+    .custom-navbar-nav {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .custom-nav-item {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+    
+    .custom-nav-link {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+    
+    .custom-btn {
+      background-color: #3D5463;
+      color: white;
+      max-width: 200px; /* Adjust max width if needed */
+      width: 100%;
+    }
