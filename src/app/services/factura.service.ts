@@ -18,6 +18,7 @@ export class FacturaService {
     this.access_token = this.localStorageService.get('token');
     if (this.access_token) {
       let json = JSON.stringify(factura);
+      //console.log(json)
       let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.access_token });
       return this._http.post(this.url + 'facturacion', json, { headers });
     } else {
@@ -25,11 +26,11 @@ export class FacturaService {
     }
   }
   
-  getFacturas() {
+  getFacturasByUser(id:number) {
     this.access_token = this.localStorageService.get('token');
     if (this.access_token) {
       let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.access_token });
-      return this._http.get(this.url + 'facturacion', { headers });
+      return this._http.get(this.url + 'facturas-by-user/'+ id, { headers });
     } else {
       return throwError('Token no disponible');
     }

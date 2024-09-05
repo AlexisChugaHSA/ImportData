@@ -143,8 +143,7 @@ initializeApp(firebaseConfig);
   ],
   declarations: [
     PopupCargandoComponent,
-    TerminosCondicionesComponent,
-    PoliticasPrivacidadComponent
+
 
   ]
 })
@@ -188,7 +187,9 @@ export class DemoMaterialModule {}
     PopupRecuperarPasswordComponent,
     PopupContraseniaTemporalComponent,    
     PopupErrorNewUsuarioComponent,
-    PopupErrorPagoComponent
+    PopupErrorPagoComponent,
+    TerminosCondicionesComponent,
+    PoliticasPrivacidadComponent
   ],
   imports: [
     BrowserModule,

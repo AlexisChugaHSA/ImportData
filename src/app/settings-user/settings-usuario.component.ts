@@ -266,7 +266,8 @@ export class PerfilUsuarioComponent {
 
     guardarNuevaEmpresa(){
       const dialogRef = this.dialog.open(PopupCargandoComponent)
-      console.log(this.empresa2)
+      const alertE2= document.querySelector('#alertEE');
+      console.log(alertE2)
       this._empresaService.addEmpresa(this.empresa2).subscribe(
         result => {
           let empresa3:any = result
@@ -274,24 +275,30 @@ export class PerfilUsuarioComponent {
           console.log("Empresa registrada")
           this._personaService.editPersona(this.persona.id_persona, this.persona).subscribe(
             result => {
-              //console.log(result);
+              console.log("Persona registrada");
               dialogRef.close();
-              setTimeout(() => {
-                const alertE= document.querySelector('#alertE2');
-                this.renderer.setStyle(alertE, 'display', 'block');
-                setTimeout(() => {
-                  this.renderer.setStyle(alertE, 'display', 'none');
-                }, 3000);
-              }, 0);
+              this._router.navigate(['/home']).then(() =>
+                this._router.navigate(['/perfil-usuario'])
+            );
             },
             error => {
               dialogRef.close();
               console.log(error)
             })
+
     },        error => {
       dialogRef.close();
       console.log(error)
-    })}
+    })
+    dialogRef.close();
+    setTimeout(() => {
+      this.renderer.setStyle(alertE2, 'display', 'block');
+      setTimeout(() => {
+        this.renderer.setStyle(alertE2, 'display', 'none');
+      }, 5000);
+    }, 0);
+
+  }
 
   
 

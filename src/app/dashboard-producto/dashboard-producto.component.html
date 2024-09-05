@@ -71,7 +71,7 @@
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
     id="sidenav-main"></app-menu>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg "
-        style="background-color: white;">
+        style="background-color: white; align-items: center; display: grid; justify-content: space-evenly;">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky"
             id="navbarBlur" data-scroll="true">
@@ -121,14 +121,14 @@
                 </tr>
             </thead>
             <tr *ngIf="marcas_imp.length > 0">
-                <td style="padding: 20px; width: 230px; border: 1px solid black ">
+                <td style="padding: 0px; width: 230px; border: 1px solid black ">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [(ngModel)]="selectedAnios"
                         [settings]="dropdownSettings_anio" [data]="anios" (onSelect)="onItemSelectAnio($event)"
                         (onSelectAll)="onSelectAllAnio($event)" (onDeSelect)="onItemDeSelectAnio($event)">
                     </ng-multiselect-dropdown>
                 </td>
                 <td></td><!-- -->
-                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                <td style="padding: 0px; width: 230px; border: 1px solid black">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [(ngModel)]="mesesSelected"
                         [settings]="dropdownSettings_mes" [data]="meses" (onSelect)="onItemSelectMes($event)"
                         (onSelectAll)="onSelectAllMes($event)" (onDeSelect)="onItemDeSelectMes($event)"
@@ -136,7 +136,7 @@
                     </ng-multiselect-dropdown>
                 </td>
                 <td></td>
-                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                <td style="padding: 0px; width: 230px; border: 1px solid black">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_caracteristica"
                         [data]="caracteristicas_imp" (onSelect)="onItemSelectCaracteristica($event)"
                         (onSelectAll)="onSelectAllCaracteristica($event)"
@@ -144,14 +144,14 @@
                     </ng-multiselect-dropdown>
                 </td>
                 <td></td>
-                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                <td style="padding: 0px; width: 230px; border: 1px solid black">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_categoria"
                         [data]="categorias_imp" (onSelect)="onItemSelectCategoria($event)"
                         (onSelectAll)="onSelectAllCategoria($event)" (onDeSelect)="onItemDeSelectCategoria($event)">
                     </ng-multiselect-dropdown>
                 </td>
                 <td></td>
-                <td style="padding: 20px; width: 230px; border: 1px solid black">
+                <td style="padding: 0px; width: 230px; border: 1px solid black">
                     <ng-multiselect-dropdown [placeholder]="'Todas'" [settings]="dropdownSettings_marca"
                         [data]="marcas_imp" (onSelect)="onItemSelectMarca($event)"
                         (onSelectAll)="onSelectAllMarca($event)" (onDeSelect)="onItemDeSelectMarca($event)">
@@ -224,7 +224,7 @@
                 </ul>
             </div>
         </div>
-        <div class="container-fluid" style="background-color: white;">
+        <div class="container-fluid" style="background-color: white; max-width: 1000px;">
             <div class="row" id="d_general">
                 <div class="col-lg-12 col-md-6 mt-4 mb-2">
                     <div class="row mb-4">

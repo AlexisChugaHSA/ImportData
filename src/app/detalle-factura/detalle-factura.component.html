@@ -46,7 +46,7 @@
     id="sidenav-main"></app-menu>
   <main class="main-content max-height-vh-100 h-100">
 
-    <div class="container-fluid my-3 py-3" *ngIf="empresa.nombre">
+    <div class="container-fluid my-3 py-3" *ngIf="factura.nombre_empresa">
       <div class="row">
         <div class="col-md-10 col-lg-10 col-sm-10 mx-auto">
           <form class="" action="index.html" method="post">
@@ -60,11 +60,11 @@
                     <img class="mb-2 w-25 p-2" src="/assets/icon-02.png" alt="Logo">
 
                     <h4>
-                        {{empresa.nombre}}, {{ciudadE.nombre}}, {{paisE.nombre}}
+                        {{factura.nombre_empresa}}
                     </h4>
-                    <p class="text-secondary">{{empresa.identificacion}}<br>
-                      {{empresa.correo}}
-                  <br> {{empresa.telefono}}</p>
+                    <p class="text-secondary">{{factura.ruc_empresa}}<br>
+                      {{factura.correo_empresa}}
+                  <br> {{factura.telefono_empresa}}</p>
                   <div class="col-md-6">
                     <h4 class="text-secondary font-weight-normal mb-0">Fecha de Factura:</h4>
                   </div>

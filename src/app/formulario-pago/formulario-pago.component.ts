@@ -28,6 +28,8 @@ import { IvaService } from '../services/iva.service';
 import {IPayPalConfig,ICreateOrderRequest } from 'ngx-paypal';
 import { PayPalService } from '../services/paypal.service';
 import { PopupErrorPagoComponent } from '../popup-error-pago/popup-error-pago.component';
+import { Empresa } from '../models/empresa';
+import { EmpresaService } from '../services/empresa.service';
 
 @Component({
   selector: 'app-formulario-pago',
@@ -36,12 +38,10 @@ import { PopupErrorPagoComponent } from '../popup-error-pago/popup-error-pago.co
 })
 export class FormularioPagoComponent {
   public sidenavVisible = false;
-  //public clientIdPayPal='AYLqvj3pfMRED1JHhtL2p1TvTMT_m_jvqTF_VvwtZ-nE8aCfzVdRDLxNs_eR9scSx9ZzKtnlButvv3nw';
-  public clientIdPayPal='ARtjJFZcqm22276sVRvg6KzZX65Kjexm6Pm4J39MoQPzu6L5ynz1KqGhPRFRIJMpOkWa7lMKVCJSUj3y'
-  //public secretPayPal='EFHeU2Aj6D3tAteJ-yXpEbM6sIVyOdZnCY9HL2jkFXig4xHFWqTUMtoPWLC9vao2VZwRw0l3OIjprmdp';
-  public secretPayPal='EIEDCARpUX0a3njRKN_lTqwx5lee3OH2ds6Zf4sXZFyotRkI8uevdDGYhRO87l4LXFMcUzadOMhORhIe'
-  public apiPaypal='https://api-m.sandbox.paypal.com';
-
+  //public clientIdPayPal='AUq0oeIpyRTe1MYgNM6UicUPoDjgL9nSkgPcwgPXy_ftEusKpN5kSSxBgGgJtreVdWrCh7g5may3GHyu'
+  //public secretPayPal='EKR7EPXRZvid0rL-yYqCfR6WR5Si9sCkF7I8mns8Nt-371zh0tSYwMKkTZUojrRlOIrD4ZJTGrfzKBZG'
+  public clientIdPayPal='AYLqvj3pfMRED1JHhtL2p1TvTMT_m_jvqTF_VvwtZ-nE8aCfzVdRDLxNs_eR9scSx9ZzKtnlButvv3nw';//dev
+  public secretPayPal='EFHeU2Aj6D3tAteJ-yXpEbM6sIVyOdZnCY9HL2jkFXig4xHFWqTUMtoPWLC9vao2VZwRw0l3OIjprmdp';//dev
   public tarjeta = new Tarjeta("", "", "", "", "");
   public tarjetaVencida = false;
   public productos_carrito: any=[];
@@ -66,6 +66,11 @@ export class FormularioPagoComponent {
   public login=false;
   public dialogRef1!:any;
   public payPalConfig ? : IPayPalConfig;
+  public empresa2=new Empresa(0,40,"",0,"","","");
+  public isFormValid = false;
+  public resultEmpresa!:any;
+  public empresaExistente:boolean=false;
+  showError = false;
 
   constructor(
     private authService: AuthService,
@@ -81,6 +86,7 @@ export class FormularioPagoComponent {
     private _facturaService: FacturaService,
     private _productoUsuarioService: ProductoUsuarioService,
     private _logPU: LogProductoUsuarioService,
+    private _empresaService: EmpresaService,
     private renderer: Renderer2,
     private _ivaService: IvaService,
     private _detalleFacturaService: DetalleFacturaService,
@@ -108,13 +114,14 @@ export class FormularioPagoComponent {
     this.metodo_pago = new MetodoPago(0, "", "");
     this.pago = new Pago(0, 0, 0, 0, 0, "", 0, 0, "",0,"");
     this.prod_user = new ProductoUsuario(0, 0, 0, 0,0, 0,0);
-    this.factura = new Factura(0,0,0,0,"",0,0);
+    this.factura = new Factura(0,0,0,0,"",0,0,"","","","",0);
     this.detalle_factura = new DetalleFactura(0, 1, 0, 1, 0);
 
   }
 
   ngOnInit() {
     this.usuario.id_usuario=this.localStorageService.get('id_usuario')
+    this.factura.id_usuario=this.usuario.id_usuario;
     this._ivaService.getIva().subscribe(
       result => {
         let iva:any=result;
@@ -171,6 +178,127 @@ export class FormularioPagoComponent {
     }
 
   }
+
+  comprobarEmpresaExistente(){
+    const btnPP= document.querySelector('#btnPaypal');
+      const dialogRef = this.dialog.open(PopupCargandoComponent);
+      this._empresaService.comprobarEmpresa(this.empresa2.identificacion).subscribe(
+        result =>{
+          this.resultEmpresa=result;
+          if(this.resultEmpresa.Mensaje="SI" && this.resultEmpresa.id_empresa){
+            dialogRef.close()
+            this._empresaService.getEmpresa(this.resultEmpresa.id_empresa).subscribe(
+              result=>{
+              let aux:any=result;  
+              this.empresa2=aux;
+              this.empresaExistente=true;
+              this.factura.id_empresa=this.empresa2.id_empresa;
+              this.factura.correo_empresa=this.empresa2.correo;
+              this.factura.nombre_empresa=this.empresa2.nombre;
+              this.factura.ruc_empresa=this.empresa2.identificacion;
+              this.factura.telefono_empresa=this.empresa2.telefono;
+              //console.log(this.factura);
+              this.renderer.setStyle(btnPP, 'display', 'flex');
+              }
+            )
+          }
+          else{
+            this.empresa2.nombre="";
+            this.empresa2.telefono="";
+            this.empresa2.correo="";
+            this.empresaExistente=false;
+            dialogRef.close()
+          }
+        },
+        error=>{
+          this.empresa2.nombre="";
+          this.empresa2.telefono="";
+          this.empresa2.correo="";
+          this.empresaExistente=false;
+          console.log(error)
+          dialogRef.close()
+
+        }  )   
+      
+  }
+
+  comprobaryGuardarEmpresa(){
+    const btnPP= document.querySelector('#btnPaypal');
+    const dialogRef = this.dialog.open(PopupCargandoComponent);
+      this._empresaService.comprobarEmpresa(this.empresa2.identificacion).subscribe(
+        result =>{
+          this.resultEmpresa=result;
+          if(this.resultEmpresa.Mensaje="SI" && this.resultEmpresa.id_empresa){
+            dialogRef.close()
+            this._empresaService.getEmpresa(this.resultEmpresa.id_empresa).subscribe(
+              result=>{
+              let aux:any=result;  
+              this.empresa2=aux;
+              this.empresaExistente=true;
+              this.factura.id_empresa=this.empresa2.id_empresa;
+              this.factura.correo_empresa=this.empresa2.correo;
+              this.factura.nombre_empresa=this.empresa2.nombre;
+              this.factura.ruc_empresa=this.empresa2.identificacion;
+              this.factura.telefono_empresa=this.empresa2.telefono;
+              console.log(this.factura);
+              this.renderer.setStyle(btnPP, 'display', 'flex');
+              }
+            )
+          }
+          else{
+            this.guardarNuevaEmpresa();
+            dialogRef.close()
+          }
+        },
+        error=>{
+          this.guardarNuevaEmpresa();
+          console.log(error)
+          dialogRef.close()
+
+        }  )   
+
+  }
+  guardarNuevaEmpresa(){
+    const dialogRef = this.dialog.open(PopupCargandoComponent)
+    const alertE2= document.querySelector('#alertEE');
+    const btnPP= document.querySelector('#btnPaypal');
+    console.log(alertE2)
+    console.log(this.empresa2);
+    this._empresaService.addEmpresa(this.empresa2).subscribe(
+      result => {
+        let empresa3:any = result
+        this.persona.id_empresa = empresa3.id_empresa
+        this.factura.id_empresa=empresa3.id_empresa
+        this.factura.correo_empresa=this.empresa2.correo;
+        this.factura.nombre_empresa=this.empresa2.nombre;
+        this.factura.ruc_empresa=this.empresa2.identificacion;
+        console.log("Empresa registrada")
+        console.log(this.factura);
+        this._personaService.editPersona(this.persona.id_persona, this.persona).subscribe(
+          result => {
+            console.log("Persona Actualizada");
+            dialogRef.close();
+            this.empresaExistente=true;
+            this.renderer.setStyle(btnPP, 'display', 'flex');
+          },
+          error => {
+            dialogRef.close();
+            console.log(error)
+          })
+
+  },        error => {
+    dialogRef.close();
+    console.log(error)
+  })
+  dialogRef.close();
+  setTimeout(() => {
+    this.renderer.setStyle(alertE2, 'display', 'block');
+    setTimeout(() => {
+      this.renderer.setStyle(alertE2, 'display', 'none');
+    }, 5000);
+  }, 0);
+
+}
   subirDatos(data:any) {
 
     //if (this.validateFecha()) {
@@ -239,6 +367,9 @@ export class FormularioPagoComponent {
       result => {
         this.persona = <Persona>result;
         //console.log(this.persona)
+        this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
+          result => {
+            this.empresa2 = <Empresa>result;this.dialogRef1.close();})
         this.dialogRef1.close();
       },
       error => {
@@ -264,6 +395,7 @@ export class FormularioPagoComponent {
       },
       error => {
         const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+        this.dialogRef1.close();
         //console.log(error)
       })
     //console.log(this.tarjeta);
@@ -286,6 +418,7 @@ export class FormularioPagoComponent {
       },
       error => {
         const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+        this.dialogRef1.close();
         //console.log(error)
       })
   }
@@ -307,7 +440,8 @@ export class FormularioPagoComponent {
           this.openDialog();
         },
         error => {
-
+          const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+          this.dialogRef1.close();
           //console.log(error)
         }
       )
@@ -317,7 +451,6 @@ export class FormularioPagoComponent {
   }
 
   guardarFactura() {
-    this.factura.id_empresa = this.persona.id_empresa;
     this.factura.total = this.total;
     this.factura.subtotal = this.obtenerSubtotalT()*(1-this.membresia.descuento);
     this._facturaService.addFactura(this.factura).subscribe(
@@ -328,6 +461,7 @@ export class FormularioPagoComponent {
       },
       error => {
         const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+        this.dialogRef1.close();
         //console.log(error)
       }
     )
@@ -347,6 +481,7 @@ export class FormularioPagoComponent {
         },
         error => {
           const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+          this.dialogRef1.close();
           //console.log(error)
         }
       )

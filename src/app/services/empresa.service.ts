@@ -13,11 +13,11 @@ export class EmpresaService {
     this.url=GLOBAL.url;
     this.access_token=this.localStorageService.get('token');
   }
-  getEmpresas() {
+  getEmpresas(id: number) {
     this.access_token = this.localStorageService.get('token');
     if (this.access_token) {
       let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.access_token });
-      return this._http.get(this.url + 'empresas', { headers });
+      return this._http.get(this.url + 'empresas-fact/' + id, { headers });
     } else {
       return throwError('Token no disponible');
     }
@@ -50,6 +50,9 @@ export class EmpresaService {
     } else {
       return throwError('Token no disponible');
     }
+  }
+  comprobarEmpresa(ruc:string){
+    return this._http.get(this.url+'comprobar-empresa/'+ruc)
   }
   
 }

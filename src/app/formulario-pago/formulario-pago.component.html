@@ -145,6 +145,64 @@
                     </div>
                 </div>
             </div>
+            <div class="card mt-4" id="empresa" >
+                <div class="card-header">
+                  <h4>Datos de facturación (Obligatorio)</h4>
+                </div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="input-group input-group-static">
+                        <label>DNI/RUC</label>
+                        <input type="text" class="form-control" [(ngModel)]="empresa2.identificacion" (blur)="comprobarEmpresaExistente()">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="input-group input-group-static">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" [(ngModel)]="empresa2.nombre" >
+        
+                      </div>
+                    </div>
+                  </div>
+              
+                  <div class="row mt-4">
+                    <div class="col-6">
+                      <div class="input-group input-group-static">
+                        <label>Correo</label>
+                        <div class="input-group input-group-dynamic">
+                            <input class="multisteps-form__input form-control" 
+                              type="email" #correoEmpresa="ngModel" name="correoEmpresa"
+                              [(ngModel)]="empresa2.correo" required email />
+                          </div>
+                          <div *ngIf="correoEmpresa.invalid && (correoEmpresa.dirty || correoEmpresa.touched)"
+                            class="text-danger">
+                            <div *ngIf="correoEmpresa.errors?.['required']">El correo de la empresa es requerido.
+                            </div>
+                            <div *ngIf="correoEmpresa.errors?.['email']">El correo de la empresa no es válido.
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="input-group input-group-static">
+                        <label>Teléfono</label>
+                        <input type="text" class="form-control" [(ngModel)]="empresa2.telefono" >
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <button style="background-color: #3D5463; color: white;" class="btn btn-sm float-end mt-6 mb-0" 
+                          (click)="comprobaryGuardarEmpresa()" 
+                          [disabled]="empresaExistente||!empresa2.correo||!empresa2.telefono||!empresa2.identificacion||!empresa2.nombre">Guardar Datos de Facturación</button>
+              
+                  <div id="alertEE" style="width: 50%; height: 50%; text-align: center; display: none;" class="alert badge badge-success alert-dismissible text-white mt-4 mb-0" role="alert">
+                    <span class="badge badge-success" style="text-align: center; font-size: 12px;">Datos de facturación guardados con éxito</span>
+                  </div>
+                </div>
+              </div>
+              
+              
             
         </div>
 
@@ -312,7 +370,8 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid py-4 my-2" style="display: flex;justify-content: center;align-items: flex-start; width: 100%;">
+
+        <div id="btnPaypal" class="container-fluid py-4 my-2" style="display: none;justify-content: center;align-items: flex-start; width: 100%;">
             <div class="card" style="display: flex; justify-content: center;align-items: center;height: auto;width: 100%;max-width: 100%; padding: 20px;box-sizing: border-box;">
                 <ngx-paypal [config]="payPalConfig" style="min-width: 300px;"></ngx-paypal>
             </div>

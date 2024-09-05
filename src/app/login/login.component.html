@@ -129,15 +129,25 @@
                       <img src="assets/img/icons/google-logo.jpg" style="border-radius: 50px;" alt="Google Logo">
                       Iniciar sesión con Google
                   </button>
-                  <button class="social-button facebook-button">
+                  <button class="social-button facebook-button" style="display: none;">
                       <img src="assets/img/icons/fb-logo.jpg" style="border-radius: 50px;" alt="Facebook Logo">
                       Iniciar sesión con Facebook
                   </button>
+               
               </div>
                   <p class="mt-4 text-sm text-center">
                     ¿No tienes una cuenta?
                     <a [routerLink]="['/new-user']" [routerLinkActive]="['activado']" style="background-color: #FF764B;" class=" text-gradient font-weight-bold">Registrate</a>
                   </p>
+                  <p>Al hace uso de nuestra plataforma acepta los 
+                    <a [routerLink]="['/terminos-condiciones']" [routerLinkActive]="['activado']" target="_blank" style="background-color: #FF764B;" class="text-gradient font-weight-bold">
+                      Términos y Condiciones 
+                    </a>
+                    y
+                    <a [routerLink]="['/politicas-privacidad']" [routerLinkActive]="['activado']" target="_blank" style="background-color: #FF764B;" class="text-gradient font-weight-bold">
+                      Políticas de privacidad
+                    </a>
+                    
                 </form>
               </div>
             </div>

@@ -424,7 +424,7 @@ export class DashboardProductoComponent implements OnInit, AfterViewInit {
             color: '#000000',
             font: {
 
-              size: 8,
+              size: 10,
             }
           }
         },
@@ -446,7 +446,7 @@ export class DashboardProductoComponent implements OnInit, AfterViewInit {
             },
             color: '#000000',
             font: {
-              size: 8,
+              size: 10,
             }
           },
         },
@@ -609,7 +609,7 @@ export class DashboardProductoComponent implements OnInit, AfterViewInit {
               return (value / 1000000).toFixed(2) + " mill.";
             },
             font: {
-              size: 8,
+              size: 10,
             }
           },
         },
@@ -713,7 +713,7 @@ export class DashboardProductoComponent implements OnInit, AfterViewInit {
               return "$" + (value / 1000000).toFixed(2) + " mill.";
             },
             font: {
-              size: 8,
+              size: 10,
             }
           },
         },

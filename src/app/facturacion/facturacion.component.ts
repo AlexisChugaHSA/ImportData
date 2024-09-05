@@ -37,6 +37,7 @@ export class FacturacionComponent {
   public empresa=new Empresa(0,0,"",0,"","","");
   public login=false;
   public dialogRef1!:any;
+  public empresas!:any;
 
   constructor(
     private authService: AuthService,
@@ -109,17 +110,15 @@ export class FacturacionComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        //console.log(this.persona);
         this.obtenerFacturas();
-        this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
+        this._empresaService.getEmpresas(this.persona.id_empresa).subscribe(
           result => {
-            this.empresa = <Empresa>result;
-            //console.log(this.empresa);
+            this.empresas = result;
             this.obtenerPagos();
           })
       },
       error => {
-        //console.log(error)
+        console.log(error)
       })
 
   }/*
@@ -136,7 +135,7 @@ export class FacturacionComponent {
   }*/
       async obtenerFacturas() {
         try {
-          const result = await firstValueFrom(this._facturaService.getFacturasByIdEmp(this.persona.id_empresa));
+          const result = await firstValueFrom(this._facturaService.getFacturasByUser(this.usuario.id_usuario));
           this.facturas = result;
           this.facturas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
           console.log(this.facturas);

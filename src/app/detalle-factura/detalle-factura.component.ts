@@ -38,7 +38,7 @@ export class DetalleFacturaComponent {
   public paisE=new Pais(0,"","");
   public ciudadE= new Ciudad(0,0,"","");
   public id!: any;
-  public factura= new Factura(0,0,0,0,"",0,0);
+  public factura=  new Factura(0,0,0,0,"",0,0,"","","","",0);
   public detfacts!: any;
   public productos: any = [];
   public pago=new Pago(0,0,0,0,0,"",0,0,"",0,"");
@@ -106,11 +106,13 @@ export class DetalleFacturaComponent {
     this._personaService.getPersonaByUser(this.usuario.id_usuario).subscribe(
       result => {
         this.persona = <Persona>result;
-        //console.log(this.persona);
-        this._empresaService.getEmpresa(this.persona.id_empresa).subscribe(
+        console.log(this.factura);
+        this._empresaService.getEmpresa(this.factura.id_empresa).subscribe(
           result => {
             this.empresa = <Empresa>result;
+            this.dialogRef.close();
             //console.log(this.empresa);
+            /*
             this._direccionService.getDireccion(this.empresa.direccion).subscribe(
               result => {
                 this.direccionE = <Direccion>result;
@@ -128,9 +130,10 @@ export class DetalleFacturaComponent {
                     this.dialogRef.close();
                   }
                 )
-              })
+              })*/
           },
           error => {
+            this.dialogRef.close();
             //console.log(error)
           })
       })
@@ -140,6 +143,7 @@ export class DetalleFacturaComponent {
     this._facturaService.getFactura(this.id).subscribe(
       result => {
         this.factura = <Factura>result;
+        this.dialogRef.close();
         //console.log(this.factura)
       }
     )
@@ -148,10 +152,12 @@ export class DetalleFacturaComponent {
     this._detfactService.getDetFactByIdFact(this.id).subscribe(
       result => {
         this.detfacts = result;
+        console.log(this.detfacts)
         this._pagoService.getPago(this.detfacts[0].id_pago).subscribe(
           result => {
             this.pago = <Pago>result;
             this.obtenerDescuento();
+            this.dialogRef.close();
           }
         )
         for (const detfact of this.detfacts) {
