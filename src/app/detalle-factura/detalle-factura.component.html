@@ -89,35 +89,42 @@
                         <thead style="text-align: center;">
                           <tr style="text-align: center;">
                             <th style="text-align: center;" >Producto</th>
-                            <th style="text-align: center;" >Periodo</th>
                             <th style="text-align: center;" >Precio Unitario</th>
-                            <th style="text-align: center;" >Subtotal</th>
+                            <th style="text-align: center;" >Periodo</th>
+                            <th style="text-align: center;" >Importe</th>
                           </tr>
                         </thead>
                         <tbody style="text-align: center;">
                           <tr *ngFor="let producto of productos" style="text-align: center;">
                             <td style="text-align: center;">{{producto.nombre}}</td>
-                            <td style="text-align: center;">{{pago.periodo}}</td>
-                            <td style="text-align: center;"> $ {{producto.precio| number: '1.2-2'}} USD</td>
+                            <td style="text-align: center;">$ {{producto.precio| number: '1.2-2'}} USD</td>
+                            <td style="text-align: center;"> {{pago.periodo}} </td>
                             <td style="text-align: center;">$ {{obtenerSubtotal(producto.precio)| number: '1.2-2'}} USD </td>
                           </tr>
                         </tbody>
                         <tfoot>
                           <tr>       
                             <th></th>
-                            <th class="h6 ps-0" colspan="1">Subtotal</th>
-                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()| number: '1.2-2'}} USD</th>
+                            <th class="h6 ps-0" colspan="1">Importe total:</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerImporteT()| number: '1.2-2'}} USD</th>
                             <th></th>
                           </tr>
                           <tr>
                             <th></th>
                             <th class="h6 ps-0" colspan="1">Descuento({{membresia.descuento*100}}%):</th>
-                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*membresia.descuento| number: '1.2-2'}} USD</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerImporteT()*membresia.descuento| number: '1.2-2'}} USD</th>
+                          </tr>
+                          <tr>       
+                            <th></th>
+                            <th class="h6 ps-0" colspan="1">Subtotal:</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalResultado()| number: '1.2-2'}} USD</th>
+                            <th></th>
                           </tr>
                           <tr>
+                          <tr>
                             <th></th>
-                            <th class="h6 ps-0" colspan="1">IVA ({{factura.iva*100}}%)</th>
-                            <th colspan="1" class="text-right h6 ps-0">$ {{obtenerSubtotalT()*factura.iva| number: '1.2-2'}} USD</th>
+                            <th class="h6 ps-0" colspan="1">IVA ({{factura.iva*100}}%):</th>
+                            <th colspan="1" class="text-right h6 ps-0">$ {{obtener_iva_resultado()| number: '1.2-2'}} USD</th>
                           </tr>
                           <tr>
                             <th></th>

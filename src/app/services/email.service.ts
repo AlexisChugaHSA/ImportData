@@ -34,6 +34,13 @@ export class EmailService {
     let headers =new HttpHeaders({'Authorization': 'Bearer '+this.access_token});
     return this._http.post(this.url+'producto-por-caducar',{headers})
   }
+  enviarEmailConfirmacionCompra(id_pago:number,correo:string){
+    this.access_token=this.localStorageService.get('token');
+    let params= { correo_usuario:correo , id_pago:id_pago };
+    console.log(params)
+    let headers =new HttpHeaders({'Content-Type':'application/json','Authorization': 'Bearer '+this.access_token});
+    return this._http.post(this.url+'confirmacion-compra',params,{headers})
+  }
 
 
 

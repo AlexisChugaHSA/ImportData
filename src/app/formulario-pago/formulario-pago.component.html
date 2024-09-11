@@ -122,7 +122,7 @@
                                         </tr>
                                         <tr style="text-align: center; ">
                                             <td colspan="4">
-                                                <h2>Iva ({{iva*100}}%): $ {{obtenerSubtotalT()*iva | number:
+                                                <h2>Iva ({{iva*100}}%): $ {{obtenerSubtotalT()*(1-membresia.descuento)*iva | number:
                                                     '1.2-2'}} USD</h2>
                                             </td>
                                         </tr>

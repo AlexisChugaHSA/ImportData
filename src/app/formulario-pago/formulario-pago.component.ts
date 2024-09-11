@@ -30,6 +30,7 @@ import { PayPalService } from '../services/paypal.service';
 import { PopupErrorPagoComponent } from '../popup-error-pago/popup-error-pago.component';
 import { Empresa } from '../models/empresa';
 import { EmpresaService } from '../services/empresa.service';
+import { EmailService } from '../services/email.service';
 
 @Component({
   selector: 'app-formulario-pago',
@@ -89,6 +90,7 @@ export class FormularioPagoComponent {
     private _empresaService: EmpresaService,
     private renderer: Renderer2,
     private _ivaService: IvaService,
+    private _emailService:EmailService,
     private _detalleFacturaService: DetalleFacturaService,
     private localStorageService: LocalStorageService) {
       this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
@@ -327,6 +329,7 @@ export class FormularioPagoComponent {
       this.dialogRef1.close();
     }
   }
+  /*
   getListaProductosPP():any[]{
     const items: any[]=[];
     let item= {};
@@ -340,7 +343,7 @@ export class FormularioPagoComponent {
     });
     //console.log(items)
     return items;
-  }
+  }*/
   get_total() {
     var subtotal = this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
     this.membresia = this.localStorageService.get('membresia');
@@ -349,7 +352,9 @@ export class FormularioPagoComponent {
     if (this.membresia.tipo === "Trimestral") { this.periodo = 3 }
     if (this.membresia.tipo === "Semestral") { this.periodo = 6 }
     if (this.membresia.tipo === "Anual") { this.periodo = 12 }
-    this.total = Math.round( this.obtenerSubtotalT()*(1-this.membresia.descuento+parseFloat(this.iva))*100)/100;
+    let subtotal2=this.obtenerSubtotalT()*(1-this.membresia.descuento)
+    let impuesto=subtotal2*parseFloat(this.iva)
+    this.total = Math.round( (subtotal2+impuesto)*100)/100;
     this.initConfig();
   }
   soloNumeros(event: KeyboardEvent): void {
@@ -378,6 +383,7 @@ export class FormularioPagoComponent {
       })
       
   }
+  /*
   guardarMetPago(data:any) {
     // Obtener los primeros y últimos tres dígitos
     //let primerosTres = this.tarjeta.numero.slice(0, 3);
@@ -431,13 +437,31 @@ export class FormularioPagoComponent {
     this.productos_carrito.forEach(producto => {
       this.prod_user.id_producto = parseInt(producto.id_producto);
       this.prod_user.precio = producto.precio;
-      //console.log("XXXXXX" +this.prod_user);
       this._productoUsuarioService.addProdUser(this.prod_user).subscribe(
         result => {
-          this.prod_users.push(result)
-          console.log("producto-Usuario guardado")
+          this.prod_users.push(result);
           this.dialogRef1.close();
-          this.openDialog();
+          //this.openDialog();
+        },
+        error => {
+          const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+          this.dialogRef1.close();
+          console.log(error)
+        }
+      )
+
+    }); //console.log(this.prod_users)
+  }
+  guardarDetalleFactura() {
+    this.detalle_factura.id_factura = this.facturaR.id_factura;
+    this.detalle_factura.id_pago = this.pagoR.id_pago;
+    this.productos_carrito.forEach(producto => {
+      this.detalle_factura.id_producto = parseInt(producto.id_producto);
+      this.detalle_factura.precio = this.total;
+      this._detalleFacturaService.addDetFactura(this.detalle_factura).subscribe(
+        result => {
+          console.log(result);
+          console.log("Detalle factura guardada"); 
         },
         error => {
           const dialogRef = this.dialog.open(PopupErrorPagoComponent);
@@ -445,11 +469,21 @@ export class FormularioPagoComponent {
           //console.log(error)
         }
       )
-
     });
-    //console.log(this.prod_users)
+    this.gradarProductoUsuario(); 
   }
 
+  enviarEmailConfirmacion() {
+    console.log("producto-Usuario guardado");
+    this._emailService.enviarEmailConfirmacionCompra(this.pagoR.id_pago, this.persona.correo).subscribe(
+      result => {
+        console.log(result);
+      },
+      error => {
+        console.error("Error enviando el email de confirmación", error);
+      }
+    );
+  }
   guardarFactura() {
     this.factura.total = this.total;
     this.factura.subtotal = this.obtenerSubtotalT()*(1-this.membresia.descuento);
@@ -465,88 +499,275 @@ export class FormularioPagoComponent {
         //console.log(error)
       }
     )
-  }
-  guardarDetalleFactura() {
-    this.detalle_factura.id_factura = this.facturaR.id_factura;
-    this.detalle_factura.id_pago = this.pagoR.id_pago;
-    this.productos_carrito.forEach(producto => {
-      this.detalle_factura.id_producto = parseInt(producto.id_producto);
-      this.detalle_factura.precio = this.total;
-      this._detalleFacturaService.addDetFactura(this.detalle_factura).subscribe(
+  }*/
+    guardarMetPago(data: any) {
+      this.metodo_pago.nombre = data.payer.name?.given_name + " " + data.payer.name?.surname;
+      this.metodo_pago.tarjeta = data.id;
+    
+      this._metpagoService.addMetPago(this.metodo_pago).subscribe(
         result => {
-          console.log(result);
-          console.log("Detalle factura guardada");
-          this.gradarProductoUsuario();
-          
+          console.log("Método de pago guardado");
+          this.guardarPago(); // Llama a guardarPago después de guardar el método de pago
         },
         error => {
           const dialogRef = this.dialog.open(PopupErrorPagoComponent);
           this.dialogRef1.close();
-          //console.log(error)
+          console.log(error);
         }
-      )
-    });
-
-  }
+      );
+    }
+    
+    guardarPago() {
+      this.pago.detalle = this.productos_carrito.map(producto => producto.nombre).join(' - ');
+      this.pago.descuento = this.membresia.descuento;
+      this.pago.id_empresa = this.persona.id_empresa;
+      this.pago.periodo = this.periodo;
+      this.pago.valor = this.total;
+      this.pago.procesado = 1;
+      this.pago.intentos = 0;
+    
+      this._pagoService.addPago(this.pago).subscribe(
+        result => {
+          this.pagoR = result;
+          console.log("Pago guardado");
+          this.localStorageService.set('Productos-Carrito', '');
+          this.guardarFactura(); // Llama a guardarFactura después de guardar el pago
+        },
+        error => {
+          const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+          this.dialogRef1.close();
+          console.log(error);
+        }
+      );
+    }
+    
+    guardarFactura() {
+      this.factura.total = this.total;
+      this.factura.subtotal = this.obtenerSubtotalT() * (1 - this.membresia.descuento);
+    
+      this._facturaService.addFactura(this.factura).subscribe(
+        result => {
+          this.facturaR = result;
+          console.log("Factura guardada");
+          this.guardarDetalleFactura(); // Llama a guardarDetalleFactura después de guardar la factura
+        },
+        error => {
+          const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+          this.dialogRef1.close();
+          console.log(error);
+        }
+      );
+    }
+    
+    guardarDetalleFactura() {
+      this.detalle_factura.id_factura = this.facturaR.id_factura;
+      this.detalle_factura.id_pago = this.pagoR.id_pago;
+    
+      let productosGuardados = 0;
+      const totalProductos = this.productos_carrito.length;
+    
+      this.productos_carrito.forEach(producto => {
+        this.detalle_factura.id_producto = parseInt(producto.id_producto);
+        this.detalle_factura.precio = this.total;
+    
+        this._detalleFacturaService.addDetFactura(this.detalle_factura).subscribe(
+          result => {
+            productosGuardados++;
+            console.log("Detalle factura guardado");
+    
+            // Una vez que todos los detalles de factura estén guardados, guarda los productos del usuario
+            if (productosGuardados === totalProductos) {
+              this.gradarProductoUsuario();
+            }
+          },
+          error => {
+            const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+            this.dialogRef1.close();
+            console.log(error);
+          }
+        );
+      });
+    }
+    
+    gradarProductoUsuario() {
+      let productosGuardados = 0;
+      const totalProductos = this.productos_carrito.length;
+    
+      this.productos_carrito.forEach(producto => {
+        this.prod_user.id_usuario = this.usuario.id_usuario;
+        this.prod_user.activo = 1;
+        this.prod_user.id_pago = this.pagoR.id_pago;
+        this.prod_user.periodo = this.periodo;
+        this.prod_user.id_producto = parseInt(producto.id_producto);
+        this.prod_user.precio = producto.precio;
+    
+        this._productoUsuarioService.addProdUser(this.prod_user).subscribe(
+          result => {
+            productosGuardados++;
+            this.prod_users.push(result);
+            console.log("Producto-Usuario guardado");
+    
+            // Una vez que todos los productos del usuario hayan sido guardados, enviar el email
+            if (productosGuardados === totalProductos) {
+              this.dialogRef1.close();
+              this.enviarEmailConfirmacion();
+            }
+          },
+          error => {
+            const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+            this.dialogRef1.close();
+            console.log(error);
+          }
+        );
+      });
+    }
+    
+    enviarEmailConfirmacion() {
+      console.log("Enviando email de confirmación...");
+      this._emailService.enviarEmailConfirmacionCompra(this.pagoR.id_pago, this.persona.correo).subscribe(
+        result => {
+          this.openDialog();
+          console.log("Email de confirmación enviado:", result);
+        },
+        error => {
+          console.error("Error enviando el email de confirmación", error);
+          const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+          this.dialogRef1.close();
+        }
+      );
+    }
+    
   obtenerSubtotalT(){
     return Math.round(this.productos_carrito.reduce((acumulador, producto) => acumulador + producto.precio * this.periodo, 0)*100)/100;
   }
   obtenerTotal(){
-    return this.total = Math.round( this.obtenerSubtotalT()*(1-this.membresia.descuento+parseFloat(this.iva))*100)/100;
+    let subtotal=this.obtenerSubtotalT()*(1-this.membresia.descuento)
+    console.log(subtotal)
+    return this.total = Math.round( subtotal+(subtotal*parseFloat(this.iva))*100)/100;
   }
-  private initConfig(): void {
-    this.payPalConfig = {
-        currency: 'USD',
-        clientId: this.clientIdPayPal,
-        createOrderOnClient: (data) => < ICreateOrderRequest > {
-            intent: 'CAPTURE',
-            purchase_units: [{
-                amount: {
-                    currency_code: 'USD',
-                    value: this.total.toString(),
-                    breakdown: {
-                        item_total: {
-                            currency_code: 'USD',
-                            value: this.total.toString()
-                            
-                        }
-                    }
-                },
-                items: this.getListaProductosPP()
-            }]
-        },
-        advanced: {
-            commit: 'true'
-        },
-        style: {
-            label: 'paypal',
-            layout: 'vertical'
-        },
-        onApprove: (data, actions) => {
-          this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
-            console.log('onApprove - transaction was approved, but not authorized', data, actions);
-            actions.order.get().then(details => {
-                console.log('onApprove - you can get full order details inside onApprove: ', details);
-               
-            });
 
-        },
-        onClientAuthorization: (data) => {
-            console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-            this.subirDatos(data);
-        },
-        onCancel: (data, actions) => {
-            console.log('OnCancel', data, actions);
-        },
-        onError: err => {
-            const dialogRef = this.dialog.open(PopupErrorPagoComponent);
-            console.log('OnError', err);
-        },
-        onClick: (data, actions) => {
-            console.log('onClick', data, actions);
-        }
-    };
+
+getListaProductosPP(): any[] {
+  const items: any[] = [];
+  let subtotal = 0;
+  let impuestosTotales = 0;
+  
+  // Asegúrate de tener el porcentaje de IVA (por ejemplo, 15%)
+  const taxRate = parseFloat(this.iva);  // Porcentaje de IVA (0.15 para 15%)
+
+  this.productos_carrito.forEach((it) => {
+      const precioSinDescuento = it.precio;  // Precio original sin descuento
+      const descuento = this.membresia.descuento;  // Porcentaje de descuento (por ejemplo, 0.15 para 15%)
+
+      // Precio con descuento aplicado (antes de impuestos)
+      const precioConDescuento = precioSinDescuento * (1 - descuento);
+
+      // Impuesto sobre el precio con descuento
+      const impuestos = precioConDescuento * taxRate;
+
+      // Precio final con impuestos
+      const precioFinal = precioConDescuento + impuestos;
+
+      // Sumar al subtotal el precio sin impuestos y con descuento
+      subtotal += precioConDescuento;
+
+      // Sumar los impuestos totales
+      impuestosTotales += impuestos;
+
+      // Crear el item con el precio calculado (precio con descuento, sin impuestos)
+      const item = {
+          name: it.nombre,
+          quantity: this.periodo,
+          unit_amount: {
+              value: precioConDescuento.toFixed(2),  // Redondear a 2 decimales
+              currency_code: 'USD'
+          }
+      };
+
+      items.push(item);
+  });
+
+  // Devolver los items y asegurarse de tener el subtotal e impuestos correctos
+  return items;
 }
+
+
+
+private initConfig(): void {
+  const items = this.getListaProductosPP();
+
+  // Calcular el total de items y de impuestos por separado
+  let itemTotal = 0;
+  let taxTotal = 0;
+
+  items.forEach(item => {
+      itemTotal += parseFloat(item.unit_amount.value) * item.quantity;
+  });
+  itemTotal=Math.round(itemTotal * 100) / 100;
+  console.log(itemTotal)
+
+  // Aquí calculamos el total con los impuestos sumados
+  taxTotal = Math.round(itemTotal * parseFloat(this.iva) * 100) / 100;// Calculamos los impuestos totales
+  console.log(taxTotal)
+  // Ahora configuramos PayPal
+  this.payPalConfig = {
+      currency: 'USD',
+      clientId: this.clientIdPayPal,
+      createOrderOnClient: (data) => <ICreateOrderRequest>{
+          intent: 'CAPTURE',
+          purchase_units: [{
+              amount: {
+                  currency_code: 'USD',
+                  value: (itemTotal + taxTotal).toFixed(2),  // Total final con impuestos
+                  breakdown: {
+                      item_total: {
+                          currency_code: 'USD',
+                          value: itemTotal.toFixed(2)  // Subtotal sin impuestos
+                      },
+                      tax_total: {
+                          currency_code: 'USD',
+                          value: taxTotal.toFixed(2)  // Impuestos totales
+                      }
+                  }
+              },
+              items: items
+          }]
+      },
+      advanced: {
+        commit: 'true'
+    },
+    style: {
+        label: 'paypal',
+        layout: 'vertical'
+    },
+    onApprove: (data, actions) => {
+      this.dialogRef1 = this.dialog.open(PopupCargandoComponent);
+        console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        actions.order.get().then(details => {
+            console.log('onApprove - you can get full order details inside onApprove: ', details);
+           
+        });
+
+    },
+    onClientAuthorization: (data) => {
+        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+        this.subirDatos(data);
+    },
+    onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions);
+    },
+    onError: err => {
+        const dialogRef = this.dialog.open(PopupErrorPagoComponent);
+        console.log('OnError', err);
+    },
+    onClick: (data, actions) => {
+        console.log('onClick', data, actions);
+    }
+  };
+}
+
+
+
 
 
 }
